@@ -73,7 +73,7 @@ Client    →  Accepte le devis, gère ses réservations, communique avec l'admi
 | Base de données | MySQL 8.0+ via PDO |
 | Front-end | HTML5, CSS3, JavaScript vanilla |
 | Emails | PHPMailer |
-| Serveur | Apache 2.4+ / Nginx |
+| Serveur | Apache 2.4+ |
 
 ---
 
