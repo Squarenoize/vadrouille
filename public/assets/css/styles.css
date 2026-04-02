@@ -1,0 +1,300 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+/**
+ * Reset css.
+ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/**
+ * Colors.
+ */
+:root {
+    --backgroundPrimary: #FBF9F4;
+    --backgroundSecondary: #F5F3EE;
+    --backgroundTertiary: #E4E2DD;
+    --darkBlueColor: #33454F;
+    --darkBlueHoverColor: #2a3840;
+    --brownColor: #735C00;
+}
+
+/**
+ * Default values for tags.
+ */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'arial', sans-serif;
+}
+
+header {
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--backgroundPrimary);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+main {
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--backgroundPrimary);
+}
+
+footer {
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
+    justify-content: center;
+    border : 1px solid #000000;
+    background-color: var(--backgroundTertiary);
+}
+
+h2 {
+    font-family: 'Noto Serif', serif;
+    font-size: 36px;
+    color: var(--darkBlueColor);
+}
+
+/**
+ * General
+ */
+ .section-hit {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--brownColor);
+    text-transform: uppercase;
+ }
+
+/**
+* Buttons
+*/
+.btn-primary {
+    padding: 10px 20px;
+    background-color: var(--darkBlueColor);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: var(--darkBlueHoverColor);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/**
+* Header
+*/
+.logo {
+    height: 80px;
+}
+
+.mainNav{
+    display: flex;
+    gap: 25px;
+}
+
+.mainNavLink {
+    font-size: 14px;
+    font-family: 'Noto Serif', sans-serif;
+    color: var(--darkBlueColor);
+    text-decoration: none;
+}
+
+.mainNavLink:hover {
+    transform: translateY(-2px);
+}
+
+.btn-connexion {
+    padding: 10px 20px;
+    background-color: transparent;
+    color: var(--darkBlueColor);
+    border: none;
+    font-family: 'Noto Serif', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-connexion:hover {
+    transform: translateY(-2px);
+}
+
+/**
+ * Home section.
+ */
+
+.home {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+}
+
+.home-text {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.home-text h1 {
+    font-size: 72px;
+    font-family: 'Noto Serif', sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--darkBlueColor);
+}
+
+.home-text h1 span {
+    color: var(--brownColor);
+    font-style: italic;
+}
+
+.home-text p {
+    font-size: 24px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    color: var(--darkBlueColor);
+    padding-right: 60px;
+}
+
+.home-text button {
+    width: fit-content;
+}
+
+.home-images {
+    position: relative;
+    flex-shrink: 0;
+    width: 584px;
+    height: 684px;
+}
+
+.photo-front {
+    position: absolute;
+    top: 350px;
+    right: 380px;
+    width: 294px;
+    height: 334px;
+    border: 2px solid var(--backgroundPrimary);
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+}
+
+.photo-back {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 584px;
+    height: 630px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+/**
+ * Method section.
+ */
+.method {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+    background-color: white;
+}
+
+.method-steps-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.method-step-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 300px;
+    background-color: var(--backgroundSecondary);
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.method-step-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.method-step-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.header-step-card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.header-step-card h3 {
+    font-family: 'Noto Serif', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--darkBlueColor);
+}
+
+.method-step-card-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 2;
+    color: var(--darkBlueColor);
+}
+
+.step-number {
+    font-family: 'Noto Serif', sans-serif;
+    font-size: 72px;
+    font-weight: bold;
+    color: var(--darkBlueColor);
+    opacity: 0.15;
+    padding: 0;
+}
+
+/**
+ * Destinations section
+ */
+
+ /**
+ * CallToAction section
+ */
+
+/**
+ * Footer
+ */
