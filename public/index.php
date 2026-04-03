@@ -73,10 +73,11 @@ include_once 'includes/header.php';
             </div>
         </section>
         <section class="call-to-action">
-            <img src="assets/img/cta_ScenicView.png" alt="Image de montagnes">
-            <h2>Prêt pour votre prochaine aventure mémorable ?</h2>
-            <p>Nos experts sont prêts à transformer vos désirs en réalité.</p>
-            <button class="btn-primary" onclick="window.location.href='index.php?action=register'">DÉMARRER L'EXPÉRIENCE</button>
+            <div class="cta-card">
+                <h2>Prêt pour votre prochaine aventure mémorable ?</h2>
+                <p>Nos experts sont prêts à transformer vos désirs en réalité.</p>
+                <button class="btn-primary" onclick="window.location.href='index.php?action=register'">DÉMARRER L'EXPÉRIENCE</button>
+            </div>
         </section>
     </main>
 <?php

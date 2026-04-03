@@ -35,15 +35,13 @@ body {
 
 header {
     width: 100%;
-    max-width: 1280px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 20px;
     background-color: var(--backgroundPrimary);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    z-index: 10;
 }
 
 main {
@@ -52,15 +50,12 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: var(--backgroundPrimary);
 }
 
 footer {
     width: 100%;
-    max-width: 1280px;
     display: flex;
     justify-content: center;
-    border : 1px solid #000000;
     background-color: var(--backgroundTertiary);
 }
 
@@ -104,6 +99,15 @@ h2 {
 /**
 * Header
 */
+.header-container {
+    width: 100%;
+    max-width: 1380px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
 .logo {
     height: 80px;
 }
@@ -149,6 +153,7 @@ h2 {
     align-items: center;
     gap: 20px;
     padding: 30px;
+    background-color: var(--backgroundPrimary);
 }
 
 .home-text {
@@ -217,6 +222,7 @@ h2 {
  * Method section.
  */
 .method {
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -290,11 +296,178 @@ h2 {
 /**
  * Destinations section
  */
+.destinations {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+    background-color: var(--backgroundSecondary);
+}
 
+.destination-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.destination-cards img {
+    border-radius: 8px;
+}
+
+.destination-card h3 {
+    font-family: 'Noto Serif', serif;
+    font-size: 24px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--darkBlueColor);
+    margin-top: 10px;
+}
+
+.destination-card p {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 2;
+    color: var(--darkBlueColor);
+    margin-top: 5px;
+}
+    
  /**
  * CallToAction section
  */
+ .call-to-action {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    padding: 70px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    background-color: var(--backgroundPrimary);
+}
+
+.cta-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 90px;
+    padding-right: 600px;
+    width: 100%;
+    min-height: 590px;
+    background-image: linear-gradient(rgba(37, 113, 172, 0.6), rgba(51, 69, 79, 0.6)), url('../img/cta_ScenicView.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cta-card h2 {
+    font-family: 'Noto Serif', serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: white;
+}
+
+.cta-card p {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 2;
+    color: white;
+}
+
+.cta-card button {
+    background-color: var(--brownColor);
+}
 
 /**
  * Footer
  */
+
+ .footer-container {
+    width: 100%;
+    max-width: 1280px;
+    min-height: 200px;
+    padding: 50px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-resume {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-title {
+    font-family: 'Noto Serif', serif;
+    font-size: 24px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--darkBlueColor);
+}
+
+.footer-description {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 2;
+    color: var(--darkBlueColor);
+    max-width: 320px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-links a {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--darkBlueColor);
+    text-decoration: none;
+}
+
+.footer-info {
+    display: flex;
+    flex-direction: row;
+    gap: 70px;
+}
+
+.footer-explorer, .footer-legal {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-info h3 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--darkBlueColor);
+}
+
+.footer-info a {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--darkBlueColor);
+    text-decoration: none;
+}
+
+.footer-copyright {
+    display: flex;
+    align-items: flex-end;
+}
+
+.footer-copyright p {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--darkBlueColor);
+}
