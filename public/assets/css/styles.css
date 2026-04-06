@@ -21,6 +21,7 @@
     --darkBlueColor: #33454F;
     --darkBlueHoverColor: #2a3840;
     --brownColor: #735C00;
+    --yellowColor: #FFE088;
 }
 
 /**
@@ -583,7 +584,7 @@ h2 {
         min-width: 0;
         padding-top: 30px;
 
-        h1 {
+        h2 {
             font-size: 48px;
             font-family: 'Noto Serif', serif;
             font-weight: 400;
@@ -599,5 +600,86 @@ h2 {
         }
     }
 }
+
+/**
+* Values section.
+ */
+
+ .values {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 90px 20px;
+    background-color: var(--backgroundPrimary);
+
+    h2 {
+        font-size: 48px;
+        font-family: 'Noto Serif', serif;
+        font-weight: 400;
+        color: var(--darkBlueColor);
+    }
+
+    .values-cards {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        padding: 30px;
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 50px 20px;
+            background-color: var(--backgroundSecondary);
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+
+            .icon {
+                font-size: 48px;
+                color: var(--brownColor);
+                margin-bottom: 10px;
+                
+                .material-icons {
+                    font-size: inherit;
+                    color: inherit;
+                }
+            }
+
+            h3 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+            p {
+                font-family: 'Manrope', sans-serif;
+                font-weight: 300;
+                font-size: 14px;
+                line-height: 1.6;
+                color: var(--darkBlueColor);
+            }
+        }
+
+        .card_1 {
+            background-color: white;
+            min-width: 600px;
+        }
+        .card_2 {
+            background-color: var(--darkBlueColor);
+
+            .icon {
+                color: var(--yellowColor)
+            }
+            h3,
+            p {
+                color: white;
+            }
+        }
+        .card_3 {
+            background-color: var(--backgroundTertiary);
+        }   
+    }
+ }
 
 

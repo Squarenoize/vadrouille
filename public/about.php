@@ -20,7 +20,7 @@ include_once 'includes/header.php';
                 <img src="assets/img/mario-train.png" alt="train décoré aux couleurs de Mario Bros">
             </div>
             <div class="odysee-text">
-                <h1>Mon Odysée</h1>
+                <h2>Mon Odysée</h2>
                 <p class="text">Passionnée par les cultures lointaines, j'ai
                 passé plus de deux décennies à explorer les recoins les plus confidentiels du globe.
                 Mon expertise ne se mesure pas en kilomètres parcourus, mais en émotions vécues.
@@ -34,6 +34,26 @@ include_once 'includes/header.php';
                 répondre à vos aspirations les plus profondes, tout en respectant l'intégrité des
                 lieux et des hommes qui nous accueillent.
                 </p>
+            </div>
+        </section>
+        <section class="values">
+            <h2>Nos Valeurs</h2>
+            <div class="values-cards">
+                <div class="card card_1">
+                    <p class="icon"><span class="material-icons">architecture</span></p>
+                    <h3>Sur-mesure</h3>
+                    <p>Nous privilégions les expériences authentiques, loin des sentiers battus, pour vous offrir une immersion totale dans les cultures locales.</p>
+                </div>
+                <div class="card card_2">
+                    <p class="icon"><span class="material-icons">explore</span></p>
+                    <h3>Expertise</h3>
+                    <p>Notre passion pour le voyage et la découverte se reflète dans chaque itinéraire que nous créons, conçu avec soin pour éveiller vos sens.</p>
+                </div>
+                <div class="card card_3">
+                    <p class="icon"><span class="material-icons">self_improvement</span></p>
+                    <h3>Sérénité</h3>
+                    <p>Nous nous engageons à promouvoir un tourisme responsable, respectueux de l'environnement et des communautés locales.</p>
+                </div>
             </div>
         </section>
     </main>
