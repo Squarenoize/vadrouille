@@ -104,8 +104,18 @@ include_once 'includes/header.php';
                             <textarea id="message" name="message" rows="5" required></textarea>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="consent" name="consent" required>
+                        <label for="consent">
+                            J'accepte que mes données soient utilisées pour être recontacté(e) dans le cadre de ma demande, conformément à la 
+                            <a href="/privacy.php" target="_blank">politique de confidentialité</a>.
+                        </label>
+                    </div>
+                    <p class="form-info">
+                        Les informations recueillies sont utilisées uniquement pour traiter votre demande de voyage. 
+                        Elles ne seront jamais partagées avec des tiers.
+                    </p>
                     <button type="submit" class="btn-primary">Envoyer la demande</button>
-                    <p>En soumettant ce formulaire, vous acceptez notre politique de confidentialité.</p>
                 </form>
             </div>
 
