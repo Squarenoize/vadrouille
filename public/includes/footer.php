@@ -14,7 +14,6 @@
                 <div class="footer-explorer">
                     <h3>Explorer</h3>
                     <a href="voyages.php">Voyages</a>
-                    <a href="blog.php">Blog</a>
                 </div>
                 <div class="footer-legal">
                     <h3>Légal</h3>

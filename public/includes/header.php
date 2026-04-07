@@ -16,7 +16,6 @@
             <a href="index.php"><img class="logo" src="assets/img/VB_logo_hori.png" alt="Logo de Vadrouille & Bourlingue"></a>
             <nav class="mainNav">
                 <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'voyages') echo 'active'; ?>" href="index.php?action=voyages">Voyages</a>
-                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'blog') echo 'active'; ?>" href="index.php?action=blog">Blog</a>
                 <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'apropos') echo 'active'; ?>" href="index.php?action=apropos">À propos</a>
                 <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'contact') echo 'active'; ?>" href="index.php?action=contact">Contact</a>
             </nav>
