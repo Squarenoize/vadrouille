@@ -17,7 +17,7 @@
                 </div>
                 <div class="footer-legal">
                     <h3>Légal</h3>
-                    <a href="terms.php">Conditions d'utilisation</a>
+                    <a href="terms.php">Conditions généralesd'utilisation</a>
                     <a href="privacy.php">Politique de confidentialité</a>
                 </div>
             </div>
