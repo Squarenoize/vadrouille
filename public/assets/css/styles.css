@@ -868,3 +868,47 @@ h2 {
 .radio-button-group input[type="radio"]:checked + .radio-button:hover {
     background-color: var(--darkBlueHoverColor);
 }
+
+/**
+* Terms and privacy pages.
+*/
+
+.terms-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 30px;
+    background-color: var(--backgroundPrimary);
+
+    h1 {
+        font-size: 48px;
+        font-family: 'Noto Serif', serif;
+        font-weight: 400;
+        color: var(--darkBlueColor);
+        line-height: 1;
+
+    }
+
+    h2 {
+        font-size: 24px;
+        font-family: 'Noto Serif', serif;
+        font-weight: 500;
+        color: var(--darkBlueColor);
+    }
+
+    h3 {
+        font-size: 18px;
+        font-family: 'Noto Serif', serif;
+        font-weight: 500;
+        color: var(--darkBlueColor);
+    }
+
+    p {
+        font-family: 'Manrope', sans-serif;
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 1;
+        color: var(--darkBlueColor);
+    }
+}
