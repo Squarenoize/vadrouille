@@ -8,19 +8,19 @@ include_once 'includes/header.php';
             <p>Conformément à l'article 6 de la loi n°2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, il est précisé aux utilisateurs du site vadbou.fr l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi.</p>
             <h3>1.1 Éditeur du Site</h3>
             <p>Le site vadbou.fr est édité par la société Okidev pour le compte de la société Vadrouille et Bourlingue.</p>
-            <p>Dubé Francis, entrepreneur individuel</p>
-            <p>SIREN : 939 990 198</p>
-            <p>Siège social : 46230 Belmont-Sainte-Foi, France</p>
-            <p>Email : contact@okidev.com</p>
+            <p>Dubé Francis, entrepreneur individuel<br>
+            SIREN : 939 990 198<br>
+            Siège social : 46230 Belmont-Sainte-Foi, France<br>
+            Email : contact@okidev.com</p>
             <h3>1.2 Activité commerciale</h3>
-            <p>Boutevin-DUBE Stéphanie, entrepreneur individuel</p>
-            <p>SIREN : 945 128 320</p>
-            <p>Siège social : 46230 Belmont-Sainte-Foi, France</p>
-            <p>Email : contact@vadbou.fr</p>
+            <p>Boutevin-DUBE Stéphanie, entrepreneur individuel<br>
+            SIREN : 945 128 320<br>
+            Siège social : 46230 Belmont-Sainte-Foi, France<br>
+            Email : contact@vadbou.fr</p>
             <h3>1.3 Hébergeur du site</h3>
-            <p>PlanetHoster</p>
-            <p>4416 Louis-B.-Mayer Laval, Québec Canada H7P 0G1</p>
-            <p>FR: +33 1 76 60 41 43</p>
+            <p>PlanetHoster<br>
+            4416 Louis-B.-Mayer Laval, Québec Canada H7P 0G1<br>
+            FR: +33 1 76 60 41 43</p>
             <h2>2. Conditions Générales d'Utilisation (CGU)</h2>
             <h3>2.1 Propriété Intellectuelle</h3>
             <p>Le contenu du site vadbou.fr, incluant mais ne se limitant pas aux textes, images, logos, graphiques, vidéos, et tout autre élément présent sur le site, est la propriété exclusive de Vadrouille et Bourlingue ou de ses partenaires. Toute reproduction, distribution, modification, adaptation, retransmission ou publication de ces éléments est strictement interdite sans l'accord écrit préalable de Vadrouille et Bourlingue.</p>
