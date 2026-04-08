@@ -483,6 +483,180 @@ h2 {
 }
 
 /**
+* Trips page.
+*/
+
+.trips {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+    background-color: var(--backgroundPrimary);
+
+    .trips-header {
+        padding: 40px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: 20px;
+    
+        h1 {
+            font-size: 48px;
+            font-family: 'Noto Serif', serif;
+            font-weight: 400;
+            line-height: 1;
+            color: var(--darkBlueColor);
+            span {
+                color: var(--brownColor);
+                font-style: italic;
+            }
+        }
+
+        p {
+            font-size: 18x;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 300;
+            color: var(--darkBlueColor);
+            padding-right: 60px;
+            width: 800px;
+        }
+
+        .trips-filters {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            padding-top: 50px;
+
+            .filters-label {
+                font-family: 'Manrope', sans-serif;
+                font-weight: 500;
+                font-size: 12px;
+                color: var(--darkBlueColor);
+            }
+
+            .filters-buttons {
+                display: flex;
+                justify-content: flex-start;
+                gap: 20px;
+
+                .filter-btn {
+                    font-family: 'Manrope', sans-serif;
+                    font-weight: 500;
+                    background-color: var(--backgroundSecondary);
+                    padding: 5px 20px;
+                    border: none;
+                    border-radius: 4px;
+                    color: var(--darkBlueColor);
+                    cursor: pointer;
+                }
+
+                .filter-btn:hover {
+                    background-color: var(--backgroundTertiary);
+                }
+
+                .filter-btn.active {
+                    background-color: var(--darkBlueColor);
+                    color: white;
+                }
+            }
+        }
+    }
+
+    .trips-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .trip-card {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            height: 300px;
+            gap: 25px;
+            background-color: var(--backgroundSecondary);
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+
+            img {
+                width: auto;
+                height:100%;
+                border-radius: 8px 0 0 8px;
+            }
+
+            .trip-card-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
+
+                .trip-card-details {
+                    padding: 10px;
+
+                    .trip-card-specs {
+                        display: flex;
+                        justify-content: space-between;
+                        padding-bottom: 15px;
+
+                        .category {
+                            font-family: 'Manrope', sans-serif;
+                            font-weight: 700;
+                            font-size: 14px;
+                            color: var(--brownColor);
+                            text-transform: uppercase;
+                        }
+
+                        .duration {
+                            font-family: 'Manrope', sans-serif;
+                            font-weight: 500;
+                            font-size: 14px;
+                            color: var(--darkBlueColor);
+                            padding-right: 20px;
+                        }
+                    }
+
+                    h2 {
+                        font-size: 24px;
+                        margin: 0;
+                        color: var(--darkBlueColor);
+                    }
+
+                    p {
+                        font-family: 'Manrope', sans-serif;
+                        font-weight: 300;
+                        font-size: 14px;
+                        line-height: 1.6;
+                        color: var(--darkBlueColor);
+                    }
+                }
+
+                .trip-card-comment {
+                        padding: 0 30px 30px 10px;
+
+                        span:first-child {
+                            transform: scaleX(-1);
+                        }
+
+                        p {
+                            font-family: 'Manrope', sans-serif;
+                            font-weight: 500;
+                            font-size: 16px;
+                            line-height: 1.6;
+                            color: var(--brownColor);
+                            font-style: italic;
+                        }
+                    }
+            }
+        }
+    }
+}
+
+/**
 * About page.
 */
 .about {

@@ -13,7 +13,7 @@
             <div class="footer-info">
                 <div class="footer-explorer">
                     <h3>Explorer</h3>
-                    <a href="voyages.php">Voyages</a>
+                    <a href="index.php?action=trips">Voyages</a>
                 </div>
                 <div class="footer-legal">
                     <h3>Légal</h3>

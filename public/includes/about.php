@@ -56,5 +56,5 @@
         </section>
         <section class="about-cta">
             <h2>Prêt pour votre prochaine aventure mémorable ?</h2>
-            <button class="btn-primary" onclick="window.location.href='index.php?action=register'">DÉMARRER L'EXPÉRIENCE</button>
+            <button class="btn-primary" onclick="window.location.href='index.php?action=contact'">DÉMARRER L'EXPÉRIENCE</button>
         </section>

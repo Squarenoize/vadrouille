@@ -21,7 +21,7 @@
             </nav>
             <div class="mainLinks">
                 <button class="btn-connexion" onclick="window.location.href='index.php?action=login'">Connexion</button>
-                <button class="btn-primary" onclick="window.location.href='index.php?action=register'">Demander mon voyage</button>
+                <button class="btn-primary" onclick="window.location.href='index.php?action=contact'">Demander mon voyage</button>
             </div>
         </div>
     </header>
