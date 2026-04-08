@@ -1,7 +1,5 @@
 <?php
-include_once 'includes/header.php';
 ?>
-    <main>
         <div class="privacy-container">
             <h1>Politique de confidentialité</h1>
             <h2>1. Introduction</h2>
@@ -58,7 +56,3 @@ include_once 'includes/header.php';
             <h2>11. Contact</h2>
             <p>Pour toute question concernant la présente politique de confidentialité, les utilisateurs peuvent contacter le responsable du traitement à l’adresse email <a href="mailto:contact@vadbou.fr">contact@vadbou.fr</a>.</p>
         </div>
-</main>
-<?php
-include_once 'includes/footer.php';
-?>

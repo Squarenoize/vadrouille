@@ -1,7 +1,5 @@
 <?php
-include_once 'includes/header.php';
 ?>
-    <main>
         <section class="about">
             <div class="about-text">
                 <p class="section-hit">NOTRE PHILOSOPHIE</p>
@@ -60,7 +58,3 @@ include_once 'includes/header.php';
             <h2>Prêt pour votre prochaine aventure mémorable ?</h2>
             <button class="btn-primary" onclick="window.location.href='index.php?action=register'">DÉMARRER L'EXPÉRIENCE</button>
         </section>
-    </main>
-<?php
-include_once 'includes/footer.php';
-?> 

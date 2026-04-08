@@ -15,8 +15,8 @@
         <div class="header-container">
             <a href="index.php"><img class="logo" src="assets/img/VB_logo_hori.png" alt="Logo de Vadrouille & Bourlingue"></a>
             <nav class="mainNav">
-                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'voyages') echo 'active'; ?>" href="index.php?action=voyages">Voyages</a>
-                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'apropos') echo 'active'; ?>" href="index.php?action=apropos">À propos</a>
+                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'trips') echo 'active'; ?>" href="index.php?action=trips">Voyages</a>
+                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'about') echo 'active'; ?>" href="index.php?action=about">À propos</a>
                 <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'contact') echo 'active'; ?>" href="index.php?action=contact">Contact</a>
             </nav>
             <div class="mainLinks">
