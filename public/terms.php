@@ -8,12 +8,12 @@ include_once 'includes/header.php';
             <p>Conformément à l'article 6 de la loi n°2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, il est précisé aux utilisateurs du site vadbou.fr l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi.</p>
             <h3>1.1 Éditeur du Site</h3>
             <p>Le site vadbou.fr est édité par la société Okidev pour le compte de la société Vadrouille et Bourlingue.</p>
-            <p>Dubé Francis, entrepreneur individuel<br>
+            <p>Dubé Francis, EI / Okidev<br>
             SIREN : 939 990 198<br>
             Siège social : 46230 Belmont-Sainte-Foi, France<br>
             Email : contact@okidev.com</p>
             <h3>1.2 Activité commerciale</h3>
-            <p>Boutevin-DUBE Stéphanie, entrepreneur individuel<br>
+            <p>Boutevin-DUBE Stéphanie, EI / Vadrouille & Bourlingue<br>
             SIREN : 945 128 320<br>
             Siège social : 46230 Belmont-Sainte-Foi, France<br>
             Email : contact@vadbou.fr</p>

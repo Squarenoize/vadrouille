@@ -873,10 +873,13 @@ h2 {
 * Terms and privacy pages.
 */
 
-.terms-container {
+.terms-container, .privacy-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    max-width: 700px;
+    max-height: 750px;
+    overflow: auto;
     gap: 20px;
     padding: 30px;
     background-color: var(--backgroundPrimary);
@@ -910,5 +913,19 @@ h2 {
         font-size: 18px;
         line-height: 1;
         color: var(--darkBlueColor);
+    }
+
+    ul {
+        list-style: square;
+        padding-left: 30px;
+
+        li {
+            font-family: 'Manrope', sans-serif;
+            color: var(--darkBlueColor);
+            font-weight: 300;
+            font-size: 18px;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
     }
 }
