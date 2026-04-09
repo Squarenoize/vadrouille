@@ -1,5 +1,17 @@
 <?php
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vadrouille & Bourlingue</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <main>
         <div class="privacy-container">
             <h1>Politique de confidentialité</h1>
             <h2>1. Introduction</h2>
@@ -56,3 +68,6 @@
             <h2>11. Contact</h2>
             <p>Pour toute question concernant la présente politique de confidentialité, les utilisateurs peuvent contacter le responsable du traitement à l’adresse email <a href="mailto:contact@vadbou.fr">contact@vadbou.fr</a>.</p>
         </div>
+    </main>
+<body>
+</html>

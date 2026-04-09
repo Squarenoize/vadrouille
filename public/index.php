@@ -21,9 +21,6 @@ include_once 'includes/header.php';
             case 'about':
                 include_once 'includes/about.php';
                 break;
-            case 'privacy':
-                include_once 'includes/privacy.php';
-                break;
             case 'terms':
                 include_once 'includes/terms.php';
                 break;

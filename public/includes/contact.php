@@ -1,4 +1,5 @@
 <?php
+$showForm = false;
 ?>
         <section class="contact">
             <div class="contact-side">
@@ -15,6 +16,7 @@
                 </div>
             </div>
             <div class="contact-form">
+                <?php if ($showForm) { ?>
                 <form action="index.php?action=contact" method="post">
                     <div class="form-row">
                         <div class="form-group">
@@ -106,7 +108,7 @@
                         <input type="checkbox" id="consent" name="consent" required>
                         <label for="consent">
                             J'accepte que mes données soient utilisées pour être recontacté(e) dans le cadre de ma demande, conformément à la 
-                            <a href="/privacy.php" target="_blank">politique de confidentialité</a>.
+                            <a href="privacy.php" target="_blank">politique de confidentialité</a>.
                         </label>
                     </div>
                     <p class="form-info">
@@ -115,6 +117,11 @@
                     </p>
                     <button type="submit" class="btn-primary">Envoyer la demande</button>
                 </form>
+                <?php } else { ?>
+                    <p class="form-submission-message">Merci pour votre intérêt !<br> 
+                    <span class="material-icons">square_foot</span>Site en construction. <br>
+                    Pour l'instant, contactez-nous directement <a href="mailto:contact@vadbou.fr">par email</a>.</p>
+                <?php } ?>
             </div>
 
         </section>
