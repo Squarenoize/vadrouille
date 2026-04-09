@@ -26,7 +26,8 @@ if (isset($_GET['filter'])) {
                 <div class="trip-card-content">
                     <div class="trip-card-details">
                         <div class="trip-card-specs">
-                            <p class="category">Aventure</p>
+                            <p class="category">Culturel</p>
+                            <p class="country">Royaume-Uni</p>
                             <p class="duration">7 jours</p>
                         </div>
                         <h2>Week-end à Edimbourg</h2>
@@ -46,6 +47,7 @@ if (isset($_GET['filter'])) {
                     <div class="trip-card-details">
                         <div class="trip-card-specs">
                             <p class="category">Culturel</p>
+                            <p class="country">Japon</p>
                             <p class="duration">28 jours</p>
                         </div>  
                         <h2>Découvertes au soleil levant</h2>
@@ -65,6 +67,7 @@ if (isset($_GET['filter'])) {
                     <div class="trip-card-details">
                         <div class="trip-card-specs">
                             <p class="category">Aventure</p>
+                            <p class="country">Canada</p>
                             <p class="duration">15 jours</p>
                         </div>
                         <h2>L'hiver en forêt</h2>
@@ -84,6 +87,7 @@ if (isset($_GET['filter'])) {
                     <div class="trip-card-details">
                         <div class="trip-card-specs">
                             <p class="category">Détente</p>
+                            <p class="country">France</p>
                             <p class="duration">4 jours</p>
                         </div>
                         <h2>Week-end à Perpignan</h2>
@@ -103,6 +107,7 @@ if (isset($_GET['filter'])) {
                     <div class="trip-card-details">
                         <div class="trip-card-specs">
                             <p class="category">Aventure</p>
+                            <p class="country">France</p>
                             <p class="duration">8 jours</p>
                         </div>
                         <h2>Les gorges de l'Aveyron</h2>
