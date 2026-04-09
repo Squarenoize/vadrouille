@@ -12,10 +12,10 @@
         </section>
         <section class="odysee">
             <div class="images-cards">
-                <img src="assets/img/forest.png" alt="sentier dans la forêt">
+                <img src="assets/img/forest.png" alt="sentier dans la forêt" class="mobile-hide">
                 <img src="assets/img/bonhomme.png" alt="personnage pour recuieillir les offrandes des pélerins">
-                <img src="assets/img/sushis.png" alt="assortiment de sushis">
-                <img src="assets/img/mario-train.png" alt="train décoré aux couleurs de Mario Bros">
+                <img src="assets/img/sushis.png" alt="assortiment de sushis" class="mobile-hide">
+                <img src="assets/img/mario-train.png" alt="train décoré aux couleurs de Mario Bros" class="mobile-hide">
             </div>
             <div class="odysee-text">
                 <h2>Mon Odysée</h2>
