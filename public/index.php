@@ -9,29 +9,46 @@ if (isset($_GET['action'])) {
 $seo = [
     'home' => [
         'title' => 'Vadrouille & Bourlingue - Voyages sur mesure organisés par des passionnés',
-        'description' => 'Découvrez nos voyages sur mesure créés par des experts. Un parcours fluide vers l\'exceptionnel : brief, création, ajustement et départ en toute sérénité.'
+        'description' => 'Découvrez nos voyages sur mesure créés par des experts. Un parcours fluide vers l\'exceptionnel : brief, création, ajustement et départ en toute sérénité.',
+        'url' => 'index.php',
+        'image' => 'assets/img/home_front.png'
     ],
     'trips' => [
         'title' => 'Nos Voyages Réalisés | Vadrouille & Bourlingue',
-        'description' => 'Découvrez nos voyages soigneusement élaborés à travers le monde. Aventure, détente, culture ou week-end : nous construirons le voyage parfait pour vous.'
+        'description' => 'Découvrez nos voyages soigneusement élaborés à travers le monde. Aventure, détente, culture ou week-end : nous construirons le voyage parfait pour vous.',
+        'url' => 'index.php?action=trips',
+        'image' => 'assets/img/trips/Edimbourgh.jpg'
     ],
     'contact' => [
         'title' => 'Contactez-nous - Demandez votre voyage | Vadrouille & Bourlingue',
-        'description' => 'Partagez vos aspirations avec nous. Que ce soit une quête de sérénité ou une soif d\'aventure, nous façonnons chaque détail pour une expérience sur mesure.'
+        'description' => 'Partagez vos aspirations avec nous. Que ce soit une quête de sérénité ou une soif d\'aventure, nous façonnons chaque détail pour une expérience sur mesure.',
+        'url' => 'index.php?action=contact',
+        'image' => 'assets/img/rockStele.png'
     ],
     'about' => [
         'title' => 'À propos - Notre philosophie | Vadrouille & Bourlingue',
-        'description' => 'L\'art de s\'égarer pour mieux se retrouver. Découvrez notre philosophie, notre passion pour les cultures lointaines et notre volonté de proposer des voyages authentiques.'
+        'description' => 'L\'art de s\'égarer pour mieux se retrouver. Découvrez notre philosophie, notre passion pour les cultures lointaines et notre volonté de proposer des voyages authentiques.',
+        'url' => 'index.php?action=about',
+        'image' => 'assets/img/Travel_Planner_Portrait.png'
     ],
     'terms' => [
         'title' => 'Mentions légales | Vadrouille & Bourlingue',
-        'description' => 'Consultez les mentions légales et conditions générales d\'utilisation de Vadrouille & Bourlingue, votre agence de voyages sur mesure.'
+        'description' => 'Consultez les mentions légales et conditions générales d\'utilisation de Vadrouille & Bourlingue, votre agence de voyages sur mesure.',
+        'url' => 'index.php?action=terms',
+        'image' => 'assets/img/VB_logo_hori.png'
     ]
 ];
 
-// Définir le titre et la description pour la page actuelle
+// Définir les données SEO pour la page actuelle
 $pageTitle = isset($seo[$action]) ? $seo[$action]['title'] : 'Vadrouille & Bourlingue';
 $pageDescription = isset($seo[$action]) ? $seo[$action]['description'] : 'Voyages sur mesure organisés par des passionnés.';
+$pageUrl = isset($seo[$action]) ? $seo[$action]['url'] : 'index.php';
+$pageImage = isset($seo[$action]) ? $seo[$action]['image'] : 'assets/img/VB_logo_hori.png';
+
+// URL complète du site
+$siteUrl = 'https://vadbou.fr'; 
+$pageFullUrl = $siteUrl . '/' . $pageUrl;
+$pageFullImage = $siteUrl . '/' . $pageImage;
 
 include_once 'includes/header.php';
 ?>

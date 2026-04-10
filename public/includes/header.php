@@ -10,6 +10,24 @@ $adminReady = true;
     <!-- SEO Meta Tags -->
     <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Vadrouille & Bourlingue'; ?></title>
     <meta name="description" content="<?php echo isset($pageDescription) ? htmlspecialchars($pageDescription) : 'Voyages sur mesure organisés par des passionnés.'; ?>">
+    <meta name="keywords" content="voyage sur mesure, travel planner, agence voyage personnalisé, voyages authentiques, séjour luxe, voyage organisé">
+    <link rel="canonical" href="<?php echo isset($pageFullUrl) ? htmlspecialchars($pageFullUrl) : ''; ?>">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo isset($pageFullUrl) ? htmlspecialchars($pageFullUrl) : ''; ?>">
+    <meta property="og:title" content="<?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Vadrouille & Bourlingue'; ?>">
+    <meta property="og:description" content="<?php echo isset($pageDescription) ? htmlspecialchars($pageDescription) : 'Voyages sur mesure organisés par des passionnés.'; ?>">
+    <meta property="og:image" content="<?php echo isset($pageFullImage) ? htmlspecialchars($pageFullImage) : ''; ?>">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="Vadrouille & Bourlingue">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="<?php echo isset($pageFullUrl) ? htmlspecialchars($pageFullUrl) : ''; ?>">
+    <meta name="twitter:title" content="<?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Vadrouille & Bourlingue'; ?>">
+    <meta name="twitter:description" content="<?php echo isset($pageDescription) ? htmlspecialchars($pageDescription) : 'Voyages sur mesure organisés par des passionnés.'; ?>">
+    <meta name="twitter:image" content="<?php echo isset($pageFullImage) ? htmlspecialchars($pageFullImage) : ''; ?>">
     
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
