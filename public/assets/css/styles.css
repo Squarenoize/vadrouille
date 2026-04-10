@@ -1669,4 +1669,41 @@ h2 {
             line-height: 1.2;
         }
     }
+
+    /**
+    * Contact page.
+    */
+    .contact {
+        width: 100%;
+        
+        .contact-side {
+            display: none;
+        }
+    }
+
+    .contact-form {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+
+        form {
+            width: 95%;
+            margin: 10px 10px;
+            padding: 20px;
+        }
+
+        .form-row {
+            flex-direction: column;
+            gap: 10px;
+
+        }
+
+        button {
+            align-self: center;
+        }
+
+        .form-submission-message {
+            padding-bottom: 80px;
+        }
+    }
 }

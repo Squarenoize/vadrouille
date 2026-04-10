@@ -1,4 +1,5 @@
-<?php 
+<?php
+$adminReady = false; 
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -26,10 +27,14 @@
                 <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'trips') echo 'active'; ?>" href="index.php?action=trips">Voyages</a>
                 <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'about') echo 'active'; ?>" href="index.php?action=about">À propos</a>
                 <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'contact') echo 'active'; ?>" href="index.php?action=contact">Contact</a>
+                <?php if ($adminReady) {?>
                 <a class="mainNavLink mobile-only <?php if(isset($_GET['action']) && $_GET['action'] == 'login') echo 'active'; ?>" href="index.php?action=login">Connexion</a>
+                <?php } ?>
             </nav>
             <div class="mainLinks">
+                <?php if ($adminReady) {?>
                 <button class="btn-connexion" onclick="window.location.href='index.php?action=login'">Connexion</button>
+                <?php } ?>
                 <button class="btn-primary" onclick="window.location.href='index.php?action=contact'">Demander mon voyage</button>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <?php
-$showForm = false;
+$showForm = true;
 ?>
         <section class="contact">
             <div class="contact-side">
