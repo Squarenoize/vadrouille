@@ -24,6 +24,9 @@ include_once 'includes/header.php';
             case 'terms':
                 include_once 'includes/terms.php';
                 break;
+                case 'login':
+                include_once 'includes/login.php';
+                break;
             default:
                 include_once 'includes/error404.php';
         }

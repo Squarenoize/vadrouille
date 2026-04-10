@@ -6,7 +6,7 @@
                 <p class="footer-title">Vadrouille & Bourlingue</p>
                 <p class="footer-description">Votre compagnon de voyage pour des aventures inoubliables à travers le monde.</p>
                 <div class="footer-links">
-                    <a href="#"><span class="material-icons">public</span></a>
+                    <a href="https://www.instagram.com/vadrouillebourlingue/" target="_blank"><img src="assets/img/instagram.png" alt="Instagram"></a>
                     <a href="#"><span class="material-icons">share</span></a>
                 </div>
             </div>
