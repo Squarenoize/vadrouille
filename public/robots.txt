@@ -1,0 +1,13 @@
+# robots.txt pour Vadrouille & Bourlingue
+# Ce fichier indique aux moteurs de recherche comment parcourir le site
+
+# Autoriser tous les robots sur tout le site
+User-agent: *
+Allow: /
+
+# Bloquer l'indexation des dossiers techniques
+Disallow: /assets/
+Disallow: /includes/
+
+# Indiquer l'emplacement du sitemap
+Sitemap: https://vadbou.fr/sitemap.xml
