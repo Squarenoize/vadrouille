@@ -1,24 +1,23 @@
 <?php
-$showForm = true;
+$showForm = false;
 ;
 ?>
         <section class="contact">
             <div class="contact-side">
                 <p class="section-hit">PREMIER CONTACT</p>
-                <h1>Dessinez votre prochaine <span>évasion.</span></h1>
+                <h1>Imaginez votre prochaine <span>évasion.</span></h1>
                 <p class="side-text">Partagez vos aspirations avec nous. Que ce soit une
                     quête de sérénité ou une soif d'aventure, nos
-                    concierges façonnent chaque détail pour une
-                    expérience sur mesure.
+                    experts prennent en compte vos envies pour vous créer un séjour sur-mesure que vous n'aurez plus qu'à réserver.
                 </p>
                 <div class="image-container">
-                    <img src="assets/img/rockStele.png" alt="Sculpture d'une stèle de roches empilées">
+                    <img src="assets/img/Boudha2.png" alt="Sculpture d'un boudha pour offrandes aux pèlerins avec un bonnet de laine rose">
                     <p>"Le luxe n'est pas un lieu mais un sentiment"</p>
                 </div>
             </div>
             <div class="contact-form">
                 <?php if ($showForm) { ?>
-                <form action="index.php?action=contact" method="post">
+                <form action="<?php echo BASE_URL; ?>/contact" method="post">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="first_name">Prénom</label>

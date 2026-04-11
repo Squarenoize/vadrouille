@@ -1,5 +1,11 @@
 <?php
-$adminReady = true; 
+$adminReady = false;
+// Définir BASE_URL si pas déjà défini (pour les pages qui n'incluent pas index.php)
+if (!defined('BASE_URL')) {
+    $isLocal = (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false || strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false);
+    $baseUrl = $isLocal ? '/Vadrouille/public' : '';
+    define('BASE_URL', $baseUrl);
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -38,7 +44,7 @@ $adminReady = true;
 <body>
     <header>
         <div class="header-container">
-            <a href="index.php"><img class="logo" src="assets/img/VB_logo_hori.png" alt="Logo de Vadrouille & Bourlingue"></a>
+            <a href="<?php echo BASE_URL; ?>/"><img class="logo" src="assets/img/VB_logo_hori.png" alt="Logo de Vadrouille & Bourlingue"></a>
             
             <button class="hamburger" id="hamburger" aria-label="Menu">
                 <span></span>
@@ -47,9 +53,9 @@ $adminReady = true;
             </button>
             
             <nav class="mainNav" id="mainNav">
-                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'trips') echo 'active'; ?>" href="index.php?action=trips">Voyages</a>
-                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'about') echo 'active'; ?>" href="index.php?action=about">À propos</a>
-                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'contact') echo 'active'; ?>" href="index.php?action=contact">Contact</a>
+                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'trips') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/voyages">Voyages</a>
+                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'about') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/a-propos">À propos</a>
+                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'contact') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/contact">Contact</a>
                 <?php if ($adminReady) {?>
                 <a class="mainNavLink mobile-only" href="login.php">Connexion</a>
                 <?php } ?>
@@ -58,7 +64,7 @@ $adminReady = true;
                 <?php if ($adminReady) {?>
                 <button class="btn-connexion" onclick="window.location.href='login.php'">Connexion</button>
                 <?php } ?>
-                <button class="btn-primary" onclick="window.location.href='index.php?action=contact'">Demander mon voyage</button>
+                <button class="btn-primary" onclick="window.location.href='<?php echo BASE_URL; ?>/contact'">Demander mon voyage</button>
             </div>
         </div>
     </header>

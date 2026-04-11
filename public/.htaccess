@@ -1,0 +1,73 @@
+# Configuration Apache pour Vadrouille & Bourlingue
+# Active l'URL Rewriting pour des URLs propres et SEO-friendly
+
+# Activer le module de réécriture
+RewriteEngine On
+
+# IMPORTANT: Adapter le RewriteBase selon l'environnement
+# En LOCAL (WAMP): RewriteBase /Vadrouille/public/
+# En PRODUCTION: RewriteBase /
+RewriteBase /Vadrouille/public/
+
+# Forcer HTTPS (à activer en production)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Rediriger www vers non-www (ou inversement selon votre préférence)
+# RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+# RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# ===== Règles d'URL Rewriting =====
+
+# Page d'accueil
+RewriteRule ^$ index.php [L]
+
+# Page Voyages
+RewriteRule ^voyages/?$ index.php?action=trips [L,QSA]
+
+# Page Contact
+RewriteRule ^contact/?$ index.php?action=contact [L,QSA]
+
+# Page À propos
+RewriteRule ^a-propos/?$ index.php?action=about [L,QSA]
+
+# Page Mentions légales
+RewriteRule ^mentions-legales/?$ index.php?action=terms [L,QSA]
+
+# Page Connexion (pour admin)
+RewriteRule ^connexion/?$ login.php [L]
+
+# Page Politique de confidentialité (existe déjà)
+RewriteRule ^confidentialite/?$ privacy.php [L]
+
+# Empêcher l'accès direct aux fichiers includes
+RewriteRule ^includes/ - [F,L]
+
+# ===== Gestion des fichiers statiques =====
+# Ne pas réécrire les fichiers et dossiers existants
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# ===== Cache et performances =====
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS et JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    
+    # Polices
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# Compression GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript
+</IfModule>
