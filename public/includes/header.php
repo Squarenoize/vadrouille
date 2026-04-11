@@ -35,6 +35,31 @@ if (!defined('BASE_URL')) {
     <meta name="twitter:description" content="<?php echo isset($pageDescription) ? htmlspecialchars($pageDescription) : 'Voyages sur mesure organisés par des passionnés.'; ?>">
     <meta name="twitter:image" content="<?php echo isset($pageFullImage) ? htmlspecialchars($pageFullImage) : ''; ?>">
     
+    <!-- Données structurées Schema.org -->
+    <?php if (isset($schemaOrganization)): ?>
+    <script type="application/ld+json">
+    <?php echo json_encode($schemaOrganization, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT); ?>
+    </script>
+    <?php endif; ?>
+    
+    <?php if (isset($schemaPage)): ?>
+    <script type="application/ld+json">
+    <?php echo json_encode($schemaPage, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT); ?>
+    </script>
+    <?php endif; ?>
+    
+    <?php if (isset($breadcrumbs)): ?>
+    <script type="application/ld+json">
+    <?php echo json_encode($breadcrumbs, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT); ?>
+    </script>
+    <?php endif; ?>
+    
+    <?php if (isset($schemaFAQ)): ?>
+    <script type="application/ld+json">
+    <?php echo json_encode($schemaFAQ, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT); ?>
+    </script>
+    <?php endif; ?>
+    
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">

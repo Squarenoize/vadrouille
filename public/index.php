@@ -55,6 +55,171 @@ $siteUrl = 'https://vadbou.fr';
 $pageFullUrl = $siteUrl . '/' . $pageUrl;
 $pageFullImage = $siteUrl . '/' . $pageImage;
 
+// ===== Données structurées Schema.org =====
+// Organisation de base (présente sur toutes les pages)
+$schemaOrganization = [
+    '@context' => 'https://schema.org',
+    '@type' => 'TravelPlanner',
+    'name' => 'Vadrouille & Bourlingue',
+    'description' => 'Planificateur de voyages sur mesure spécialisé dans la création d\'expériences de voyage authentiques et personnalisées.',
+    'url' => $siteUrl,
+    'logo' => $siteUrl . '/assets/img/VB_logo_hori.png',
+    'image' => $siteUrl . '/assets/img/VB_logo_hori.png',
+    'email' => 'vadrouillebourlingue@gmail.com',
+    'sameAs' => [
+        'https://www.instagram.com/vadrouillebourlingue/'
+    ],
+    'address' => [
+        '@type' => 'PostalAddress',
+        'addressCountry' => 'FR'
+    ],
+    'priceRange' => '€€',
+    'areaServed' => [
+        '@type' => 'Place',
+        'name' => 'Worldwide'
+    ]
+];
+
+// Schema spécifique selon la page
+$schemaPage = null;
+
+switch ($action) {
+    case 'home':
+        // Service offert
+        $schemaPage = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Service',
+            'name' => 'Conception de voyages sur mesure',
+            'description' => 'Service de planification et organisation de voyages personnalisés avec accompagnement d\'un expert du voyage.',
+            'provider' => [
+                '@type' => 'TravelPlanner',
+                'name' => 'Vadrouille & Bourlingue'
+            ],
+            'serviceType' => 'Travel Planning',
+            'areaServed' => 'Worldwide',
+            'hasOfferCatalog' => [
+                '@type' => 'OfferCatalog',
+                'name' => 'Voyages sur mesure',
+                'itemListElement' => [
+                    [
+                        '@type' => 'Offer',
+                        'itemOffered' => [
+                            '@type' => 'Service',
+                            'name' => 'Voyage culturel',
+                            'description' => 'Immersion culturelle et découverte du patrimoine'
+                        ]
+                    ],
+                    [
+                        '@type' => 'Offer',
+                        'itemOffered' => [
+                            '@type' => 'Service',
+                            'name' => 'Voyage d\'aventure',
+                            'description' => 'Expériences sportives et exploration'
+                        ]
+                    ],
+                    [
+                        '@type' => 'Offer',
+                        'itemOffered' => [
+                            '@type' => 'Service',
+                            'name' => 'Voyage détente',
+                            'description' => 'Relaxation et bien-être'
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        
+        // Ajouter la FAQ sur la page d'accueil
+        $schemaFAQ = include 'includes/faq-schema.php';
+        break;
+    
+    case 'trips':
+        // Liste des voyages
+        $schemaPage = [
+            '@context' => 'https://schema.org',
+            '@type' => 'ItemList',
+            'name' => 'Voyages réalisés par Vadrouille & Bourlingue',
+            'description' => 'Portfolio de voyages sur mesure organisés',
+            'itemListElement' => [
+                [
+                    '@type' => 'ListItem',
+                    'position' => 1,
+                    'item' => [
+                        '@type' => 'TouristTrip',
+                        'name' => 'Escapade culturelle à Édimbourg',
+                        'description' => 'Découverte du patrimoine écossais',
+                        'image' => $siteUrl . '/assets/img/trips/Edimbourgh.jpg',
+                        'touristType' => 'Cultural'
+                    ]
+                ]
+            ]
+        ];
+        break;
+    
+    case 'about':
+        // Page à propos
+        $schemaPage = [
+            '@context' => 'https://schema.org',
+            '@type' => 'AboutPage',
+            'name' => 'À propos de Vadrouille & Bourlingue',
+            'description' => 'Notre philosophie : l\'art de s\'égarer pour mieux se retrouver',
+            'mainEntity' => [
+                '@type' => 'Person',
+                'name' => 'Travel Planner',
+                'jobTitle' => 'Expert voyage et créateur d\'expériences',
+                'description' => 'Passionnée par les cultures lointaines avec plus de deux décennies d\'exploration',
+                'image' => $siteUrl . '/assets/img/Travel_Planner_Portrait.png',
+                'worksFor' => [
+                    '@type' => 'TravelPlanner',
+                    'name' => 'Vadrouille & Bourlingue'
+                ]
+            ]
+        ];
+        break;
+    
+    case 'contact':
+        // Page contact
+        $schemaPage = [
+            '@context' => 'https://schema.org',
+            '@type' => 'ContactPage',
+            'name' => 'Contactez Vadrouille & Bourlingue',
+            'description' => 'Demandez votre voyage sur mesure'
+        ];
+        break;
+}
+
+// Fil d'Ariane (Breadcrumb) pour la navigation
+$breadcrumbs = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => []
+];
+
+// Ajouter l'accueil
+$breadcrumbs['itemListElement'][] = [
+    '@type' => 'ListItem',
+    'position' => 1,
+    'name' => 'Accueil',
+    'item' => $siteUrl . '/'
+];
+
+// Ajouter la page actuelle si ce n'est pas l'accueil
+if ($action !== 'home') {
+    $pageNames = [
+        'trips' => 'Voyages',
+        'contact' => 'Contact',
+        'about' => 'À propos',
+        'terms' => 'Mentions légales'
+    ];
+    
+    $breadcrumbs['itemListElement'][] = [
+        '@type' => 'ListItem',
+        'position' => 2,
+        'name' => isset($pageNames[$action]) ? $pageNames[$action] : ucfirst($action),
+        'item' => $pageFullUrl
+    ];
+}
+
 include_once 'includes/header.php';
 ?>
     <main>
