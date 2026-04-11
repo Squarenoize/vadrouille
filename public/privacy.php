@@ -20,7 +20,7 @@
             <p>Le responsable du traitement des données est:<br>
                 Boutevin-DUBE Stéphanie, entrepreneur individuel / Vadrouille & Bourlingue.<br>
                 1281 chemin de Balach Haut, 46230 Belmont-Sainte-Foi, France.<br>
-                Email : contact@vadbou.fr
+                Email : <a href="mailto:vadrouillebourlingue@gmail.com">vadrouillebourlingue@gmail.com</a>
             </p>
             <h2>3. Données collectées</h2>
             <p>Dans le cadre de l’utilisation du formulaire de contact, les données suivantes peuvent être collectées :</p>
@@ -66,7 +66,7 @@
             <p>Le site peut utiliser des cookies à des fins de fonctionnement ou de mesure d’audience.
             L’utilisateur peut configurer son navigateur pour refuser tout ou partie des cookies.</p>
             <h2>11. Contact</h2>
-            <p>Pour toute question concernant la présente politique de confidentialité, les utilisateurs peuvent contacter le responsable du traitement à l’adresse email <a href="mailto:contact@vadbou.fr">contact@vadbou.fr</a>.</p>
+            <p>Pour toute question concernant la présente politique de confidentialité, les utilisateurs peuvent contacter le responsable du traitement à l’adresse email <a href="mailto:vadrouillebourlingue@gmail.com">vadrouillebourlingue@gmail.com</a>.</p>
         </div>
     </main>
 <body>

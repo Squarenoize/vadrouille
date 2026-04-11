@@ -1,5 +1,6 @@
 <?php
 $showForm = true;
+;
 ?>
         <section class="contact">
             <div class="contact-side">
@@ -120,7 +121,7 @@ $showForm = true;
                 <?php } else { ?>
                     <p class="form-submission-message">Merci pour votre intérêt !<br> 
                     <span class="material-icons">square_foot</span>Site en construction. <br>
-                    Pour l'instant, contactez-nous directement <a href="mailto:contact@vadbou.fr">par email</a>.</p>
+                    Pour l'instant, contactez-nous directement <a href="mailto:vadrouillebourlingue@gmail.com">par email</a>.</p>
                 <?php } ?>
             </div>
 

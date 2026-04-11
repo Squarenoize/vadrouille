@@ -8,7 +8,7 @@
             <p>Boutevin-DUBE Stéphanie, EI / Vadrouille & Bourlingue<br>
             SIREN : 945 128 320<br>
             Siège social : 46230 Belmont-Sainte-Foi, France<br>
-            Email : contact@vadbou.fr</p>
+            Email : <a href="mailto:vadrouillebourlingue@gmail.com">vadrouillebourlingue@gmail.com</a></p>
             <h3>1.2 Hébergeur du site</h3>
             <p>PlanetHoster<br>
             4416 Louis-B.-Mayer Laval, Québec Canada H7P 0G1<br>

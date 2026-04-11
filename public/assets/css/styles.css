@@ -1261,6 +1261,38 @@ h2 {
 }
 
 /**
+* Error page.
+*/    
+.error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 65vh;
+    background-color: var(--backgroundPrimary);
+
+    img {
+        width: 300px;
+        height: auto;
+        margin-bottom: 30px;
+    }
+
+    p {
+        font-family: 'Manrope', sans-serif;
+        font-size: 18px;
+        color: var(--darkBlueColor);
+        text-align: center;
+    }
+
+    button {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+}
+
+
+/**
 * Responsive design for mobile.
 */
 
