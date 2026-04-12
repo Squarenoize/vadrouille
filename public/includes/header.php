@@ -60,7 +60,11 @@ if (!defined('BASE_URL')) {
     </script>
     <?php endif; ?>
     
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico?v=2">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon.ico?v=2">
+    <link rel="apple-touch-icon" href="assets/img/favicon.ico?v=2">
+    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
     <script src="assets/js/menu.js" defer></script>
