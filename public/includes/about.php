@@ -13,7 +13,7 @@
         <section class="odysee">
             <div class="images-cards">
                 <img src="assets/img/forest.png" alt="sentier dans la forêt" class="mobile-hide">
-                <img src="assets/img/bonhomme.png" alt="personnage pour recuieillir les offrandes des pélerins">
+                <img src="assets/img/bonhomme.png" alt="personnage pour recueillir les offrandes des pèlerins">
                 <img src="assets/img/sushis.png" alt="assortiment de sushis" class="mobile-hide">
                 <img src="assets/img/mario-train.png" alt="train décoré aux couleurs de Mario Bros" class="mobile-hide">
             </div>
@@ -30,7 +30,7 @@
                 </p>
                 <p class="text">Chaque itinéraire que je conçois est une œuvre unique, tissée avec soin pour
                 répondre à vos aspirations les plus profondes, tout en respectant l'intégrité des
-                lieux et des hommes qui nous accueillent.
+                lieux et les personnes qui nous accueillent.
                 </p>
             </div>
         </section>
@@ -56,5 +56,5 @@
         </section>
         <section class="about-cta">
             <h2>Prêt pour votre prochaine aventure mémorable ?</h2>
-            <button class="btn-primary" onclick="window.location.href='index.php?action=contact'">DÉMARRER L'EXPÉRIENCE</button>
+            <button class="btn-primary" onclick="window.location.href='<?php echo BASE_URL; ?>/contact'">DÉMARRER L'EXPÉRIENCE</button>
         </section>

@@ -13,12 +13,12 @@
             <div class="footer-info">
                 <div class="footer-explorer">
                     <h3>Explorer</h3>
-                    <a href="index.php?action=trips">Voyages</a>
+                    <a href="<?php echo BASE_URL; ?>/voyages">Voyages</a>
                 </div>
                 <div class="footer-legal">
                     <h3>Légal</h3>
-                    <a href="index.php?action=terms">Mentions Légales et CGU</a>
-                    <a href="privacy.php" target="_blank">Politique de confidentialité</a>
+                    <a href="<?php echo BASE_URL; ?>/mentions-legales">Mentions Légales et CGU</a>
+                    <a href="<?php echo BASE_URL; ?>/confidentialite">Politique de confidentialité</a>
                 </div>
             </div>
             <div class="footer-copyright">

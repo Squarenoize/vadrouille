@@ -224,7 +224,7 @@ h2 {
         font-family: 'Manrope', sans-serif;
         font-weight: 300;
         color: var(--darkBlueColor);
-        padding-right: 60px;
+        padding-right: 95px;
     }
 
     button {
@@ -613,16 +613,16 @@ h2 {
             display: flex;
             flex-direction: row;
             align-items: flex-start;
-            height: 300px;
+            min-height: 300px;
             gap: 25px;
-            background-color: var(--backgroundSecondary);
+            background-color: white;
             border-radius: 8px;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 
             img {
                 width: auto;
                 height:100%;
-                border-radius: 8px 0 0 8px;
+                border-radius: 8px 0 0 0;
             }
 
             .trip-card-content {
@@ -638,7 +638,7 @@ h2 {
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
-                        padding-bottom: 15px;
+                        padding: 15px 0 15px 0;
                         border-bottom: 1px solid var(--backgroundTertiary);
 
                         .category {
@@ -666,6 +666,11 @@ h2 {
                             font-size: 14px;
                             color: var(--darkBlueColor);
                             padding-right: 20px;
+
+                            span {
+                                color:#a7a6a3;
+                                padding-right: 5px;
+                            }
                         }
                     }
 
@@ -1395,7 +1400,7 @@ h2 {
         z-index: 2;
 
         h1 {
-            padding-top: 230px;
+            padding-top: 320px;
             font-size: 36px;
             color: white;
             text-align: left;
@@ -1406,8 +1411,10 @@ h2 {
         }
 
         p {
-            padding-top: 70px;
-            font-size: 16px;
+            padding-top: 20px;
+            padding-bottom: 50px;
+            font-size: 20px;
+            color: var(--darkBlueColor);
             padding-right: 0;
         }
 
@@ -1443,7 +1450,7 @@ h2 {
     }
     .method-steps-cards {
         flex-direction: column;
-        gap: 20px;
+        gap: 30px;
     }
 
     .method-step-card {
@@ -1465,7 +1472,7 @@ h2 {
 
         h3 {
             font-family: 'Noto Serif', sans-serif;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 400;
             font-style: italic;
             color: white;
@@ -1478,11 +1485,34 @@ h2 {
         opacity: 0.8;
         padding: 0;
     }
+    /* Justifier à droite le premier et le dernier header-step-card */
+    .method-step-card:first-child .header-step-card,
+    .method-step-card:last-child .header-step-card {
+        left: auto;
+        right: 20px;
+        align-items: flex-end;
+        padding-left: 0;
+        padding-right: 25px;
+    }
+
+    .method-step-card-text {
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 1.4;
+        padding-top: 20px;
+        text-align: justify;
+    }
+
 /* Destinations section */
     .destinations {
         margin-top: 20px;
         background-color: var(--backgroundPrimary);
+
+        h2 {
+            text-align: center;
+        }
     }
+
     .destination-cards {
         flex-direction: column;
         gap: 50px;
@@ -1493,11 +1523,14 @@ h2 {
 
         h3 {
             margin-left: 10px;
+            font-weight: 500;
         }
 
         p {
             margin-left: 10px;
             margin-right: 10px;
+            font-size: 18px;
+            line-height: 1.1;
         }
     }
 /* CallToAction section */
@@ -1590,15 +1623,15 @@ h2 {
             padding: 0;
 
             .trip-card {
-                position: relative;
                 flex-direction: column;
                 width: 100%;
                 height: auto;
+                gap: 0;
 
                 img {
-                    width: 50%;
+                    width: 100%;
                     height:auto;
-                    border-radius: 0;
+                    border-radius: 8px 8px 0 0;
                 }
 
                 .trip-card-content {
@@ -1612,15 +1645,14 @@ h2 {
                         padding: 10px;
 
                         .trip-card-specs {
-                            position :absolute;
-                            top: 10px;
-                            left: 60%;
-                            flex-direction: column;
-                            align-items: flex-start;
-                            gap: 20px;
+                            flex-direction: row;
+                            justify-content: space-between;
+                            padding-bottom: 10px;
+                            border-bottom: none;
                         }
 
                         h2 {
+                            text-align: center;
                             padding-top: 0;
                             font-size: 24px;
                             margin-bottom: 10px;
@@ -1632,6 +1664,7 @@ h2 {
                             font-size: 14px;
                             line-height: 1.6;
                             color: var(--darkBlueColor);
+                            text-align: justify;
                         }
                     }
 
@@ -1793,9 +1826,41 @@ h2 {
     */
     .contact {
         width: 100%;
+        flex-direction: column;
         
         .contact-side {
-            display: none;
+            width: 100%;
+
+                .section-hit {
+                    text-align: center;
+                }
+
+                h1 {
+                    font-size: 36px;
+                    text-align: center;
+                }
+    
+                .side-text {
+                    text-align: center;
+                    line-height: 1.4;
+                    order:2;
+                }
+                .image-container {
+                    width: 100%;
+                    display: flex;
+                    order:1;
+
+                    justify-content: center;
+                    img {
+                        width: 50%;
+                        height: auto;
+                    }
+
+                    p {
+                        display: none;
+                    }
+                    
+                }
         }
     }
 
