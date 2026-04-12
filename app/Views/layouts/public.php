@@ -1,11 +1,6 @@
 <?php
+// Variable pour afficher/masquer le bouton connexion (à mettre à true quand l'auth sera prête)
 $adminReady = false;
-// Définir BASE_URL si pas déjà défini (pour les pages qui n'incluent pas index.php)
-if (!defined('BASE_URL')) {
-    $isLocal = (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false || strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false);
-    $baseUrl = $isLocal ? '/Vadrouille/public' : '';
-    define('BASE_URL', $baseUrl);
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -61,19 +56,18 @@ if (!defined('BASE_URL')) {
     <?php endif; ?>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico?v=2">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon.ico?v=2">
-    <link rel="apple-touch-icon" href="assets/img/favicon.ico?v=2">
+    <link rel="icon" type="image/x-icon" href="<?= BASE_URL ?>/assets/img/favicon.ico?v=2">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= BASE_URL ?>/assets/img/favicon.ico?v=2">
+    <link rel="apple-touch-icon" href="<?= BASE_URL ?>/assets/img/favicon.ico?v=2">
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <script src="assets/js/menu.js" defer></script>
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/styles.css">
 </head>
 
 <body>
     <header>
         <div class="header-container">
-            <a href="<?php echo BASE_URL; ?>/"><img class="logo" src="assets/img/VB_logo_hori.png" alt="Logo de Vadrouille & Bourlingue"></a>
+            <a href="<?php echo BASE_URL; ?>/"><img class="logo" src="<?= BASE_URL ?>/assets/img/VB_logo_hori.png" alt="Logo de Vadrouille & Bourlingue"></a>
             
             <button class="hamburger" id="hamburger" aria-label="Menu">
                 <span></span>
@@ -82,18 +76,51 @@ if (!defined('BASE_URL')) {
             </button>
             
             <nav class="mainNav" id="mainNav">
-                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'trips') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/voyages">Voyages</a>
-                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'about') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/a-propos">À propos</a>
-                <a class="mainNavLink <?php if(isset($_GET['action']) && $_GET['action'] == 'contact') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/contact">Contact</a>
-                <?php if ($adminReady) {?>
+                <a class="mainNavLink <?php if($currentAction == 'trips') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/voyages">Voyages</a>
+                <a class="mainNavLink <?php if($currentAction == 'about') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/a-propos">À propos</a>
+                <a class="mainNavLink <?php if($currentAction == 'contact') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/contact">Contact</a>
                 <a class="mainNavLink mobile-only" href="login.php">Connexion</a>
-                <?php } ?>
+            
             </nav>
             <div class="mainLinks">
-                <?php if ($adminReady) {?>
                 <button class="btn-connexion" onclick="window.location.href='login.php'">Connexion</button>
-                <?php } ?>
                 <button class="btn-primary" onclick="window.location.href='<?php echo BASE_URL; ?>/contact'">Demander mon voyage</button>
             </div>
         </div>
     </header>
+
+    <!-- Page -->
+    <main>
+        <?php include $contentView; ?>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-resume">
+                <p class="footer-title">Vadrouille & Bourlingue</p>
+                <p class="footer-description">Votre compagnon de voyage pour des aventures inoubliables à travers le monde.</p>
+                <div class="footer-links">
+                    <a href="https://www.instagram.com/vadrouillebourlingue/" target="_blank"><img src="assets/img/instagram.png" alt="Instagram"></a>
+                    <a href="#"><span class="material-icons">share</span></a>
+                </div>
+            </div>
+            <div class="footer-info">
+                <div class="footer-explorer">
+                    <h3>Explorer</h3>
+                    <a href="<?php echo BASE_URL; ?>/voyages">Voyages</a>
+                </div>
+                <div class="footer-legal">
+                    <h3>Légal</h3>
+                    <a href="<?php echo BASE_URL; ?>/mentions-legales">Mentions Légales et CGU</a>
+                    <a href="<?php echo BASE_URL; ?>/confidentialite">Politique de confidentialité</a>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>Copyright © Vadrouille & Bourlingue 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="<?= BASE_URL ?>/assets/js/menu.js"></script>
+</body>
+</html>

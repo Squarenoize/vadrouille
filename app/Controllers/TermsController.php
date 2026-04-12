@@ -1,15 +1,15 @@
 <?php
-class HomeController {
+class TermsController {
     
     /**
-     * Afficher la page d'accueil
+     * Afficher la page mentions légales
      */
     public function index(): void {
-        // Récupérer toutes les données SEO via le helper
-        $seo = SeoHelper::getPageSeo('home');
+        // Récupérer les données SEO
+        $seo = SeoHelper::getPageSeo('terms');
         
         // Afficher la vue
-        $view = new View('public/home', [
+        $view = new View('public/terms', [
             // SEO Meta
             'pageTitle' => $seo['pageTitle'],
             'pageDescription' => $seo['pageDescription'],
@@ -18,12 +18,10 @@ class HomeController {
             
             // Schemas
             'schemaOrganization' => SeoHelper::getOrganizationSchema(),
-            'schemaPage' => SeoHelper::getHomeServiceSchema(),
-            'schemaFAQ' => SeoHelper::getFaqSchema(),
-            'breadcrumbs' => SeoHelper::getBreadcrumbs('home'),
+            'breadcrumbs' => SeoHelper::getBreadcrumbs('terms'),
             
             // Navigation
-            'currentAction' => 'home'
+            'currentAction' => 'terms'
         ], 'public');
         
         $view->render();

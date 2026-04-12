@@ -1,15 +1,15 @@
 <?php
-class HomeController {
+class AboutController {
     
     /**
-     * Afficher la page d'accueil
+     * Afficher la page à propos
      */
     public function index(): void {
-        // Récupérer toutes les données SEO via le helper
-        $seo = SeoHelper::getPageSeo('home');
+        // Récupérer les données SEO
+        $seo = SeoHelper::getPageSeo('about');
         
         // Afficher la vue
-        $view = new View('public/home', [
+        $view = new View('public/about', [
             // SEO Meta
             'pageTitle' => $seo['pageTitle'],
             'pageDescription' => $seo['pageDescription'],
@@ -18,12 +18,11 @@ class HomeController {
             
             // Schemas
             'schemaOrganization' => SeoHelper::getOrganizationSchema(),
-            'schemaPage' => SeoHelper::getHomeServiceSchema(),
-            'schemaFAQ' => SeoHelper::getFaqSchema(),
-            'breadcrumbs' => SeoHelper::getBreadcrumbs('home'),
+            'schemaPage' => SeoHelper::getAboutSchema(),
+            'breadcrumbs' => SeoHelper::getBreadcrumbs('about'),
             
             // Navigation
-            'currentAction' => 'home'
+            'currentAction' => 'about'
         ], 'public');
         
         $view->render();

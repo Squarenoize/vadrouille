@@ -1,15 +1,15 @@
 <?php
-class HomeController {
+class TripsController {
     
     /**
-     * Afficher la page d'accueil
+     * Afficher la page des voyages
      */
     public function index(): void {
-        // Récupérer toutes les données SEO via le helper
-        $seo = SeoHelper::getPageSeo('home');
+        // Récupérer les données SEO
+        $seo = SeoHelper::getPageSeo('trips');
         
         // Afficher la vue
-        $view = new View('public/home', [
+        $view = new View('public/trips', [
             // SEO Meta
             'pageTitle' => $seo['pageTitle'],
             'pageDescription' => $seo['pageDescription'],
@@ -18,12 +18,11 @@ class HomeController {
             
             // Schemas
             'schemaOrganization' => SeoHelper::getOrganizationSchema(),
-            'schemaPage' => SeoHelper::getHomeServiceSchema(),
-            'schemaFAQ' => SeoHelper::getFaqSchema(),
-            'breadcrumbs' => SeoHelper::getBreadcrumbs('home'),
+            'schemaPage' => SeoHelper::getTripsSchema(),
+            'breadcrumbs' => SeoHelper::getBreadcrumbs('trips'),
             
             // Navigation
-            'currentAction' => 'home'
+            'currentAction' => 'trips'
         ], 'public');
         
         $view->render();
