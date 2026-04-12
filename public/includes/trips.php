@@ -34,7 +34,7 @@ $backendReady = false;
                             <p class="duration"><span>durée</span> 3 jours</p>
                         </div>
                         <h2>Week-end à Edimbourg</h2>
-                        <p>Le temps d’une respiration, découvrez cette magnifique ville avec son coeur de ville médiéval, ces coins de nature à quelques mètres du centre-ville et ses pubs légendaires.</p>
+                        <p>Le temps d’une respiration, découvrez cette magnifique ville avec son coeur de ville médiéval, ses coins de nature à quelques mètres du centre-ville et ses pubs légendaires.</p>
                     </div>
                     <div class="trip-card-comment">
                         <p><span class="material-icons">format_quote</span>
