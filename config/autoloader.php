@@ -8,6 +8,7 @@ spl_autoload_register(function($className) {
         __DIR__ . '/../app/Controllers/' . $className . '.php',
         __DIR__ . '/../app/Models/' . $className . '.php',
         __DIR__ . '/../app/Core/' . $className . '.php',
+        __DIR__ . '/../app/Entities/' . $className . '.php',
     ];
     
     foreach ($paths as $path) {

@@ -1,6 +1,6 @@
 <?php
 // Variable pour afficher/masquer le bouton connexion (à mettre à true quand l'auth sera prête)
-$adminReady = false;
+$adminReady = true;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -76,14 +76,17 @@ $adminReady = false;
             </button>
             
             <nav class="mainNav" id="mainNav">
-                <a class="mainNavLink <?php if($currentAction == 'trips') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/voyages">Voyages</a>
-                <a class="mainNavLink <?php if($currentAction == 'about') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/a-propos">À propos</a>
-                <a class="mainNavLink <?php if($currentAction == 'contact') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/contact">Contact</a>
-                <a class="mainNavLink mobile-only" href="login.php">Connexion</a>
-            
+                <a class="mainNavLink <?php if(isset($currentAction) && $currentAction == 'trips') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/voyages">Voyages</a>
+                <a class="mainNavLink <?php if(isset($currentAction) && $currentAction == 'about') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/a-propos">À propos</a>
+                <a class="mainNavLink <?php if(isset($currentAction) && $currentAction == 'contact') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/contact">Contact</a>
+                <?php if ($adminReady): ?>
+                <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/connexion">Connexion</a>
+                <?php endif; ?>
             </nav>
             <div class="mainLinks">
-                <button class="btn-connexion" onclick="window.location.href='login.php'">Connexion</button>
+                <?php if ($adminReady): ?>
+                <button class="btn-connexion" onclick="window.location.href='<?= BASE_URL ?>/connexion'">Connexion</button>
+                <?php endif; ?>
                 <button class="btn-primary" onclick="window.location.href='<?php echo BASE_URL; ?>/contact'">Demander mon voyage</button>
             </div>
         </div>

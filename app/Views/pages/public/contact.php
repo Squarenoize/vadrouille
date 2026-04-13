@@ -1,5 +1,5 @@
 <?php
-$showForm = false;
+$showForm = true;
 ;
 ?>
         <section class="contact">
@@ -35,26 +35,26 @@ $showForm = false;
                         </div>
                         <div class="form-group">
                             <label for="phone">Téléphone</label>
-                            <input type="tel" id="phone" name="phone" required>
+                            <input type="tel" id="phone" name="phone">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Type de voyage</label>
                             <div class="radio-button-group">
-                                <input type="radio" id="adventure" name="travel_type" value="adventure" required>
+                                <input type="radio" id="adventure" name="trip_type" value="adventure" required>
                                 <label for="adventure" class="radio-button">Aventure</label>
                                 
-                                <input type="radio" id="relaxation" name="travel_type" value="relaxation">
+                                <input type="radio" id="relaxation" name="trip_type" value="relaxation">
                                 <label for="relaxation" class="radio-button">Détente</label>
                                 
-                                <input type="radio" id="cultural" name="travel_type" value="cultural">
+                                <input type="radio" id="cultural" name="trip_type" value="cultural">
                                 <label for="cultural" class="radio-button">Culturel</label>
                                 
-                                <input type="radio" id="weekend" name="travel_type" value="weekend">
+                                <input type="radio" id="weekend" name="trip_type" value="weekend">
                                 <label for="weekend" class="radio-button">Week-end</label>
                                 
-                                <input type="radio" id="other" name="travel_type" value="other">
+                                <input type="radio" id="other" name="trip_type" value="other">
                                 <label for="other" class="radio-button">Autre</label>
                             </div>
                         </div>
@@ -76,26 +76,26 @@ $showForm = false;
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="travel_companions">Pays de départ</label>
-                            <input type="text" id="travel_companions" name="travel_companions" placeholder="Ex: France, Espagne..." required>
+                            <label for="start_country">Pays de départ</label>
+                            <input type="text" id="start_country" name="start_country" placeholder="Ex: France, Belgique...">
                         </div>
                         <div class="form-group">
-                            <label for="travel_dates">Date de départ</label>
-                            <input type="date" id="travel_dates" name="travel_dates" required>
+                            <label for="desired_start">Date de départ souhaitée</label>
+                            <input type="date" id="desired_start" name="desired_start">
                         </div>
                         <div class="form-group">
-                            <label for="travel_duration">Durée du voyage</label>
-                            <input type="text" id="travel_duration" name="travel_duration" placeholder="Ex: 10 jours" required>
+                            <label for="duration">Durée du voyage (jours)</label>
+                            <input type="number" id="duration" name="duration" placeholder="Ex: 10" min="1" max="365">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="adults">Nombre d'adultes</label>
-                            <input type="number" id="adults" name="adults" placeholder="Ex: 2" required>
+                            <label for="travelers_adult_count">Nombre d'adultes</label>
+                            <input type="number" id="travelers_adult_count" name="travelers_adult_count" placeholder="Ex: 2" min="0" max="20" value="1" required>
                         </div>
                         <div class="form-group">
-                            <label for="children">Nombre d'enfants</label>
-                            <input type="number" id="children" name="children" placeholder="Ex: 0" required>
+                            <label for="travelers_child_count">Nombre d'enfants</label>
+                            <input type="number" id="travelers_child_count" name="travelers_child_count" placeholder="Ex: 0" min="0" max="20" value="0" required>
                         </div>
                     </div>
                     <div class="form-row">
@@ -105,10 +105,10 @@ $showForm = false;
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="checkbox" id="consent" name="consent" required>
-                        <label for="consent">
+                        <input type="checkbox" id="conditions_accepted" name="conditions_accepted" value="1" required>
+                        <label for="conditions_accepted">
                             J'accepte que mes données soient utilisées pour être recontacté(e) dans le cadre de ma demande, conformément à la 
-                            <a href="privacy.php" target="_blank">politique de confidentialité</a>.
+                            <a href="<?= BASE_URL ?>/privacy" target="_blank">politique de confidentialité</a>.
                         </label>
                     </div>
                     <p class="form-info">

@@ -1,6 +1,6 @@
 <?php
 /**
- * Helper SEO - Centralise la génération des données SEO et Schema.org
+ * Helper SEO - SEO generation data and Schema.org
  */
 class SeoHelper {
     
@@ -10,7 +10,7 @@ class SeoHelper {
     private const INSTAGRAM_URL = 'https://www.instagram.com/vadrouillebourlingue/';
     
     /**
-     * Configuration SEO par page
+     * SEO configuration per page
      */
     private const SEO_CONFIG = [
         'home' => [
@@ -42,22 +42,29 @@ class SeoHelper {
             'description' => 'Consultez les mentions légales et conditions générales d\'utilisation de Vadrouille & Bourlingue, votre agence de voyages sur mesure.',
             'url' => 'mentions-legales',
             'image' => 'assets/img/VB_logo_hori.png'
+        ],
+        'privacy' => [
+            'title' => 'Politique de confidentialité | Vadrouille & Bourlingue',
+            'description' => 'Politique de confidentialité et protection des données personnelles de Vadrouille & Bourlingue.',
+            'url' => 'confidentialite',
+            'image' => 'assets/img/VB_logo_hori.png'
         ]
     ];
     
     /**
-     * Noms des pages pour breadcrumbs
+     * Page names for breadcrumbs
      */
     private const PAGE_NAMES = [
         'home' => 'Accueil',
         'trips' => 'Voyages',
         'contact' => 'Contact',
         'about' => 'À propos',
-        'terms' => 'Mentions légales'
+        'terms' => 'Mentions légales',
+        'privacy' => 'Politique de confidentialité'
     ];
     
     /**
-     * Récupérer les données SEO de base pour une page
+     * Get the basic SEO data for a page
      */
     public static function getPageSeo(string $page): array {
         $config = self::SEO_CONFIG[$page] ?? self::SEO_CONFIG['home'];
@@ -71,7 +78,7 @@ class SeoHelper {
     }
     
     /**
-     * Générer le Schema.org de l'organisation (identique pour toutes les pages)
+     * Generate the Schema.org for the organization (same for all pages)
      */
     public static function getOrganizationSchema(): array {
         return [
@@ -99,7 +106,7 @@ class SeoHelper {
     }
     
     /**
-     * Générer le fil d'Ariane (Breadcrumb)
+     * Generate the breadcrumb (Breadcrumb)
      */
     public static function getBreadcrumbs(string $page): array {
         $breadcrumbs = [
@@ -115,7 +122,7 @@ class SeoHelper {
             ]
         ];
         
-        // Ajouter la page actuelle si ce n'est pas l'accueil
+        // Add the current page if it's not the home page
         if ($page !== 'home') {
             $config = self::SEO_CONFIG[$page] ?? null;
             $breadcrumbs['itemListElement'][] = [
@@ -130,7 +137,7 @@ class SeoHelper {
     }
     
     /**
-     * Générer le Schema Service pour la page d'accueil
+     * Generate the Schema Service for the home page
      */
     public static function getHomeServiceSchema(): array {
         return [
@@ -178,7 +185,7 @@ class SeoHelper {
     }
     
     /**
-     * Générer le Schema ItemList pour la page voyages
+     * Generate the Schema ItemList for the trips page
      */
     public static function getTripsSchema(): array {
         return [
@@ -203,7 +210,7 @@ class SeoHelper {
     }
     
     /**
-     * Générer le Schema AboutPage
+     * Generate the Schema AboutPage
      */
     public static function getAboutSchema(): array {
         return [
@@ -226,7 +233,7 @@ class SeoHelper {
     }
     
     /**
-     * Générer le Schema ContactPage
+     * Generate the Schema ContactPage
      */
     public static function getContactSchema(): array {
         return [
@@ -238,7 +245,7 @@ class SeoHelper {
     }
     
     /**
-     * Charger le Schema FAQ (spécifique à la page home)
+     * Load the FAQ Schema (specific to the home page)
      */
     public static function getFaqSchema(): array {
         return include __DIR__ . '/../views/schemas/faq-schema.php';

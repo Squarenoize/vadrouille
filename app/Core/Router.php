@@ -3,21 +3,21 @@ class Router {
     private array $routes = [];
     
     /**
-     * Ajouter une route GET
+     * Add a GET route
      */
     public function get(string $uri, string $controller, string $method): void {
         $this->addRoute('GET', $uri, $controller, $method);
     }
     
     /**
-     * Ajouter une route POST
+     * Add a POST route
      */
     public function post(string $uri, string $controller, string $method): void {
         $this->addRoute('POST', $uri, $controller, $method);
     }
     
     /**
-     * Enregistrer une route
+     * Register a route
      */
     private function addRoute(string $httpMethod, string $uri, string $controller, string $method): void {
         $this->routes[] = [
@@ -29,55 +29,66 @@ class Router {
     }
     
     /**
-     * Dispatcher : analyse l'URI et appelle le bon contrôleur
+     * Dispatcher: analyze the URI and call the appropriate controller
      */
     public function dispatch(): void {
-        // Récupérer l'URI demandée
+        // Get the requested URI
         $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         
-        // Enlever le BASE_PATH (ex: /Vadrouille/public)
+        // Remove the BASE_PATH (e.g., /Vadrouille/public)
         $basePath = $this->getBasePath();
         $uri = str_replace($basePath, '', $requestUri);
-        $uri = '/' . trim($uri, '/'); // Normaliser : toujours commencer par /
+        $uri = '/' . trim($uri, '/'); // Normalize: always start with /
         
-        // Cas spécial : URI vide = racine
-        if ($uri === '/') {
-            // OK, c'est la racine
+        // Special case: empty URI or just "/" = root
+        if ($uri === '/' || $uri === '') {
+            $uri = '/';
         }
         
-        // Chercher la route correspondante
+        // Search for the matching route
         foreach ($this->routes as $route) {
             if ($route['method'] === $requestMethod && $this->matchRoute($route['uri'], $uri)) {
-                // Route trouvée !
+                // Route found!
                 $controllerName = $route['controller'];
                 $methodName = $route['action'];
                 
+                // Check if the class exists
+                if (!class_exists($controllerName)) {
+                    throw new Exception("Controller '$controllerName' not found");
+                }
+                
                 $controller = new $controllerName();
+                
+                // Check if the method exists
+                if (!method_exists($controller, $methodName)) {
+                    throw new Exception("Méthode '$methodName' introuvable dans $controllerName");
+                }
+                
                 $controller->$methodName();
                 return;
             }
         }
         
-        // Aucune route trouvée → 404
+        // No route found → 404
         $this->show404();
     }
     
     /**
-     * Vérifier si l'URI correspond à la route
+     * Check if the URI matches the route
      */
     private function matchRoute(string $routeUri, string $requestUri): bool {
-        // Pour l'instant, correspondance exacte
-        // Plus tard, on pourra ajouter des paramètres dynamiques (/voyage/{id})
+        // For now, exact match
+        // Later, we can add dynamic parameters (/voyage/{id})
         return $routeUri === $requestUri;
     }
     
     /**
-     * Obtenir le chemin de base du projet
+     * Get the base path of the project
      */
     private function getBasePath(): string {
-        // En local : /Vadrouille/public
-        // En prod : vide
+        // Local: /Vadrouille/public
+        // Production: empty
         $isLocal = (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false || 
                     strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false);
         
@@ -85,7 +96,7 @@ class Router {
     }
     
     /**
-     * Afficher la page 404
+     * Display the 404 page
      */
     private function show404(): void {
         http_response_code(404);
