@@ -4,10 +4,11 @@
         <img class="logo" src="<?= BASE_URL ?>/assets/img/VB_logo_hori.png" alt="Logo de Vadrouille & Bourlingue">
         <h1>Connexion à votre espace <span>voyage</span></h1>
         
-        <?php if (isset($error)): ?>
+        <?php if (isset($_SESSION['connect_error'])): ?>
             <div class="error-message">
-                <?= htmlspecialchars($error) ?>
+                <?= htmlspecialchars($_SESSION['connect_error']) ?>
             </div>
+            <?php unset($_SESSION['connect_error']); ?>
         <?php endif; ?>
         
         <form action="<?= BASE_URL ?>/connexion" method="post" class="login-form">

@@ -77,6 +77,14 @@ h2 {
     text-transform: uppercase;
  }
 
+ .error-message {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #ffcccc;
+        color: #a70000;
+        border-radius: 5px;
+    }
+
 /**
 * Buttons
 */

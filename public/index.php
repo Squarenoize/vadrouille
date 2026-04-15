@@ -34,6 +34,9 @@ $router->get('/deconnexion', 'AuthController', 'logout');        // Déconnexion
 // For  POST requests (form)
 $router->post('/contact', 'ContactController', 'send');     // Soumettre formulaire contact
 
+// Admin routes (GET)
+$router->get('/admin/dashboard', 'AdminController', 'dashboard'); // Dashboard admin
+
 // 
 // DISPATCH
 // 
