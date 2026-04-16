@@ -29,32 +29,21 @@ class AuthController {
         $userModel = new UserModel();
         $user = $userModel->login($email, $password);
         if ($user) {
-            $_SESSION['userId'] = $user['id'];
-            $_SESSION['userFirstName'] = $user['first_name'];
-            $_SESSION['role'] = $user['role'];
-            $_SESSION['connected'] = true;
+            // Store only user ID in session
+            Auth::login($user);
 
             // Redirect based on user role
-            switch ($_SESSION['role']) {
-                case 'admin':
-                    $view = new View('admin/dashboard', [
-                        'userFirstName' => $user['first_name']
-                    ], 'admin');
-                    break;
-                
-                case 'user':
-                    $view = new View('user/dashboard', [
-                        'userFirstName' => $user['first_name']
-                    ], 'user');
-                    break;
-                
-                default:
-                    $_SESSION['connect_error'] = 'Rôle utilisateur non reconnu.';
-                    header('Location: ' . BASE_URL . '/connexion');
-                    exit;
+            if ($user->isAdmin()) {
+                header('Location: ' . BASE_URL . '/admin/dashboard');
+                exit;
+            } elseif ($user->isTraveler()) {
+                header('Location: ' . BASE_URL . '/traveler/dashboard');
+                exit;
+            } else {
+                $_SESSION['connect_error'] = 'Rôle utilisateur non reconnu.';
+                header('Location: ' . BASE_URL . '/connexion');
+                exit;
             }
-
-            $view->render();
 
         } else {
             $_SESSION['connect_error'] = 'Email ou mot de passe incorrect.';
@@ -68,8 +57,7 @@ class AuthController {
      * Logout
      */
     public function logout(): void {
-        // TODO: Destroy the session
-        session_destroy();
+        Auth::logout();
         header('Location: ' . BASE_URL . '/');
         exit;
     }

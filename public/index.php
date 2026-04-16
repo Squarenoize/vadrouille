@@ -36,6 +36,10 @@ $router->post('/contact', 'ContactController', 'send');     // Soumettre formula
 
 // Admin routes (GET)
 $router->get('/admin/dashboard', 'AdminController', 'dashboard'); // Dashboard admin
+$router->get('/admin/requests', 'AdminController', 'requests');   // Liste des demandes
+
+// Traveler routes (GET)
+$router->get('/traveler/dashboard', 'TravelerController', 'dashboard'); // Dashboard voyageur
 
 // 
 // DISPATCH

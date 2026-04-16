@@ -1,6 +1,5 @@
 <?php
-// Variable pour afficher/masquer le bouton connexion (à mettre à true quand l'auth sera prête)
-$adminReady = true;
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -79,15 +78,31 @@ $adminReady = true;
                 <a class="mainNavLink <?php if(isset($currentAction) && $currentAction == 'trips') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/voyages">Voyages</a>
                 <a class="mainNavLink <?php if(isset($currentAction) && $currentAction == 'about') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/a-propos">À propos</a>
                 <a class="mainNavLink <?php if(isset($currentAction) && $currentAction == 'contact') echo 'active'; ?>" href="<?php echo BASE_URL; ?>/contact">Contact</a>
-                <?php if ($adminReady): ?>
-                <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/connexion">Connexion</a>
+                
+                <?php if (Auth::check()): ?>
+                    <?php if (Auth::isAdmin()): ?>
+                        <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/admin/dashboard">Tableau de bord</a>
+                    <?php else: ?>
+                        <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/traveler/dashboard">Mon compte</a>
+                    <?php endif; ?>
+                    <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/deconnexion">Déconnexion</a>
+                <?php else: ?>
+                    <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/connexion">Connexion</a>
                 <?php endif; ?>
             </nav>
             <div class="mainLinks">
-                <?php if ($adminReady): ?>
-                <button class="btn-connexion" onclick="window.location.href='<?= BASE_URL ?>/connexion'">Connexion</button>
+                <?php if (Auth::check()): ?>
+                    <?php $user = Auth::user(); ?>
+                    <?php if ($user->isAdmin()): ?>
+                        <button class="btn-connexion" onclick="window.location.href='<?= BASE_URL ?>/admin/dashboard'">Tableau de bord</button>
+                    <?php else: ?>
+                        <button class="btn-connexion" onclick="window.location.href='<?= BASE_URL ?>/traveler/dashboard'">Mon compte</button>
+                    <?php endif; ?>
+                    <button class="btn-primary" onclick="window.location.href='<?= BASE_URL ?>/deconnexion'">Déconnexion</button>
+                <?php else: ?>
+                    <button class="btn-connexion" onclick="window.location.href='<?= BASE_URL ?>/connexion'">Connexion</button>
+                    <button class="btn-primary" onclick="window.location.href='<?php echo BASE_URL; ?>/contact'">Demander mon voyage</button>
                 <?php endif; ?>
-                <button class="btn-primary" onclick="window.location.href='<?php echo BASE_URL; ?>/contact'">Demander mon voyage</button>
             </div>
         </div>
     </header>

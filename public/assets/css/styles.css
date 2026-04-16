@@ -1196,6 +1196,25 @@ h2 {
     width: 100%;
     min-height: 100vh;
     background-color: var(--backgroundPrimary);
+
+    .back-to-site {
+        display: flex;
+        align-items: center;
+        font-family: 'Manrope', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        padding: 20px;
+        color: var(--darkBlueColor);
+        text-decoration: none;
+
+        &:hover {
+            transform: translateY(-2px);
+        }
+
+            .material-icons {
+                margin-right: 5px;
+            }
+    }
 }
 .login-container {
     display: flex;

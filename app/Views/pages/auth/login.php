@@ -1,5 +1,7 @@
 <section class="login-section">
-    <a href="<?= BASE_URL ?>/" class="back-to-site">← Retour au site</a>
+    <a href="<?= BASE_URL ?>/" class="back-to-site"><span class="material-icons">
+arrow_circle_left
+</span> Retour au site</a>
     <div class="login-container">
         <img class="logo" src="<?= BASE_URL ?>/assets/img/VB_logo_hori.png" alt="Logo de Vadrouille & Bourlingue">
         <h1>Connexion à votre espace <span>voyage</span></h1>

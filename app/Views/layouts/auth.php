@@ -7,7 +7,8 @@
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="<?= BASE_URL ?>/assets/img/favicon.ico?v=2">
-    
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- CSS -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/styles.css">
 </head>

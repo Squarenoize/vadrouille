@@ -19,7 +19,7 @@ CREATE TABLE `users` (
     `first_name`       VARCHAR(80)     NOT NULL,
     `last_name`        VARCHAR(80)     NOT NULL,
     `phone`            VARCHAR(20)         NULL DEFAULT NULL,
-    `role`             ENUM('admin','user') NOT NULL DEFAULT 'user',
+    `role`             ENUM('admin','traveler') NOT NULL DEFAULT 'traveler',
     `is_active`        TINYINT(1)      NOT NULL DEFAULT 1,
     `failed_attempts`  TINYINT UNSIGNED NOT NULL DEFAULT 0,
     `locked_until`     DATETIME            NULL DEFAULT NULL,

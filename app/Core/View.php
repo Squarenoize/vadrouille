@@ -7,7 +7,7 @@ class View {
     /**
      * @param string $template Chemin du template (ex: 'public/home', 'admin/dashboard')
      * @param array $data Données à passer à la vue
-     * @param string $layout Layout à utiliser : 'public', 'user', ou 'admin'
+     * @param string $layout Layout à utiliser : 'public', 'traveler', ou 'admin'
      */
     public function __construct(string $template, array $data = [], string $layout = 'public') {
         $this->template = $template;
