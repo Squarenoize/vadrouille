@@ -81,7 +81,7 @@
                 
                 <?php if (Auth::check()): ?>
                     <?php if (Auth::isAdmin()): ?>
-                        <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/admin/dashboard">Tableau de bord</a>
+                        <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/admin/requests">Tableau de bord</a>
                     <?php else: ?>
                         <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/traveler/dashboard">Mon compte</a>
                     <?php endif; ?>
@@ -94,7 +94,7 @@
                 <?php if (Auth::check()): ?>
                     <?php $user = Auth::user(); ?>
                     <?php if ($user->isAdmin()): ?>
-                        <button class="btn-connexion" onclick="window.location.href='<?= BASE_URL ?>/admin/dashboard'">Tableau de bord</button>
+                        <button class="btn-connexion" onclick="window.location.href='<?= BASE_URL ?>/admin/requests'">Tableau de bord</button>
                     <?php else: ?>
                         <button class="btn-connexion" onclick="window.location.href='<?= BASE_URL ?>/traveler/dashboard'">Mon compte</button>
                     <?php endif; ?>

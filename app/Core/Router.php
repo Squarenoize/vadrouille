@@ -48,7 +48,8 @@ class Router {
         
         // Search for the matching route
         foreach ($this->routes as $route) {
-            if ($route['method'] === $requestMethod && $this->matchRoute($route['uri'], $uri)) {
+            $params = [];
+            if ($route['method'] === $requestMethod && $this->matchRoute($route['uri'], $uri, $params)) {
                 // Route found!
                 $controllerName = $route['controller'];
                 $methodName = $route['action'];
@@ -65,7 +66,7 @@ class Router {
                     throw new Exception("Méthode '$methodName' introuvable dans $controllerName");
                 }
                 
-                $controller->$methodName();
+                $controller->$methodName(...$params);
                 return;
             }
         }
@@ -77,10 +78,34 @@ class Router {
     /**
      * Check if the URI matches the route
      */
-    private function matchRoute(string $routeUri, string $requestUri): bool {
-        // For now, exact match
-        // Later, we can add dynamic parameters (/voyage/{id})
-        return $routeUri === $requestUri;
+    private function matchRoute(string $routeUri, string $requestUri, &$params = []): bool {
+        // DEBUG
+        error_log("Comparing routeUri: $routeUri with requestUri: $requestUri");
+        
+        // If no regex in the route, match exact
+        if (strpos($routeUri, '(') === false) {
+            return $routeUri === $requestUri;
+        }
+    
+        //Convert the route into a regex properly
+        // Replace (\d+) with the number regex, and keep it as a capturing group
+        $pattern = str_replace('/', '\/', $routeUri); // Escape the /
+        $pattern = str_replace('(\d+)', '(\d+)', $pattern); // Keep (\d+) as is
+        $pattern = '/^' . $pattern . '$/';
+        
+        error_log("Pattern created: $pattern");
+        
+        // Test the regex
+        if (preg_match($pattern, $requestUri, $matches)) {
+            error_log("MATCH! Params: " . print_r($matches, true));
+            // Remove the full match, keep only the captured groups
+            array_shift($matches);
+            $params = $matches;
+            return true;
+        }
+        
+        error_log("No match");
+        return false;
     }
     
     /**

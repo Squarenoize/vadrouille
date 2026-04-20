@@ -66,7 +66,7 @@ class ContactController {
             $contactModel->save($contactRequest);
             
             // 5. Redirect with success message
-            $_SESSION['success'] = "Votre demande a bien été envoyée ! Nous vous recontacterons rapidement.";
+            $_SESSION['request_success'] = "Votre demande a bien été envoyée ! Nous vous recontacterons rapidement.";
             header('Location: ' . BASE_URL . '/contact');
             exit;
             

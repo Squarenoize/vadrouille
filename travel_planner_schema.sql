@@ -68,10 +68,11 @@ CREATE TABLE `contact_requests` (
 -- ------------------------------------------------------------
 --  3. trips
 --  Voyage conçu par l'admin pour un client.
+--  Note: user_id est NULL tant que le devis n'est pas accepté.
 -- ------------------------------------------------------------
 CREATE TABLE `trips` (
     `id`            INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `user_id`       INT UNSIGNED    NOT NULL,
+    `user_id`       INT UNSIGNED        NULL DEFAULT NULL,
     `request_id`    INT UNSIGNED        NULL DEFAULT NULL,
     `name`          VARCHAR(255)    NOT NULL,
     `description`   TEXT                NULL DEFAULT NULL,
@@ -96,7 +97,7 @@ CREATE TABLE `trips` (
 
     CONSTRAINT `fk_trips_user`
         FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
+        ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT `fk_trips_request`
         FOREIGN KEY (`request_id`) REFERENCES `contact_requests` (`id`)
         ON DELETE SET NULL ON UPDATE CASCADE

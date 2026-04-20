@@ -1,5 +1,6 @@
 <?php
 // Admin layout - Interface d'administration
+$prioritaryFunctionality = false; 
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -38,17 +39,13 @@
             </a>
             <a class="sidebar-link <?= ($currentPage ?? '') === 'requests' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/requests">
                 <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
-                <span>Demandes</span>
+                <span>Demandes</span><span class="sidebar-badge"><?= isset($newRequestsCount) && $newRequestsCount > 0 ? " $newRequestsCount" : '' ?></span>
             </a>
             <a class="sidebar-link <?= ($currentPage ?? '') === 'trips' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/trips">
                 <span class="material-symbols-outlined" data-icon="explore">explore</span>
                 <span>Voyages</span>
             </a>
-            <a class="sidebar-link <?= ($currentPage ?? '') === 'clients' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/clients">
-                <span class="material-symbols-outlined" data-icon="group">group</span>
-                <span>Clients</span>
-            </a>
-            <a class="sidebar-link <?= ($currentPage ?? '') === 'messages' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/messages">
+            <a class="sidebar-link <?= ($currentPage ?? '') === 'chats' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/chats">
                 <span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
                 <span>Messagerie</span>
             </a>
@@ -64,10 +61,12 @@
         <!-- TopBar (commune à toutes les pages admin) -->
         <header class="admin-topbar">
             <div class="topbar-left">
+                <?php if ($prioritaryFunctionality) { ?>
                 <div class="topbar-search">
                     <span class="material-symbols-outlined" data-icon="search">search</span>
                     <input placeholder="Search itineraries or clients..." type="text"/>
                 </div>
+                <?php } ?>
             </div>
             <div class="topbar-right">
                 <button class="topbar-btn">

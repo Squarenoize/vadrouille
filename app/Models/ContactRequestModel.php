@@ -37,7 +37,7 @@ class ContactRequestModel {
      * Retrieve all contact requests
      * @return ContactRequest[]
      */
-    public function findAll(): array {
+    public function getAllRequests(): array {
         $sql = "SELECT * FROM contact_requests ORDER BY created_at DESC";
         $stmt = $this->db->query($sql);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -51,7 +51,7 @@ class ContactRequestModel {
      * @param int $id
      * @return ContactRequest|null
      */
-    public function findById(int $id): ?ContactRequest {
+    public function getRequestById(int $id): ?ContactRequest {
         $sql = "SELECT * FROM contact_requests WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['id' => $id]);
@@ -59,5 +59,18 @@ class ContactRequestModel {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         
         return $row ? ContactRequest::fromArray($row) : null;
+    }
+
+    public function updateStatus(int $id, string $newStatus): bool {
+        $sql = "UPDATE contact_requests SET status = :status WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute(['status' => $newStatus, 'id' => $id]);
+    }
+
+    public function countByStatus(string $status): int {
+        $sql = "SELECT COUNT(*) FROM contact_requests WHERE status = :status";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['status' => $status]);
+        return (int)$stmt->fetchColumn();
     }
 }

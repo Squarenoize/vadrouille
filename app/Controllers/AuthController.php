@@ -34,7 +34,7 @@ class AuthController {
 
             // Redirect based on user role
             if ($user->isAdmin()) {
-                header('Location: ' . BASE_URL . '/admin/dashboard');
+                header('Location: ' . BASE_URL . '/admin/requests');
                 exit;
             } elseif ($user->isTraveler()) {
                 header('Location: ' . BASE_URL . '/traveler/dashboard');
