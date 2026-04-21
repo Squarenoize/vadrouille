@@ -21,7 +21,7 @@
 - [Modèles](#modèles)
   - [UserModel](#usermodel)
   - [ContactRequestModel](#contactrequestmodel)
-  - [TripModel](#tripmodel)
+  - [TripsModel](#tripsmodel)
   - [TripItemModel](#tripitemmodel)
   - [BookingStatusModel](#bookingstatusmodel)
   - [MessageModel](#messagemodel)
@@ -310,9 +310,9 @@
 
 ---
 
-### TripModel
+### TrispModel
 
-**Namespace** : `App\Models\TripModel`  
+**Namespace** : `App\Models\TripsModel`  
 **Table** : `trips`  
 **Hérite de** : `BaseModel`
 

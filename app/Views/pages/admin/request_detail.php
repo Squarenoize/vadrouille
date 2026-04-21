@@ -16,7 +16,7 @@
     <p><strong>Pays de départ :</strong> <?= $request->getStartCountry() ?></p>
     <p><strong>Message :</strong><br><?= nl2br($request->getMessage()) ?></p>
     <p><strong>Status :</strong> <?= ucfirst($request->getStatus()) ?></p>
-    <form method="POST" action="<?= BASE_URL ?>/admin/requests/<?= $request->getId() ?>/update">
+    <form method="POST" action="<?= BASE_URL ?>/admin/requests/<?= $request->getId() ?>/status">
         <label for="status">Statut :</label>
         <select id="status" name="status">
             <option value="new" <?= $request->getStatus() === 'new' ? 'selected' : '' ?>>Nouveau</option>
@@ -28,5 +28,8 @@
         </select>
         <button type="submit">Mettre à jour</button>
     </form>
+    <?php if ($request->getStatus() === 'studying') { ?>
+    <button class="btn btn-primary mt-4" onclick="window.location.href='<?= BASE_URL ?>/admin/trips/new/request/<?= $request->getId() ?>'">Créer un voyage à partir de cette demande</button>
+    <?php } ?>
     <p><strong>Date de réception :</strong> <?= $request->getCreatedAt() ?></p>
 </div>

@@ -45,4 +45,27 @@ Class UserModel {
         
         return null;
     }
+
+    /**
+     * Update user password and remove must_change_pwd flag
+     * @param int $userId
+     * @param string $newPassword
+     * @return bool Success status
+     */
+    public function updatePassword(int $userId, string $newPassword): bool {
+        $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+        
+        $stmt = $this->db->prepare('
+            UPDATE users 
+            SET password_hash = :password_hash, 
+                must_change_pwd = 0,
+                updated_at = NOW()
+            WHERE id = :id
+        ');
+        
+        return $stmt->execute([
+            'password_hash' => $passwordHash,
+            'id' => $userId
+        ]);
+    }
 }

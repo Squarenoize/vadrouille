@@ -1,51 +1,91 @@
+<?php
+// Traveler layout - Interface de voyageur
+$prioritaryFunctionality = false; 
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Mon Espace - Vadrouille & Bourlingue'; ?></title>
+    <title>Voyageur - Vadrouille & Bourlingue</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="<?= BASE_URL ?>/assets/img/favicon.ico?v=2">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= BASE_URL ?>/assets/img/favicon.ico?v=2">
+    <link rel="apple-touch-icon" href="<?= BASE_URL ?>/assets/img/favicon.ico?v=2">
     
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/styles.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
+    
+    
 </head>
 
-<body class="bg-gray-50">
-    <!-- Header Traveler -->
-    <header class="bg-white shadow-sm border-b">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center gap-8">
-                    <a href="<?= BASE_URL ?>/">
-                        <img class="h-10" src="<?= BASE_URL ?>/assets/img/VB_logo_hori.png" alt="Vadrouille & Bourlingue">
-                    </a>
-                    <nav class="hidden md:flex gap-6">
-                        <a class="text-gray-700 hover:text-blue-600" href="<?= BASE_URL ?>/mes-voyages">Mes voyages</a>
-                        <a class="text-gray-700 hover:text-blue-600" href="<?= BASE_URL ?>/mes-demandes">Mes demandes</a>
-                        <a class="text-gray-700 hover:text-blue-600" href="<?= BASE_URL ?>/voyages">Découvrir</a>
-                    </nav>
-                </div>
-                
-                <div class="flex items-center gap-4">
-                    <?php $user = Auth::user(); ?>
-                    <span class="text-sm text-gray-600">Bonjour, <strong><?= htmlspecialchars($user->getFirstName()) ?></strong></span>
-                    <a href="<?= BASE_URL ?>/profil" class="text-gray-700 hover:text-blue-600">
-                        <span class="material-icons">account_circle</span>
-                    </a>
-                    <a href="<?= BASE_URL ?>/deconnexion" class="text-gray-700 hover:text-blue-600">
-                        <span class="material-icons">logout</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
+<body>
 
-    <!-- Page Content -->
-    <main class="min-h-screen">
-        <?php include $contentView; ?>
+    <!-- Sidebar Navigation (commune à toutes les pages voyageur) -->
+    <aside class="traveler-sidebar">
+        <a class="logo" href="<?php echo BASE_URL; ?>/"><img src="<?= BASE_URL ?>/assets/img/VadrouilleBourlingueLogoWithoutText.png" alt="Logo de Vadrouille & Bourlingue"></a>
+        <div class="sidebar-brand">Vadrouille & Bourlingue</div>
+        <div class="sidebar-subtitle">Espace Voyageur</div>
+        <nav class="sidebar-nav">
+            <a class="sidebar-link <?= ($currentPage ?? '') === 'dashboard' ? 'active' : '' ?>" href="<?= BASE_URL ?>/traveler/dashboard">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span>Tableau de bord</span>
+            </a>
+            <a class="sidebar-link <?= ($currentPage ?? '') === 'trips' ? 'active' : '' ?>" href="<?= BASE_URL ?>/traveler/trips">
+                <span class="material-symbols-outlined" data-icon="explore">explore</span>
+                <span>Mes voyages</span>
+            </a>
+            <a class="sidebar-link <?= ($currentPage ?? '') === 'chats' ? 'active' : '' ?>" href="<?= BASE_URL ?>/traveler/chats">
+                <span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+                <span>Messagerie</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <main class="traveler-main">
+        <!-- TopBar (commune à toutes les pages voyageur) -->
+        <header class="traveler-topbar">
+            <div class="topbar-left">
+                <?php if ($prioritaryFunctionality) { ?>
+                <div class="topbar-search">
+                    <span class="material-symbols-outlined" data-icon="search">search</span>
+                    <input placeholder="Search itineraries or clients..." type="text"/>
+                </div>
+                <?php } ?>
+            </div>
+            <div class="topbar-right">
+                <?php if ($prioritaryFunctionality) { ?>
+                <button class="topbar-btn">
+                    <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                    <span class="topbar-notification-badge"></span>
+                </button>
+                <?php } ?>
+                <button class="topbar-btn" onclick="window.location.href='<?= BASE_URL ?>/travelers/settings'">
+                    <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                </button>
+                <div class="topbar-divider"></div>
+                <div class="topbar-user">
+                    <div class="topbar-user-info">
+                        <p class="topbar-user-role">Voyageur</p>
+                        <p class="topbar-user-name"><?= htmlspecialchars($user->getFullName()) ?></p>
+                    </div>
+                    <div class="topbar-user-initials"><?= $user->getInitials() ?></div>
+                </div>
+                <a href='<?= BASE_URL ?>/deconnexion'><span class="material-symbols-outlined" data-icon="logout">logout</span></a>
+            </div>
+        </header>
+
+        <!-- Dashboard Canvas (contenu spécifique à chaque page) -->
+        <div class="dashboard-canvas">
+            <?php include $contentView; ?>
+        </div>
     </main>
 
     <!-- Footer -->

@@ -37,7 +37,7 @@ class ContactController {
             // 1. Create the entity from POST data
             $contactRequest = ContactRequest::fromArray($_POST);
             
-            // 2. Validate the entity (all logic is in the entity!)
+            // 2. Validate the entity (all logic is in the entity)
             $errors = $contactRequest->validate();
             
             // 3. If errors, re-display the form

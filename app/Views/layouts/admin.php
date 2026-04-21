@@ -43,7 +43,7 @@ $prioritaryFunctionality = false;
             </a>
             <a class="sidebar-link <?= ($currentPage ?? '') === 'trips' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/trips">
                 <span class="material-symbols-outlined" data-icon="explore">explore</span>
-                <span>Voyages</span>
+                <span>Voyages</span><span class="sidebar-badge"><?= isset($draftTripsCount) && $draftTripsCount > 0 ? " $draftTripsCount" : '' ?></span>
             </a>
             <a class="sidebar-link <?= ($currentPage ?? '') === 'chats' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/chats">
                 <span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
@@ -83,6 +83,7 @@ $prioritaryFunctionality = false;
                         <p class="topbar-user-name"><?= htmlspecialchars($user->getFullName()) ?></p>
                     </div>
                     <img alt="Concierge Avatar" class="topbar-avatar" src="<?= BASE_URL ?>/assets/img/Bulle.png"/>
+                    <div class="topbar-user-initials"><?= $user->getInitials() ?></div>
                 </div>
                 <a href='<?= BASE_URL ?>/deconnexion'><span class="material-symbols-outlined" data-icon="logout">logout</span></a>
             </div>

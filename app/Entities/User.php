@@ -180,7 +180,21 @@ class User {
     public function getFullName(): string {
         return trim($this->firstName . ' ' . $this->lastName);
     }
-    
+
+    /**
+     * Get initials (for avatar)
+     */
+    public function getInitials(): string {
+        $initials = '';
+        if (!empty($this->firstName)) {
+            $initials .= strtoupper($this->firstName[0]);
+        }
+        if (!empty($this->lastName)) {
+            $initials .= strtoupper($this->lastName[0]);
+        }
+        return $initials;
+    }
+
     /**
      * Check if user is admin
      */
