@@ -21,6 +21,7 @@ $prioritaryFunctionality = false;
     
     <!-- Styles -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/chat.css">
     
     
 </head>
@@ -40,10 +41,6 @@ $prioritaryFunctionality = false;
             <a class="sidebar-link <?= ($currentPage ?? '') === 'trips' ? 'active' : '' ?>" href="<?= BASE_URL ?>/traveler/trips">
                 <span class="material-symbols-outlined" data-icon="explore">explore</span>
                 <span>Mes voyages</span>
-            </a>
-            <a class="sidebar-link <?= ($currentPage ?? '') === 'chats' ? 'active' : '' ?>" href="<?= BASE_URL ?>/traveler/chats">
-                <span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
-                <span>Messagerie</span>
             </a>
         </nav>
     </aside>
@@ -87,18 +84,6 @@ $prioritaryFunctionality = false;
             <?php include $contentView; ?>
         </div>
     </main>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-12">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; <?= date('Y') ?> Vadrouille & Bourlingue - Tous droits réservés</p>
-            <div class="mt-4 flex justify-center gap-6">
-                <a href="<?= BASE_URL ?>/mentions-legales" class="text-gray-400 hover:text-white">Mentions légales</a>
-                <a href="<?= BASE_URL ?>/confidentialite" class="text-gray-400 hover:text-white">Confidentialité</a>
-                <a href="<?= BASE_URL ?>/contact" class="text-gray-400 hover:text-white">Contact</a>
-            </div>
-        </div>
-    </footer>
 
     <script src="<?= BASE_URL ?>/assets/js/menu.js"></script>
 </body>

@@ -6,6 +6,7 @@ class AdminController {
     private $sharedData = [];
     private ContactRequestModel $contactRequestModel;
     private TripsModel $tripModel;
+    private MessagesModel $messagesModel;
 
     /**
      * Constructeur - Initialise les données communes à toutes les pages admin
@@ -22,6 +23,7 @@ class AdminController {
         // Initialisation des Models (réutilisables dans toutes les méthodes)
         $this->contactRequestModel = new ContactRequestModel();
         $this->tripModel = new TripsModel();
+        $this->messagesModel = new MessagesModel();
 
         // Données communes au sidebar (disponibles dans toutes les vues)
         $this->sharedData = [
@@ -232,6 +234,16 @@ class AdminController {
             $_SESSION['traveler_access_info'] = "Le voyage a été associé au compte existant de $contactEmail.";
             // Send email to say that the travel is ready (not implemented here)
         }
+
+        // Send a welcome message to the traveler on his trip chat
+        $welcomeMessage = new Message(
+            $id,                          // tripId
+            $this->user->getId(),         // senderId (Admin)
+            "Bienvenue dans ce nouveau voyage ! Votre voyage est prêt."  // message
+        );
+        
+        $this->messagesModel->addMessage($welcomeMessage);
+
 
         header('Location: ' . BASE_URL . '/admin/trips');
         exit;

@@ -54,8 +54,11 @@ $router->post('/admin/trips/(\d+)/status', 'AdminController', 'updateTripStatus'
 // Traveler routes (GET)
 $router->get('/traveler/dashboard', 'TravelerController', 'dashboard'); // Dashboard voyageur
 $router->get('/traveler/trips', 'TravelerController', 'trips'); // Mes voyages
-$router->get('/traveler/chats', 'TravelerController', 'chats'); // Mes demandes
+$router->get('/traveler/trips/(\d+)', 'TravelerController', 'viewTrip'); // Détail d'un voyage avec messagerie
 $router->get('/travelers/settings', 'TravelerController', 'settings'); // Paramètres du compte
+
+// Messages route (shared between admin and traveler)
+$router->post('/messages/send', 'MessagesController', 'send'); // Send a new message
 
 // 
 // DISPATCH

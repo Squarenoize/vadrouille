@@ -5,6 +5,7 @@ class TravelerController {
     private $user;
     private $sharedData = [];
     private TripsModel $tripsModel;
+    private MessagesModel $messagesModel;
 
     /**
      * Constructeur - Initialise les données communes à toutes les pages traveler
@@ -20,11 +21,13 @@ class TravelerController {
 
         // Initialisation des Models pour récupérer les données communes
         $this->tripsModel = new TripsModel();
+        $this->messagesModel = new MessagesModel();
 
         // Données communes au sidebar (disponibles dans toutes les vues)
         $this->sharedData = [
             'user' => $this->user,
             'travelerTripsCount' => $this->tripsModel->countByTravelerId($this->user->getId()),
+            'unreadMessagesCount' => $this->messagesModel->countUnreadByTravelerId($this->user->getId()),
         ];
     }
     
@@ -56,14 +59,18 @@ class TravelerController {
         ]);
     }
 
-    public function chats() {
-        $this->renderTravelerView('traveler/chats', [
-            'currentPage' => 'chats'
+    public function viewTrip($tripId) {
+        $trip = $this->tripsModel->getTripById($tripId);
+        $messages = $this->messagesModel->getMessagesByTripId($tripId);
+        $this->renderTravelerView('traveler/trip_detail', [
+            'trip' => $trip,
+            'messages' => $messages,
+            'currentPage' => 'trips'
         ]);
     }
 
     public function settings() {
-        this->renderTravelerView('traveler/settings', [
+        $this->renderTravelerView('traveler/settings', [
             'currentPage' => 'settings'
         ]);
     }
