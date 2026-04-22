@@ -1,6 +1,10 @@
 <?php
 echo "trips page";
 var_dump($trips);
+if (isset($_SESSION['traveler_access_info'])) {
+    echo "<div class='info-message'>" . $_SESSION['traveler_access_info'] . "</div>";
+    unset($_SESSION['traveler_access_info']);
+}
 foreach ($trips as $trip) { ?>
     <div class="trip-card">
         <h2><?= htmlspecialchars($trip->getName()) ?></h2>
@@ -19,7 +23,7 @@ foreach ($trips as $trip) { ?>
             <button type="submit">Mettre à jour</button>
         </form>
         <?php if ($trip->getStatus() === 'accepted') { ?>
-        <button onclick="window.location.href='<?= BASE_URL ?>/admin/trips/<?= $trip->getId() ?>/edit'">Créer l'accès voyageur</button>
+        <button onclick="window.location.href='<?= BASE_URL ?>/admin/trips/<?= $trip->getId() ?>/traveler-access'">Créer l'accès voyageur</button>
         <?php } ?>
         <p><?= htmlspecialchars($trip->getStatus()) ?></p>
         <p>Destination: <?= htmlspecialchars($trip->getDestination()) ?></p>

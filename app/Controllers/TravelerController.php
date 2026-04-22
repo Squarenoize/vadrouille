@@ -1,68 +1,70 @@
 <?php
 
 class TravelerController {
-    
-    public function dashboard() {
-        $user = Auth::user();
+
+    private $user;
+    private $sharedData = [];
+    private TripsModel $tripsModel;
+
+    /**
+     * Constructeur - Initialise les données communes à toutes les pages traveler
+     */
+    public function __construct() {
+        $this->user = Auth::user();
         
-        if (!$user || !$user->isTraveler()) {
+        // Vérification voyageur globale
+        if (!$this->user || !$this->user->isTraveler()) {
             header('Location: ' . BASE_URL . '/connexion');
             exit;
         }
-        
-        $view = new View('traveler/dashboard', [
-            'user' => $user,
-            'currentPage' => 'dashboard',
-        ], 'traveler');
 
+        // Initialisation des Models pour récupérer les données communes
+        $this->tripsModel = new TripsModel();
+
+        // Données communes au sidebar (disponibles dans toutes les vues)
+        $this->sharedData = [
+            'user' => $this->user,
+            'travelerTripsCount' => $this->tripsModel->countByTravelerId($this->user->getId()),
+        ];
+    }
+    
+    /* Helper pour rendre une vue traveler avec les données partagées
+     * @param string $template Chemin du template (ex: 'traveler/dashboard')
+     * @param array $data Données spécifiques à la vue
+     */
+    private function renderTravelerView(string $template, array $data = []): void {
+        // Merge des données partagées + données spécifiques
+        $viewData = array_merge($this->sharedData, $data);
+        
+        $view = new View($template, $viewData, 'traveler');
         $view->render();
+    }
+
+    public function dashboard() {
+        $this->renderTravelerView('traveler/dashboard', [
+            'currentPage' => 'dashboard'
+        ]);
     }
 
     public function trips() {
-        $user = Auth::user();
+        $user = $this->user;
+        $trips = $this->tripsModel->getTripsByTravelerId($user->getId());
         
-        if (!$user || !$user->isTraveler()) {
-            header('Location: ' . BASE_URL . '/connexion');
-            exit;
-        }
-        
-        $view = new View('traveler/trips', [
-            'user' => $user,
-            'currentPage' => 'trips',
-        ], 'traveler');
-
-        $view->render();
+        $this->renderTravelerView('traveler/trips', [
+            'trips' => $trips,
+            'currentPage' => 'trips'
+        ]);
     }
 
     public function chats() {
-        $user = Auth::user();
-        
-        if (!$user || !$user->isTraveler()) {
-            header('Location: ' . BASE_URL . '/connexion');
-            exit;
-        }
-        
-        $view = new View('traveler/chats', [
-            'user' => $user,
-            'currentPage' => 'chats',
-        ], 'traveler');
-
-        $view->render();
+        $this->renderTravelerView('traveler/chats', [
+            'currentPage' => 'chats'
+        ]);
     }
 
     public function settings() {
-        $user = Auth::user();
-        
-        if (!$user || !$user->isTraveler()) {
-            header('Location: ' . BASE_URL . '/connexion');
-            exit;
-        }
-        
-        $view = new View('traveler/settings', [
-            'user' => $user,
-            'currentPage' => 'settings',
-        ], 'traveler');
-
-        $view->render();
+        this->renderTravelerView('traveler/settings', [
+            'currentPage' => 'settings'
+        ]);
     }
 }

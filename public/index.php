@@ -42,6 +42,7 @@ $router->get('/admin/requests', 'AdminController', 'requests');   // Liste des d
 $router->get('/admin/requests/(\d+)', 'AdminController', 'viewRequest'); // Détail d'une demande
 $router->get('/admin/trips', 'AdminController', 'trips'); // Liste des voyages
 $router->get('/admin/trips/(\d+)', 'AdminController', 'viewTrip'); // Détail d'un voyage
+$router->get('/admin/trips/(\d+)/traveler-access', 'AdminController', 'travelerAccess'); // Donner accès voyageur pour un voyage accepté
 $router->get('/admin/trips/new/request/(\d+)', 'AdminController', 'newTripFromRequest'); // Créer un voyage à partir d'une demande
 $router->get('/admin/chats', 'AdminController', 'chats'); // Messagerie
 

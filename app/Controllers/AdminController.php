@@ -4,6 +4,8 @@ class AdminController {
     
     private $user;
     private $sharedData = [];
+    private ContactRequestModel $contactRequestModel;
+    private TripsModel $tripModel;
 
     /**
      * Constructeur - Initialise les données communes à toutes les pages admin
@@ -17,13 +19,15 @@ class AdminController {
             exit;
         }
 
+        // Initialisation des Models (réutilisables dans toutes les méthodes)
+        $this->contactRequestModel = new ContactRequestModel();
+        $this->tripModel = new TripsModel();
+
         // Données communes au sidebar (disponibles dans toutes les vues)
-        $contactRequestModel = new ContactRequestModel();
-        $tripModel = new TripsModel();
         $this->sharedData = [
             'user' => $this->user,
-            'newRequestsCount' => $contactRequestModel->countByStatus('new'),
-            'draftTripsCount' => $tripModel->countByStatus('draft'),
+            'newRequestsCount' => $this->contactRequestModel->countByStatus('new'),
+            'draftTripsCount' => $this->tripModel->countByStatus('draft'),
         ];
     }
 
@@ -47,8 +51,7 @@ class AdminController {
     }
 
     public function requests() {
-        $contactRequestModel = new ContactRequestModel();
-        $requests = $contactRequestModel->getAllRequests();
+        $requests = $this->contactRequestModel->getAllRequests();
 
         $this->renderAdminView('admin/requests', [
             'requests' => $requests,
@@ -57,8 +60,7 @@ class AdminController {
     }
 
     public function viewRequest($id) {
-        $contactRequestModel = new ContactRequestModel();
-        $request = $contactRequestModel->getRequestById($id);
+        $request = $this->contactRequestModel->getRequestById($id);
 
         if (!$request) {
             header('Location: ' . BASE_URL . '/admin/requests');
@@ -78,16 +80,14 @@ class AdminController {
             exit;
         }
 
-        $contactRequestModel = new ContactRequestModel();
-        $contactRequestModel->updateStatus($id, $newStatus);
+        $this->contactRequestModel->updateStatus($id, $newStatus);
 
         header('Location: ' . BASE_URL . '/admin/requests/' . $id);
         exit;
     }
 
     public function trips() {
-        $tripModel = new TripsModel();
-        $trips = $tripModel->getAllTrips();
+        $trips = $this->tripModel->getAllTrips();
 
         $this->renderAdminView('admin/trips', [
             'trips' => $trips,
@@ -99,8 +99,7 @@ class AdminController {
         // Logique pour créer un voyage à partir d'une demande de contact
         // (Récupérer la demande, pré-remplir un formulaire de création de voyage, etc.)
         
-        $contactRequestModel = new ContactRequestModel();
-        $request = $contactRequestModel->getRequestById($requestId);
+        $request = $this->contactRequestModel->getRequestById($requestId);
 
         if (!$request) {
             header('Location: ' . BASE_URL . '/admin/requests');
@@ -124,8 +123,7 @@ class AdminController {
             $requestId = $_POST['requestId'] ?? null;
             $request = null;
             if ($requestId) {
-                $contactRequestModel = new ContactRequestModel();
-                $request = $contactRequestModel->getRequestById($requestId);
+                $request = $this->contactRequestModel->getRequestById($requestId);
             }
             
             $this->renderAdminView('admin/newTrip', [
@@ -136,9 +134,8 @@ class AdminController {
             ]);
             return;
         }
-        // 4. Validation OK : Save via the Model (non implémenté ici)
-        $tripModel = new TripsModel();
-        $tripModel->save($newTrip);
+        // 4. Validation OK : Save via the Model
+        $this->tripModel->save($newTrip);
 
         // Redirection après création (pattern PRG - Post/Redirect/Get)
         header('Location: ' . BASE_URL . '/admin/trips');
@@ -149,8 +146,7 @@ class AdminController {
         // Logique pour afficher le détail d'un voyage
         // (Récupérer le voyage par ID, afficher les informations, etc.)
         
-        $tripModel = new TripsModel();
-        $trip = $tripModel->getTripById($id);
+        $trip = $this->tripModel->getTripById($id);
 
         if (!$trip) {
             header('Location: ' . BASE_URL . '/admin/trips');
@@ -170,8 +166,72 @@ class AdminController {
             exit;
         }
 
-        $tripModel = new TripsModel();
-        $tripModel->updateStatus($id, $newStatus);
+        $this->tripModel->updateStatus($id, $newStatus);
+
+        header('Location: ' . BASE_URL . '/admin/trips');
+        exit;
+    }
+
+    public function travelerAccess($id) {
+        // Logique pour donner accès voyageur à un voyage accepté
+        // (Générer un token, envoyer un email, etc.)
+        
+        $trip = $this->tripModel->getTripById($id);
+
+        if (!$trip || $trip->getStatus() !== 'accepted') {
+            header('Location: ' . BASE_URL . '/admin/trips');
+            exit;
+        }
+
+        $requestId = $trip->getRequestId();
+        if (!$requestId) {
+            header('Location: ' . BASE_URL . '/admin/trips');
+            exit;
+        }
+        // Check if the email contact already have an account
+        $contactRequest = $this->contactRequestModel->getRequestById($requestId);
+        $contactEmail = $contactRequest->getEmail();
+
+        if (!$contactEmail) {
+            header('Location: ' . BASE_URL . '/admin/trips');
+            exit;
+        }
+
+        $userModel = new UserModel();
+        $existingUser = $userModel->findByEmail($contactEmail);
+
+
+        if (!$existingUser) {
+            // Create a new traveler account
+            $password = bin2hex(random_bytes(8)); // Generate a random password with at least 8 characters, including letters and numbers and special characters
+            $newUser = new User();
+            $newUser->setEmail($contactEmail);
+            $newUser->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
+            $newUser->setFirstName($contactRequest->getFirstName() ?? '');
+            $newUser->setLastName($contactRequest->getLastName() ?? '');
+            $newUser->setPhone($contactRequest->getPhone() ?? null );
+            $newUser->setMustChangePassword(true); // Force password change on first login
+            $newUser->setRole('traveler');
+            $newUserId = $userModel->create($newUser);
+
+            if ($newUserId === false) {
+                $_SESSION['traveler_access_info'] = "Une erreur est survenue lors de la création du compte voyageur pour l'email $contactEmail. Veuillez vérifier manuellement.";
+                header('Location: ' . BASE_URL . '/admin/trips');
+                exit;
+            } else {
+                // update trip with the new traveler user id
+                $this->tripModel->updateUserId($id, $newUserId);
+
+                // Send email with access details (not implemented here)
+                // For now we just pass the generated password to admin(in a real app, you would send this by email and not display it)
+                $_SESSION['traveler_access_info'] = "Un compte voyageur a été créé pour l'email $contactEmail avec le mot de passe : $password. Veuillez transmettre ces informations au client.";
+            }
+        } else {
+            // User already exists, link the trip to the existing user
+            $this->tripModel->updateUserId($id, $existingUser->getId());
+            $_SESSION['traveler_access_info'] = "Le voyage a été associé au compte existant de $contactEmail.";
+            // Send email to say that the travel is ready (not implemented here)
+        }
 
         header('Location: ' . BASE_URL . '/admin/trips');
         exit;

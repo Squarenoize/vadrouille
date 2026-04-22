@@ -47,6 +47,29 @@ Class UserModel {
     }
 
     /**
+     * Create a new user
+     * @param User $user
+     * @return int|false The new user ID on success, false on failure
+     */
+    public function create(User $user): int|false {
+        $sql = "INSERT INTO users (email, password_hash, first_name, last_name, phone, role, must_change_pwd) 
+                VALUES (:email, :password_hash, :first_name, :last_name, :phone, :role, :must_change_pwd)";
+        $stmt = $this->db->prepare($sql);
+        
+        $success = $stmt->execute([
+            'email' => $user->getEmail(),
+            'password_hash' => $user->getPasswordHash(),
+            'first_name' => $user->getFirstName(),
+            'last_name' => $user->getLastName(),
+            'phone' => $user->getPhone(),
+            'role' => $user->getRole(),
+            'must_change_pwd' => $user->mustChangePassword() ? 1 : 0
+        ]);
+        
+        return $success ? (int)$this->db->lastInsertId() : false;
+    }
+
+    /**
      * Update user password and remove must_change_pwd flag
      * @param int $userId
      * @param string $newPassword
@@ -67,5 +90,17 @@ Class UserModel {
             'password_hash' => $passwordHash,
             'id' => $userId
         ]);
+    }
+
+    public function findByEmail(string $email): ?User {
+        $stmt = $this->db->prepare('SELECT * FROM users WHERE email = :email');
+        $stmt->execute(['email' => $email]);
+        $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($userData) {
+            return User::fromArray($userData);
+        }
+        
+        return null;
     }
 }

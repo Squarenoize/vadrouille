@@ -63,5 +63,27 @@ class TripsModel {
         $stmt = $this->db->prepare($sql);
         return $stmt->execute(['status' => $newStatus, 'id' => $id]);
     }
+
+    public function updateUserId(int $tripId, int $userId): bool {
+        $sql = "UPDATE trips SET user_id = :userId, updated_at = NOW() WHERE id = :tripId";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute(['userId' => $userId, 'tripId' => $tripId]);
+    }
+
+    public function getTripsByTravelerId(int $userId): array {
+        $sql = "SELECT * FROM trips WHERE user_id = :userId ORDER BY created_at DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['userId' => $userId]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return array_map(fn($row) => Trip::fromArray($row), $results);
+    }
+
+    public function countByTravelerId(int $userId): int {
+        $sql = "SELECT COUNT(*) FROM trips WHERE user_id = :userId";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['userId' => $userId]);
+        return (int)$stmt->fetchColumn();
+    }
         
 }
