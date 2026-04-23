@@ -1,4 +1,39 @@
 <!-- Traveler Dashboard -->
+ <section class="bento-grid">
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <p class="stat-card-label">Réservations faites</p>
+            <h2 class="stat-card-value">12 / 20</h2>
+        </div>
+        <span class="stat-card-icon material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+    </div>
+    
+    <div class="stat-card primary">
+        <div class="stat-card-header">
+            <p class="stat-card-label">Current Voyages</p>
+            <h2 class="stat-card-value">34</h2>
+        </div>
+        <p class="stat-card-footer">Active Trips</p>
+        <span class="stat-card-icon material-symbols-outlined" data-icon="explore">explore</span>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-card-header-flex">
+            <div>
+                <p class="stat-card-label">Messagerie</p>
+                <h2 class="stat-card-value">
+                    <?php if (isset($unreadMessagesCount) && $unreadMessagesCount > 0) { ?>
+                        <?= $unreadMessagesCount ?>
+                    <?php } else { ?>
+                       <?= 0 ?>
+                    <?php } ?>
+                </h2>
+            </div>
+        </div>
+        <p class="stat-card-footer">Messages non lus</p>
+        <span class="stat-card-icon material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+    </div>
+</section>
 <div class="container mx-auto p-8">
     <h1 class="text-3xl font-bold mb-6">Bienvenue, <?= htmlspecialchars($user->getFullName()) ?> !</h1>
     

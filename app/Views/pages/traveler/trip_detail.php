@@ -1,3 +1,3 @@
 <?php
 // var_dump($trip);
-include __DIR__ . '/chat.php';
+include __DIR__ . '/../../../views/components/shared/chat.php';

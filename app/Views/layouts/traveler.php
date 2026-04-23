@@ -41,6 +41,12 @@ $prioritaryFunctionality = false;
             <a class="sidebar-link <?= ($currentPage ?? '') === 'trips' ? 'active' : '' ?>" href="<?= BASE_URL ?>/traveler/trips">
                 <span class="material-symbols-outlined" data-icon="explore">explore</span>
                 <span>Mes voyages</span>
+                <?php if (isset($unreadMessagesCount) && $unreadMessagesCount > 0) { ?>
+                    <span class="sidebar-badge">
+                        <span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+                        <?= $unreadMessagesCount ?>
+                    </span>
+                <?php } ?>
             </a>
         </nav>
     </aside>

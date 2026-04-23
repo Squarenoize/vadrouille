@@ -21,6 +21,7 @@ $prioritaryFunctionality = false;
     
     <!-- Styles -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/chat.css">
     
     
 </head>
@@ -39,15 +40,24 @@ $prioritaryFunctionality = false;
             </a>
             <a class="sidebar-link <?= ($currentPage ?? '') === 'requests' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/requests">
                 <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
-                <span>Demandes</span><span class="sidebar-badge"><?= isset($newRequestsCount) && $newRequestsCount > 0 ? " $newRequestsCount" : '' ?></span>
+                <span>Demandes</span>
+                <?php if (isset($newRequestsCount) && $newRequestsCount > 0) { ?>
+                    <span class="sidebar-badge"><?= $newRequestsCount ?></span>
+                <?php } ?>
             </a>
             <a class="sidebar-link <?= ($currentPage ?? '') === 'trips' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/trips">
                 <span class="material-symbols-outlined" data-icon="explore">explore</span>
-                <span>Voyages</span><span class="sidebar-badge"><?= isset($draftTripsCount) && $draftTripsCount > 0 ? " $draftTripsCount" : '' ?></span>
+                <span>Voyages</span>
+                <?php if (isset($draftTripsCount) && $draftTripsCount > 0) { ?>
+                    <span class="sidebar-badge"><?= $draftTripsCount ?></span>
+                <?php } ?>
             </a>
             <a class="sidebar-link <?= ($currentPage ?? '') === 'chats' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/chats">
                 <span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
                 <span>Messagerie</span>
+                <?php if (isset($unreadMessagesCount) && $unreadMessagesCount > 0) { ?>
+                    <span class="sidebar-badge"><?= $unreadMessagesCount ?></span>
+                <?php } ?>
             </a>
         </nav>
         <button class="sidebar-create-btn">

@@ -25,9 +25,7 @@ class TravelerController {
 
         // Données communes au sidebar (disponibles dans toutes les vues)
         $this->sharedData = [
-            'user' => $this->user,
-            'travelerTripsCount' => $this->tripsModel->countByTravelerId($this->user->getId()),
-            'unreadMessagesCount' => $this->messagesModel->countUnreadByTravelerId($this->user->getId()),
+            'user' => $this->user
         ];
     }
     
@@ -52,9 +50,16 @@ class TravelerController {
     public function trips() {
         $user = $this->user;
         $trips = $this->tripsModel->getTripsByTravelerId($user->getId());
+
+        // Récupérer le nombre de messages non lus pour chaque voyage
+        $unreadCounts = [];
+        foreach ($trips as $trip) {
+            $unreadCounts[$trip->getId()] = $this->messagesModel->countUnreadByTripIdAndUserId($trip->getId(), $user->getId());
+        }
         
         $this->renderTravelerView('traveler/trips', [
             'trips' => $trips,
+            'unreadCounts' => $unreadCounts,
             'currentPage' => 'trips'
         ]);
     }
@@ -62,6 +67,7 @@ class TravelerController {
     public function viewTrip($tripId) {
         $trip = $this->tripsModel->getTripById($tripId);
         $messages = $this->messagesModel->getMessagesByTripId($tripId);
+        $this->messagesModel->markAsReadByTrip($tripId, $this->user->getId());
         $this->renderTravelerView('traveler/trip_detail', [
             'trip' => $trip,
             'messages' => $messages,

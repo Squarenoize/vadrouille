@@ -25,7 +25,21 @@ class MessagesModel {
         ]);
     }
 
+    public function countUnreadByAdminId(int $adminId): int {
+        $sql = "SELECT COUNT(*) 
+                FROM messages m
+                WHERE m.sender_id != :admin_id
+                AND m.is_read = 0";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            'admin_id' => $adminId
+        ]);
+        return (int)$stmt->fetchColumn();
+    }
+
     /**
+     * NOTE USED NOW FOR TRAVELER DASHBOARD
      * Count unread messages for a traveler across all their trips
      * @param int $travelerId The user ID of the traveler
      * @return int Number of unread messages
@@ -64,5 +78,20 @@ class MessagesModel {
             'trip_id' => $tripId,
             'user_id' => $userId
         ]);
+    }
+
+    public function countUnreadByTripIdAndUserId(int $tripId, int $userId): int {
+        $sql = "SELECT COUNT(*) 
+                FROM messages 
+                WHERE trip_id = :trip_id 
+                AND sender_id != :user_id 
+                AND is_read = 0";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            'trip_id' => $tripId,
+            'user_id' => $userId
+        ]);
+        return (int)$stmt->fetchColumn();
     }
 }

@@ -30,6 +30,7 @@ class AdminController {
             'user' => $this->user,
             'newRequestsCount' => $this->contactRequestModel->countByStatus('new'),
             'draftTripsCount' => $this->tripModel->countByStatus('draft'),
+            'unreadMessagesCount' => $this->messagesModel->countUnreadByAdminId($this->user->getId()),
         ];
     }
 
@@ -154,9 +155,13 @@ class AdminController {
             header('Location: ' . BASE_URL . '/admin/trips');
             exit;
         }
+        // Récupérer les messages liés à ce voyage
+        $messages = $this->messagesModel->getMessagesByTripId($id);
+        $this->messagesModel->markAsReadByTrip($id, $this->user->getId());
 
         $this->renderAdminView('admin/trip_detail', [
             'trip' => $trip,
+            'messages' => $messages,
             'currentPage' => 'trips'
         ]);
     }

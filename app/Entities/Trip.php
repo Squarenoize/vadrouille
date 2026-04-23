@@ -138,6 +138,16 @@ class Trip {
     public function getUpdatedAt(): ?string {
         return $this->updatedAt;
     }
+    public function getDaysCount(): int {
+        $start = new DateTime($this->startDate);
+        $end = new DateTime($this->endDate);
+        return $start->diff($end)->days + 1; // +1 pour inclure le jour de départ
+    }
+    public function getDaysBeforeStart(): int {
+        $today = new DateTime();
+        $start = new DateTime($this->startDate);
+        return max(0, $today->diff($start)->days); // Retourne 0 si la date de début est passée
+    }
 
     // Setters
     public function setName (string $name): void {
