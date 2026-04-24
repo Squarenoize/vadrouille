@@ -14,7 +14,9 @@
         <?php
     }
     ?>
-    <form method="POST" action="<?= BASE_URL ?>/messages/send">
+    </div>
+    
+    <form class="chat-form" method="POST" action="<?= BASE_URL ?>/messages/send">
         <input type="hidden" name="trip_id" value="<?= $trip->getId() ?>">
         <input type="hidden" name="redirect_url" value="<?= $_SERVER['REQUEST_URI'] ?>">
         

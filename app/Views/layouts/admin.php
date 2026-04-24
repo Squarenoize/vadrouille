@@ -34,10 +34,12 @@ $prioritaryFunctionality = false;
         <div class="sidebar-brand">Vadrouille & Bourlingue</div>
         <div class="sidebar-subtitle">Espace Admin</div>
         <nav class="sidebar-nav">
+            <?php if ($prioritaryFunctionality) { ?>
             <a class="sidebar-link <?= ($currentPage ?? '') === 'dashboard' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/dashboard">
                 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
                 <span>Dashboard</span>
             </a>
+            <?php } ?>
             <a class="sidebar-link <?= ($currentPage ?? '') === 'requests' ? 'active' : '' ?>" href="<?= BASE_URL ?>/admin/requests">
                 <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
                 <span>Demandes</span>
@@ -60,10 +62,12 @@ $prioritaryFunctionality = false;
                 <?php } ?>
             </a>
         </nav>
+        <?php if ($prioritaryFunctionality) { ?>
         <button class="sidebar-create-btn">
             <span class="material-symbols-outlined" data-icon="add">add</span>
             <span>Créer un nouveau voyage</span>
         </button>
+        <?php } ?>
     </aside>
 
     <!-- Main Content Wrapper -->
@@ -79,10 +83,12 @@ $prioritaryFunctionality = false;
                 <?php } ?>
             </div>
             <div class="topbar-right">
+                <?php if ($prioritaryFunctionality) { ?>
                 <button class="topbar-btn">
                     <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
                     <span class="topbar-notification-badge"></span>
                 </button>
+                <?php } ?>
                 <button class="topbar-btn">
                     <span class="material-symbols-outlined" data-icon="settings">settings</span>
                 </button>
@@ -92,7 +98,7 @@ $prioritaryFunctionality = false;
                         <p class="topbar-user-role">Travel Planner</p>
                         <p class="topbar-user-name"><?= htmlspecialchars($user->getFullName()) ?></p>
                     </div>
-                    <img alt="Concierge Avatar" class="topbar-avatar" src="<?= BASE_URL ?>/assets/img/Bulle.png"/>
+                    <!--<img alt="Concierge Avatar" class="topbar-avatar" src="<?= BASE_URL ?>/assets/img/Bulle.png"/>-->
                     <div class="topbar-user-initials"><?= $user->getInitials() ?></div>
                 </div>
                 <a href='<?= BASE_URL ?>/deconnexion'><span class="material-symbols-outlined" data-icon="logout">logout</span></a>

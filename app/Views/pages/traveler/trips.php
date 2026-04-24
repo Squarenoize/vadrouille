@@ -1,8 +1,8 @@
 <?php
-echo 'Mes voyages';
-var_dump($trips);
-foreach ($trips as $trip) { ?>
-<h2><?= htmlspecialchars($trip->getName()) ?></h2>
+?>
+<h1 class="travel-page-title">Mes voyages</h1>
+<?php foreach ($trips as $trip) { ?>
+<h2 class="travel-trip-title"><?= htmlspecialchars($trip->getName()) ?></h2>
 <a class="traveler-trip-link" href="<?= BASE_URL ?>/traveler/trips/<?= $trip->getId() ?>">
  <section class="bento-grid">
     <div class="stat-card">
@@ -15,10 +15,10 @@ foreach ($trips as $trip) { ?>
     
     <div class="stat-card primary">
         <div class="stat-card-header">
-            <p class="stat-card-label">Départ dans</p>
+            <p class="stat-card-label">Départ pour <?= $trip->getDaysCount() ?> jours dans</p>
             <h2 class="stat-card-value"><?= $trip->getDaysBeforeStart() ?> j</h2>
         </div>
-        <p class="stat-card-footer">Avant le départ</p>
+        <p class="stat-card-footer">du <?= htmlspecialchars($trip->getStartDate()) ?> au <?= htmlspecialchars($trip->getEndDate()) ?></p>
         <span class="stat-card-icon material-symbols-outlined" data-icon="explore">explore</span>
     </div>
     
@@ -39,12 +39,5 @@ foreach ($trips as $trip) { ?>
     </div>
 </section>
 </a>
-    <div class="trip-card">
-        <h2><?= htmlspecialchars($trip->getName()) ?></h2>
-        <a href="<?= BASE_URL ?>/traveler/trips/<?= $trip->getId() ?>">Voir les détails</a>
-        <p><?= htmlspecialchars($trip->getStatus()) ?></p>
-        <p>Destination: <?= htmlspecialchars($trip->getDestination()) ?></p>
-        <p>Dates: <?= htmlspecialchars($trip->getStartDate()) ?> to <?= htmlspecialchars($trip->getEndDate()) ?></p>
-    </div>
 <?php }
  

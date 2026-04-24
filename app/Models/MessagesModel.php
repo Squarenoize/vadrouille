@@ -94,4 +94,18 @@ class MessagesModel {
         ]);
         return (int)$stmt->fetchColumn();
     }
+
+    public function getAllAdminConversations(int $adminId): array {
+        $sql = "SELECT t.id AS trip_id, t.name AS trip_name, u.first_name AS sender_firstname, u.last_name AS sender_lastname, m.body AS last_message, m.created_at AS last_message_time
+                FROM trips t
+                INNER JOIN messages m ON t.id = m.trip_id
+                INNER JOIN users u ON m.sender_id = u.id
+                WHERE m.sender_id != :admin_id
+                GROUP BY t.id
+                ORDER BY last_message_time DESC";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['admin_id' => $adminId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

@@ -33,6 +33,8 @@ $prioritaryFunctionality = false;
         <a class="logo" href="<?php echo BASE_URL; ?>/"><img src="<?= BASE_URL ?>/assets/img/VadrouilleBourlingueLogoWithoutText.png" alt="Logo de Vadrouille & Bourlingue"></a>
         <div class="sidebar-brand">Vadrouille & Bourlingue</div>
         <div class="sidebar-subtitle">Espace Voyageur</div>
+        <p class="sidebar-quotation">"Rester, c’est exister. Voyager, c’est vivre." <span class="quotation-author">Gustave Nadaud</span></p>
+        <?php if ($prioritaryFunctionality) { ?>
         <nav class="sidebar-nav">
             <a class="sidebar-link <?= ($currentPage ?? '') === 'dashboard' ? 'active' : '' ?>" href="<?= BASE_URL ?>/traveler/dashboard">
                 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
@@ -49,6 +51,7 @@ $prioritaryFunctionality = false;
                 <?php } ?>
             </a>
         </nav>
+        <?php } ?>  
     </aside>
 
     <!-- Main Content Wrapper -->

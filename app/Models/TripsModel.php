@@ -25,6 +25,16 @@ class TripsModel {
         return $row ? Trip::fromArray($row) : null;
     }
 
+    public function getTripsByStatus(string $status): array {
+        $sql = "SELECT * FROM trips WHERE status = :status ORDER BY created_at DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['status' => $status]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return array_map(fn($row) => Trip::fromArray($row), $results);
+    }
+
+
     /**
      * Create a new trip based on a request
      */

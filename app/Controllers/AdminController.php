@@ -54,11 +54,18 @@ class AdminController {
     }
 
     public function requests() {
-        $requests = $this->contactRequestModel->getAllRequests();
+        $status = $_GET['status'] ?? null;
+
+        if ($status) {
+            $requests = $this->contactRequestModel->getRequestsByStatus($status);
+        } else {
+            $requests = $this->contactRequestModel->getAllRequests();
+        }
 
         $this->renderAdminView('admin/requests', [
             'requests' => $requests,
-            'currentPage' => 'requests'
+            'currentPage' => 'requests',
+            'currentStatusFilter' => $status
         ]);
     }
 
@@ -90,11 +97,18 @@ class AdminController {
     }
 
     public function trips() {
-        $trips = $this->tripModel->getAllTrips();
+        $status = $_GET['status'] ?? null;
+
+        if ($status) {
+            $trips = $this->tripModel->getTripsByStatus($status);
+        } else {
+            $trips = $this->tripModel->getAllTrips();
+        }
 
         $this->renderAdminView('admin/trips', [
             'trips' => $trips,
-            'currentPage' => 'trips'
+            'currentPage' => 'trips',
+            'currentStatusFilter' => $status
         ]);
     }
 
@@ -255,8 +269,12 @@ class AdminController {
     }
 
     public function chats() {
+
+    $chats = $this->messagesModel->getAllAdminConversations($this->user->getId());
+
         $this->renderAdminView('admin/chats', [
-            'currentPage' => 'chats'
+            'currentPage' => 'chats',
+            'chats' => $chats
         ]);
     }
 }

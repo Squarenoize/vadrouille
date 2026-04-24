@@ -61,6 +61,15 @@ class ContactRequestModel {
         return $row ? ContactRequest::fromArray($row) : null;
     }
 
+    public function getRequestsByStatus(string $status): array {
+        $sql = "SELECT * FROM contact_requests WHERE status = :status ORDER BY created_at DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['status' => $status]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return array_map(fn($row) => ContactRequest::fromArray($row), $results);
+    }
+
     public function updateStatus(int $id, string $newStatus): bool {
         $sql = "UPDATE contact_requests SET status = :status WHERE id = :id";
         $stmt = $this->db->prepare($sql);

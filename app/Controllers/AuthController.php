@@ -44,7 +44,7 @@ class AuthController {
                 header('Location: ' . BASE_URL . '/admin/requests');
                 exit;
             } elseif ($user->isTraveler()) {
-                header('Location: ' . BASE_URL . '/traveler/dashboard');
+                header('Location: ' . BASE_URL . '/traveler/trips');
                 exit;
             } else {
                 $_SESSION['connect_error'] = 'Rôle utilisateur non reconnu.';
@@ -145,7 +145,7 @@ class AuthController {
                 header('Location: ' . BASE_URL . '/admin/requests');
                 exit;
             } elseif ($user->isTraveler()) {
-                header('Location: ' . BASE_URL . '/traveler/dashboard');
+                header('Location: ' . BASE_URL . '/traveler/trips');
                 exit;
             }
         } else {

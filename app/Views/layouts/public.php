@@ -83,7 +83,7 @@
                     <?php if (Auth::isAdmin()): ?>
                         <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/admin/requests">Tableau de bord</a>
                     <?php else: ?>
-                        <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/traveler/dashboard">Mon compte</a>
+                        <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/traveler/trips">Mon compte</a>
                     <?php endif; ?>
                     <a class="mainNavLink mobile-only" href="<?= BASE_URL ?>/deconnexion">Déconnexion</a>
                 <?php else: ?>
@@ -96,7 +96,7 @@
                     <?php if ($user->isAdmin()): ?>
                         <button class="btn-connexion" onclick="window.location.href='<?= BASE_URL ?>/admin/requests'">Tableau de bord</button>
                     <?php else: ?>
-                        <button class="btn-connexion" onclick="window.location.href='<?= BASE_URL ?>/traveler/dashboard'">Mon compte</button>
+                        <button class="btn-connexion" onclick="window.location.href='<?= BASE_URL ?>/traveler/trips'">Mon compte</button>
                     <?php endif; ?>
                     <button class="btn-primary" onclick="window.location.href='<?= BASE_URL ?>/deconnexion'">Déconnexion</button>
                 <?php else: ?>
