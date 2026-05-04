@@ -95,5 +95,13 @@ class TripsModel {
         $stmt->execute(['userId' => $userId]);
         return (int)$stmt->fetchColumn();
     }
+
+    public function getTripIdByRequestId(int $requestId) {
+        $sql = "SELECT id FROM trips WHERE request_id = :requestId LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['requestId' => $requestId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? (int)$result['id'] : null;
+    }
         
 }

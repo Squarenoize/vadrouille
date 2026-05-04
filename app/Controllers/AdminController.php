@@ -62,10 +62,38 @@ class AdminController {
             $requests = $this->contactRequestModel->getAllRequests();
         }
 
+        // Traductions arrays for better display in the view
+        $tripTypeTranslations = [
+            'adventure' => 'Aventure',
+            'weekend' => 'Week-end',
+            'relaxation' => 'Détente',
+            'cultural' => 'Culturel',
+            'other' => 'Autre'
+        ];
+
+        $destinationTranslations = [
+            'france' => 'France',
+            'canada' => 'Canada',
+            'japan' => 'Japon',
+            'other' => 'Autre'
+        ];
+
+        $statusTranslations = [
+            'new' => 'Nouvelle',
+            'studying' => 'En étude',
+            'quoted' => 'Devis envoyé',
+            'accepted' => 'Devis accepté',
+            'refused' => 'Devis refusé',
+            'archived' => 'Archivée'
+        ];
+
         $this->renderAdminView('admin/requests', [
             'requests' => $requests,
             'currentPage' => 'requests',
-            'currentStatusFilter' => $status
+            'currentStatusFilter' => $status,
+            'tripTypeTranslations' => $tripTypeTranslations,
+            'destinationTranslations' => $destinationTranslations,
+            'statusTranslations' => $statusTranslations
         ]);
     }
 
@@ -76,9 +104,13 @@ class AdminController {
             header('Location: ' . BASE_URL . '/admin/requests');
             exit;
         }
+        
+        // Check if a trip already exist for this request
+        $tripId = $this->tripModel->getTripIdByRequestId($id);
 
         $this->renderAdminView('admin/request_detail', [
             'request' => $request,
+            'tripId' => $tripId !== null,
             'currentPage' => 'requests'
         ]);
     }
@@ -188,6 +220,29 @@ class AdminController {
         }
 
         $this->tripModel->updateStatus($id, $newStatus);
+
+        // Update the related contact request status
+        $trip = $this->tripModel->getTripById($id);
+        if ($trip && $trip->getRequestId()) {
+            $relatedRequestStatus = null;
+            switch ($newStatus) {
+                case 'draft':
+                    $relatedRequestStatus = 'studying';
+                    break;
+                case 'quoted':
+                    $relatedRequestStatus = 'quoted';
+                    break;
+                case 'accepted':
+                    $relatedRequestStatus = 'accepted';
+                    break;
+                case 'cancelled':
+                    $relatedRequestStatus = 'refused';
+                    break;
+            }
+            if ($relatedRequestStatus) {
+                $this->contactRequestModel->updateStatus($trip->getRequestId(), $relatedRequestStatus);
+            }
+        }
 
         header('Location: ' . BASE_URL . '/admin/trips');
         exit;
