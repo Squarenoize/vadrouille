@@ -96,12 +96,27 @@ class MessagesModel {
     }
 
     public function getAllAdminConversations(int $adminId): array {
-        $sql = "SELECT t.id AS trip_id, t.name AS trip_name, u.first_name AS sender_firstname, u.last_name AS sender_lastname, m.body AS last_message, m.created_at AS last_message_time
+        $sql = "SELECT 
+                    t.id AS trip_id, 
+                    t.name AS trip_name, 
+                    u.first_name AS sender_firstname, 
+                    u.last_name AS sender_lastname, 
+                    m.body AS last_message, 
+                    m.created_at AS last_message_time,
+                    (SELECT COUNT(*) 
+                     FROM messages 
+                     WHERE trip_id = t.id 
+                     AND sender_id != :admin_id 
+                     AND is_read = 0) AS unread_count
                 FROM trips t
                 INNER JOIN messages m ON t.id = m.trip_id
                 INNER JOIN users u ON m.sender_id = u.id
-                WHERE m.sender_id != :admin_id
-                GROUP BY t.id
+                WHERE m.created_at = (
+                    SELECT MAX(created_at) 
+                    FROM messages 
+                    WHERE trip_id = t.id
+                )
+                GROUP BY t.id, m.body, m.created_at, u.first_name, u.last_name
                 ORDER BY last_message_time DESC";
         
         $stmt = $this->db->prepare($sql);

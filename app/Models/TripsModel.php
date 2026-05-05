@@ -97,7 +97,7 @@ class TripsModel {
     }
 
     public function getTripIdByRequestId(int $requestId) {
-        $sql = "SELECT id FROM trips WHERE request_id = :requestId LIMIT 1";
+        $sql = "SELECT id FROM trips WHERE request_id = :requestId";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['requestId' => $requestId]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);

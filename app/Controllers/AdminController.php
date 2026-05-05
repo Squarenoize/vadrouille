@@ -110,7 +110,7 @@ class AdminController {
 
         $this->renderAdminView('admin/request_detail', [
             'request' => $request,
-            'tripId' => $tripId !== null,
+            'tripId' => $tripId,
             'currentPage' => 'requests'
         ]);
     }

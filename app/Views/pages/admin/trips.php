@@ -38,7 +38,7 @@ if (empty($trips)) { ?>
             <tr>
                 <td><a href="<?= BASE_URL ?>/admin/trips/<?= $trip->getId() ?>"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></a></td>
                 <td><?= htmlspecialchars($trip->getName()) ?></td>
-                <td><?= htmlspecialchars($trip->getDestination()) ?></td>
+                <td><?= htmlspecialchars(ucfirst($trip->getDestination())) ?></td>
                 <td class="trip-dates"><?= htmlspecialchars($trip->getStartDate()) ?> <br> <?= htmlspecialchars($trip->getEndDate()) ?></td>
                 <td>
                     <form class="trip-status" method="POST" action="<?= BASE_URL ?>/admin/trips/<?= $trip->getId() ?>/status">
@@ -53,11 +53,11 @@ if (empty($trips)) { ?>
                         <button type="submit">Mettre à jour</button>
                     </form>
                 </td>
-                <td><?= $trip->getUserId() ? '<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>' : '<span class="material-symbols-outlined" data-icon="cancel">cancel</span>' ?></td>
+                <td class="trip-access"><?= $trip->getUserId() ? '<span class="material-symbols-outlined access" data-icon="check_circle">check_circle</span>' : '<span class="material-symbols-outlined noAccess" data-icon="cancel">cancel</span>' ?></td>
                 <td class="trip-actions">
                     <button onclick="window.location.href='<?= BASE_URL ?>/admin/requests/<?= $trip->getRequestId() ?>'">Voir la demande</button> 
                     
-                    <?php if ($trip->getStatus() === 'accepted' && $trip->getUserId() == null) { ?>
+                    <?php if ($trip->getStatus() !== 'draft' && $trip->getStatus() !== 'quoted' && $trip->getUserId() == null) { ?>
                      <button onclick="window.location.href='<?= BASE_URL ?>/admin/trips/<?= $trip->getId() ?>/traveler-access'">Accès voyageur</button>
                     <?php } ?>
                 </td>

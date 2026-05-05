@@ -42,7 +42,7 @@
         <?php if ($request->getStatus() === 'studying' && !$tripId) { ?>
         <button onclick="window.location.href='<?= BASE_URL ?>/admin/trips/new/request/<?= $request->getId() ?>'">Créer un voyage à partir de cette demande</button>
     </div>
-    <?php } elseif ($request->getStatus() !== 'new'){?>
+    <?php } elseif ($request->getStatus() !== 'new' && $tripId) {?>
         <button onclick="window.location.href='<?= BASE_URL ?>/admin/trips/<?= $tripId ? $tripId : '' ?>'">Voir le voyage associé</button>
     <?php } ?>
     
