@@ -45,7 +45,7 @@ class TravelerController {
     }
 
     /**
-     * View the dashboard for the current traveler
+     * View the dashboard for the current traveler --TODO: add stats, etc.
      */
     public function dashboard() {
         $this->renderTravelerView('traveler/dashboard', [
@@ -57,20 +57,28 @@ class TravelerController {
      * View the list of trips for the current traveler
      */
     public function trips() {
-        $user = $this->user;
-        $trips = $this->tripsModel->getTripsByTravelerId($user->getId());
+        try {
+            $user = $this->user;
+            $trips = $this->tripsModel->getTripsByTravelerId($user->getId());
 
-        // Get the number of unread messages for each trip
-        $unreadCounts = [];
-        foreach ($trips as $trip) {
-            $unreadCounts[$trip->getId()] = $this->messagesModel->countUnreadByTripIdAndUserId($trip->getId(), $user->getId());
+            // Get the number of unread messages for each trip
+            $unreadCounts = [];
+            foreach ($trips as $trip) {
+                $unreadCounts[$trip->getId()] = $this->messagesModel->countUnreadByTripIdAndUserId($trip->getId(), $user->getId());
+            }
+            
+            $this->renderTravelerView('traveler/trips', [
+                'trips' => $trips,
+                'unreadCounts' => $unreadCounts,
+                'currentPage' => 'trips'
+            ]);
+        } catch (Exception $e) {
+            // Handle any exceptions that occur during rendering
+            error_log("Error rendering traveler trips: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement de vos voyages.";
+            header('Location: ' . BASE_URL . '/traveler/dashboard');
+            exit;
         }
-        
-        $this->renderTravelerView('traveler/trips', [
-            'trips' => $trips,
-            'unreadCounts' => $unreadCounts,
-            'currentPage' => 'trips'
-        ]);
     }
 
     /**
@@ -78,22 +86,38 @@ class TravelerController {
      * @param int $tripId The ID of the trip
      */
     public function viewTrip($tripId) {
-        $trip = $this->tripsModel->getTripById($tripId);
-        $messages = $this->messagesModel->getMessagesByTripId($tripId);
-        $this->messagesModel->markAsReadByTrip($tripId, $this->user->getId());
-        $this->renderTravelerView('traveler/trip_detail', [
-            'trip' => $trip,
-            'messages' => $messages,
-            'currentPage' => 'trips'
-        ]);
+        try {
+            $trip = $this->tripsModel->getTripById($tripId);
+            $messages = $this->messagesModel->getMessagesByTripId($tripId);
+            $this->messagesModel->markAsReadByTrip($tripId, $this->user->getId());
+            $this->renderTravelerView('traveler/trip_detail', [
+                'trip' => $trip,
+                'messages' => $messages,
+                'currentPage' => 'trips'
+            ]);
+        } catch (Exception $e) {
+            // Handle any exceptions that occur during rendering
+            error_log("Error rendering trip details: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement des détails du voyage.";
+            header('Location: ' . BASE_URL . '/traveler/trips');
+            exit;
+        }
     }
 
     /**
-     * View and update traveler settings
+     * View and update traveler settings -- TODO: implement actual settings functionality
      */
     public function settings() {
-        $this->renderTravelerView('traveler/settings', [
-            'currentPage' => 'settings'
-        ]);
+        try {
+            $this->renderTravelerView('traveler/settings', [
+                'currentPage' => 'settings'
+            ]);
+        } catch (Exception $e) {
+            // Handle any exceptions that occur during rendering
+            error_log("Error rendering traveler settings: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement des paramètres.";
+            header('Location: ' . BASE_URL . '/traveler/dashboard');
+            exit;
+        }
     }
 }

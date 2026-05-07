@@ -24,7 +24,8 @@ class Database {
                     ]
                 );
             } catch (PDOException $e) {
-                die("Database connection failed: " . $e->getMessage());
+                error_log("Database connection failed: " . $e->getMessage());
+                throw new RuntimeException("Connexion à la base de données impossible", 0, $e);
             }
         }
         return self::$instance;

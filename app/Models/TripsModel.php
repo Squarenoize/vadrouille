@@ -35,7 +35,12 @@ class TripsModel {
         $stmt->execute(['id' => $id]);
         
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ? Trip::fromArray($row) : null;
+
+        if (!$row) {
+            throw new RuntimeException("Voyage $id introuvable");
+        }
+
+        return Trip::fromArray($row);
     }
 
     /**
@@ -127,6 +132,10 @@ class TripsModel {
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['userId' => $userId]);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($results)) {
+            throw new RuntimeException("Aucun voyage trouvé pour l'utilisateur $userId");
+        }
         
         return array_map(fn($row) => Trip::fromArray($row), $results);
     }
@@ -146,14 +155,19 @@ class TripsModel {
     /**
      * Retrieve trip ID by request ID
      * @param int $requestId
-     * @return int|null
+     * @return int
      */
-    public function getTripIdByRequestId(int $requestId): ?int {
+    public function getTripIdByRequestId(int $requestId): int {
         $sql = "SELECT id FROM trips WHERE request_id = :requestId";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['requestId' => $requestId]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? (int)$result['id'] : null;
+
+        if (!$result) {
+            throw new RuntimeException("Aucun voyage trouvé pour la demande $requestId");
+        }
+
+        return (int)$result['id'];
     }
         
 }

@@ -53,16 +53,20 @@ class ContactRequestModel {
     /**
      * Retrieve a contact request by ID
      * @param int $id
-     * @return ContactRequest|null
+     * @return ContactRequest
      */
-    public function getRequestById(int $id): ?ContactRequest {
+    public function getRequestById(int $id): ContactRequest {
         $sql = "SELECT * FROM contact_requests WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['id' => $id]);
         
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            throw new RuntimeException("Demande de contact $id introuvable");
+        }
         
-        return $row ? ContactRequest::fromArray($row) : null;
+        return ContactRequest::fromArray($row);
     }
 
     /**

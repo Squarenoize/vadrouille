@@ -82,6 +82,11 @@ $prioritaryFunctionality = false;
                 </div>
                 <?php } ?>
             </div>
+            <div class="topbar-center">
+                <?php if (isset($_SESSION['errorMessage'])) { ?>
+                <p class="topbar-error-message"><?= htmlspecialchars($_SESSION['errorMessage']) ?></p>
+                <?php unset($_SESSION['errorMessage']); }?>
+            </div>
             <div class="topbar-right">
                 <?php if ($prioritaryFunctionality) { ?>
                 <button class="topbar-btn">
