@@ -1,4 +1,8 @@
 <?php
+/**
+ * Simple Router class to handle HTTP requests and dispatch to controllers
+ * This class allows us to define routes in a clean way and centralizes the request handling logic.
+ */
 class Router {
     private array $routes = [];
     

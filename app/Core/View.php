@@ -1,13 +1,17 @@
 <?php
+/**
+ * View class to render templates with data and layouts
+ * This class is responsible for loading the appropriate view file and wrapping it in the correct layout.
+ */
 class View {
     private string $template;
     private array $data;
     private string $layout;
 
     /**
-     * @param string $template Chemin du template (ex: 'public/home', 'admin/dashboard')
-     * @param array $data Données à passer à la vue
-     * @param string $layout Layout à utiliser : 'public', 'traveler', ou 'admin'
+     * @param string $template Path to the template (e.g., 'public/home', 'admin/dashboard')
+     * @param array $data Data to pass to the view
+     * @param string $layout Layout to use: 'public', 'traveler', or 'admin'
      */
     public function __construct(string $template, array $data = [], string $layout = 'public') {
         $this->template = $template;
@@ -16,28 +20,28 @@ class View {
     }
     
     /**
-     * Rendre la vue avec son layout
+     * Render the view with its layout
      */
     public function render(): void {
-        // Extraire les données pour les rendre disponibles dans les vues
+        // Extract data to make it available in the views
         extract($this->data);
         
-        // Chemin vers le contenu de la page
+        // Path to the page content
         $contentView = __DIR__ . '/../views/pages/' . $this->template . '.php';
         
-        // Vérifier que le fichier de contenu existe
+        // Check if the content file exists
         if (!file_exists($contentView)) {
             throw new Exception("La vue '{$this->template}' est introuvable.");
         }
         
-        // Charger le layout correspondant
+        // Load the matching layout
         $layoutFile = __DIR__ . '/../views/layouts/' . $this->layout . '.php';
         
         if (!file_exists($layoutFile)) {
             throw new Exception("Le layout '{$this->layout}' est introuvable.");
         }
         
-        // Inclure le layout (qui inclura le contenu via $contentView)
+        // Include the layout (which will include the content via $contentView)
         include $layoutFile;
     }
 }

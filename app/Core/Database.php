@@ -1,12 +1,13 @@
 <?php
 /**
- * Singleton pour la connexion à la base de données
+ * Singleton for database connection using PDO
+ * This class ensures that only one PDO instance is created and shared across the application.
  */
 class Database {
     private static ?PDO $instance = null;
 
     /**
-     * Retourne l'instance unique de PDO
+     * Returns the unique PDO instance
      * @return PDO
      */
     public static function getInstance(): PDO {
