@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * This class represents a trip created from a contact request
+ * It encapsulates the data and provides validation
+ * Table trips in DB
+ */
 class Trip {
     private ?int $id = null;
     private ?int $userId = null;

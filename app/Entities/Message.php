@@ -1,4 +1,9 @@
 <?php
+/**
+ * This class represents a message in the context of a trip discussion
+ * It encapsulates the data and provides validation
+ * Table messages in DB
+ */
 
 class Message {
     private ?int $id = null;

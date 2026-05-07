@@ -2,6 +2,8 @@
 /**
  * User Entity
  * Represents a user (admin or regular user) in the system
+ * Encapsulates user data and provides methods for validation and business logic
+ * Table users in DB
  */
 class User {
     
