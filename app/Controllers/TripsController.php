@@ -1,14 +1,17 @@
 <?php
+/**
+ * Controller for trips-related pages and actions
+ */
 class TripsController {
     
     /**
-     * Afficher la page des voyages
+     * Display the trips page
      */
     public function index(): void {
-        // Récupérer les données SEO
+        // Get SEO data
         $seo = SeoHelper::getPageSeo('trips');
         
-        // Afficher la vue
+        // Render the view
         $view = new View('public/trips', [
             // SEO Meta
             'pageTitle' => $seo['pageTitle'],

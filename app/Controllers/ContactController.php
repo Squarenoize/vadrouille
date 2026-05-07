@@ -1,4 +1,7 @@
 <?php
+/**
+ * Controller for the contact page and form processing
+ */
 class ContactController {
     
     /**

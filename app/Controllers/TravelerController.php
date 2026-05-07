@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Controller for traveler-related pages and actions
+ */
 class TravelerController {
 
     private $user;
@@ -8,50 +10,57 @@ class TravelerController {
     private MessagesModel $messagesModel;
 
     /**
-     * Constructeur - Initialise les données communes à toutes les pages traveler
+     * Constructor - Initialize common data for all traveler pages
      */
     public function __construct() {
         $this->user = Auth::user();
         
-        // Vérification voyageur globale
+        // Global traveler check
         if (!$this->user || !$this->user->isTraveler()) {
             header('Location: ' . BASE_URL . '/connexion');
             exit;
         }
 
-        // Initialisation des Models pour récupérer les données communes
+        // Initialize models to fetch common data
         $this->tripsModel = new TripsModel();
         $this->messagesModel = new MessagesModel();
 
-        // Données communes au sidebar (disponibles dans toutes les vues)
+        // Common data for the sidebar (available in all views)
         $this->sharedData = [
             'user' => $this->user
         ];
     }
     
-    /* Helper pour rendre une vue traveler avec les données partagées
-     * @param string $template Chemin du template (ex: 'traveler/dashboard')
-     * @param array $data Données spécifiques à la vue
+    /**
+     * Helper to render a traveler view with shared data
+     * @param string $template Path to the template (e.g., 'traveler/dashboard')
+     * @param array $data Specific data for the view
      */
     private function renderTravelerView(string $template, array $data = []): void {
-        // Merge des données partagées + données spécifiques
+        // Merge shared data + specific data
         $viewData = array_merge($this->sharedData, $data);
         
         $view = new View($template, $viewData, 'traveler');
         $view->render();
     }
 
+    /**
+     * View the dashboard for the current traveler
+     */
     public function dashboard() {
         $this->renderTravelerView('traveler/dashboard', [
             'currentPage' => 'dashboard'
         ]);
     }
 
+    /**
+     * View the list of trips for the current traveler
+     */
     public function trips() {
         $user = $this->user;
         $trips = $this->tripsModel->getTripsByTravelerId($user->getId());
 
-        // Récupérer le nombre de messages non lus pour chaque voyage
+        // Get the number of unread messages for each trip
         $unreadCounts = [];
         foreach ($trips as $trip) {
             $unreadCounts[$trip->getId()] = $this->messagesModel->countUnreadByTripIdAndUserId($trip->getId(), $user->getId());
@@ -64,6 +73,10 @@ class TravelerController {
         ]);
     }
 
+    /**
+     * View details of a specific trip
+     * @param int $tripId The ID of the trip
+     */
     public function viewTrip($tripId) {
         $trip = $this->tripsModel->getTripById($tripId);
         $messages = $this->messagesModel->getMessagesByTripId($tripId);
@@ -75,6 +88,9 @@ class TravelerController {
         ]);
     }
 
+    /**
+     * View and update traveler settings
+     */
     public function settings() {
         $this->renderTravelerView('traveler/settings', [
             'currentPage' => 'settings'

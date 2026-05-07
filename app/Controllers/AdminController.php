@@ -1,4 +1,7 @@
 <?php
+/**
+ * Controller for admin dashboard and management of contact requests, trips, and chats.
+ */
 
 class AdminController {
     
@@ -9,23 +12,23 @@ class AdminController {
     private MessagesModel $messagesModel;
 
     /**
-     * Constructeur - Initialise les données communes à toutes les pages admin
+     * Constructor - Initializing common data and checking admin access
      */
     public function __construct() {
         $this->user = Auth::user();
         
-        // Vérification admin globale
+        // Global admin check
         if (!$this->user || !$this->user->isAdmin()) {
             header('Location: ' . BASE_URL . '/connexion');
             exit;
         }
 
-        // Initialisation des Models (réutilisables dans toutes les méthodes)
+        // Initializing Models (reusable in all methods)
         $this->contactRequestModel = new ContactRequestModel();
         $this->tripModel = new TripsModel();
         $this->messagesModel = new MessagesModel();
 
-        // Données communes au sidebar (disponibles dans toutes les vues)
+        // Common data for the sidebar (available in all views)
         $this->sharedData = [
             'user' => $this->user,
             'newRequestsCount' => $this->contactRequestModel->countByStatus('new'),
@@ -35,24 +38,30 @@ class AdminController {
     }
 
     /**
-     * Helper pour rendre une vue admin avec les données partagées
-     * @param string $template Chemin du template (ex: 'admin/dashboard')
-     * @param array $data Données spécifiques à la vue
+     * Helper to render an admin view with shared data
+     * @param string $template Path to the template (e.g., 'admin/dashboard')
+     * @param array $data Specific data for the view
      */
     private function renderAdminView(string $template, array $data = []): void {
-        // Merge des données partagées + données spécifiques
+        // Merge shared data with specific data
         $viewData = array_merge($this->sharedData, $data);
         
         $view = new View($template, $viewData, 'admin');
         $view->render();
     }
     
+    /**
+     * Display the admin dashboard --TODO
+     */
     public function dashboard() {
         $this->renderAdminView('admin/dashboard', [
             'currentPage' => 'dashboard'
         ]);
     }
 
+    /**
+     * Display the list of contact requests with optional status filtering
+     */
     public function requests() {
         $status = $_GET['status'] ?? null;
 
@@ -62,7 +71,7 @@ class AdminController {
             $requests = $this->contactRequestModel->getAllRequests();
         }
 
-        // Traductions arrays for better display in the view
+        // Translation arrays for better display in the view
         $tripTypeTranslations = [
             'adventure' => 'Aventure',
             'weekend' => 'Week-end',
@@ -97,6 +106,10 @@ class AdminController {
         ]);
     }
 
+    /**
+     * Display the details of a specific contact request
+     * @param int $id The ID of the contact request
+     */
     public function viewRequest($id) {
         $request = $this->contactRequestModel->getRequestById($id);
 
@@ -115,6 +128,10 @@ class AdminController {
         ]);
     }
 
+    /**
+     * Update the status of a contact request
+     * @param int $id The ID of the contact request
+     */
     public function updateRequestStatus($id) {
         $newStatus = $_POST['status'] ?? null;
         if (!in_array($newStatus, ['new', 'studying', 'quoted', 'accepted', 'refused', 'archived'])) {
@@ -128,6 +145,9 @@ class AdminController {
         exit;
     }
 
+    /**
+     * Display the list of trips with optional status filtering
+     */
     public function trips() {
         $status = $_GET['status'] ?? null;
 
@@ -144,9 +164,13 @@ class AdminController {
         ]);
     }
 
+    /**
+     * Display the form to create a new trip from a contact request
+     * @param int $requestId The ID of the contact request
+     */
     public function newTripFromRequest($requestId) {
-        // Logique pour créer un voyage à partir d'une demande de contact
-        // (Récupérer la demande, pré-remplir un formulaire de création de voyage, etc.)
+        // Logic to create a trip from a contact request
+        // (Retrieve the request, pre-fill a trip creation form, etc.)
         
         $request = $this->contactRequestModel->getRequestById($requestId);
 
@@ -161,6 +185,9 @@ class AdminController {
         ]);
     }
 
+    /**
+     * Create a new trip
+     */
     public function createTrip() {
         // 1. Create the entity from POST data
         $newTrip = Trip::fromArray($_POST);
@@ -168,7 +195,7 @@ class AdminController {
         $errors = $newTrip->validate();
         // 3. If errors, re-display the form
         if (!empty($errors)) {
-            // Récupérer la request pour ré-afficher le formulaire
+            // Grab the request to re-display the form
             $requestId = $_POST['requestId'] ?? null;
             $request = null;
             if ($requestId) {
@@ -178,7 +205,7 @@ class AdminController {
             $this->renderAdminView('admin/newTrip', [
                 'errors' => $errors,
                 'formData' => $_POST,
-                'request' => $request, // ✅ Maintenant $request est disponible
+                'request' => $request,
                 'currentPage' => 'trips'
             ]);
             return;
@@ -186,14 +213,17 @@ class AdminController {
         // 4. Validation OK : Save via the Model
         $this->tripModel->save($newTrip);
 
-        // Redirection après création (pattern PRG - Post/Redirect/Get)
         header('Location: ' . BASE_URL . '/admin/trips');
         exit;
     }
 
+    /**
+     * Display the details of a specific trip
+     * @param int $id The ID of the trip
+     */
     public function viewTrip($id) {
-        // Logique pour afficher le détail d'un voyage
-        // (Récupérer le voyage par ID, afficher les informations, etc.)
+        // Logic to display the details of a trip
+        // (Retrieve the trip by ID, display the information, etc.)
         
         $trip = $this->tripModel->getTripById($id);
 
@@ -201,7 +231,7 @@ class AdminController {
             header('Location: ' . BASE_URL . '/admin/trips');
             exit;
         }
-        // Récupérer les messages liés à ce voyage
+        // Retrieve messages related to this trip
         $messages = $this->messagesModel->getMessagesByTripId($id);
         $this->messagesModel->markAsReadByTrip($id, $this->user->getId());
 
@@ -248,9 +278,13 @@ class AdminController {
         exit;
     }
 
+    /**
+     * Give traveler access to an accepted trip
+     * @param int $id The ID of the trip
+     */
     public function travelerAccess($id) {
-        // Logique pour donner accès voyageur à un voyage accepté
-        // (Générer un token, envoyer un email, etc.)
+        // Logic to give traveler access to an accepted trip
+        // (Generate a token, send an email, etc.)
         
         $trip = $this->tripModel->getTripById($id);
 
@@ -323,6 +357,9 @@ class AdminController {
         exit;
     }
 
+    /**
+     * Display the list of chats (conversations) for the admin
+     */
     public function chats() {
 
     $chats = $this->messagesModel->getAllAdminConversations($this->user->getId());

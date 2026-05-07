@@ -1,4 +1,7 @@
 <?php
+/**
+ * Controller for authentication (login/logout and password change)
+ */
 class AuthController {
     
     /**

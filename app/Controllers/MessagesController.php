@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Controller for handling messages between users and trips
+ */
 class MessagesController {
 
     private $user;

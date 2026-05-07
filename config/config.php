@@ -36,7 +36,7 @@ if ($isLocal) {
     define('DB_HOST', 'localhost');
     define('DB_NAME', 'vadrouille');
     define('DB_USER', 'root');
-    define('DB_PASS', '');
+    define('DB_PASS', 'sirius');
     
 } else {
     // BASE DE DONNÉES PRODUCTION
