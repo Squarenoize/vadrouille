@@ -1,48 +1,45 @@
 <?php
-// ============================================
-// CONFIGURATION MULTI-ENVIRONNEMENT
-// ============================================
+/**
+ * ENVIRONMENT CONFIGURATION
+ */
 
-// Détection de l'environnement
+// Environment detection based on hostname
 $hostname = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
 // LOCAL ENVIRONEMENT (WAMP)
 $isLocal = (
-    strpos($hostname, 'localhost') !== false || 
-    strpos($hostname, '127.0.0.1') !== false ||
-    strpos($hostname, '.local') !== false ||
-    strpos($hostname, '.test') !== false
+    strpos($hostname, 'localhost') !== false
 );
 
-// Configuration BASE_URL
+// BASE_URL
 if ($isLocal) {
-    // LOCAL : Sous-dossier /Vadrouille/public
+    // LOCAL : Sub-directory /Vadrouille/public
     define('BASE_URL', '/Vadrouille/public');
     
 } else {
-    // PRODUCTION : Racine du domaine
-    // (Document Root = dossier public/)
+    // PRODUCTION : Root of the domain
+    // (Document Root = public/ folder)
     define('BASE_URL', '');
 }
 
 define('ROOT_DIR', __DIR__ . '/../');
 
-// ============================================
-// DATABASE
-// ============================================
+/**
+ * DATABASE
+ */
 
 if ($isLocal) {
-    // BASE DE DONNÉES LOCALE (WAMP)
+    // LOCAL DATABASE (WAMP)
     define('DB_HOST', 'localhost');
     define('DB_NAME', 'vadrouille');
     define('DB_USER', 'root');
     define('DB_PASS', 'sirius');
     
 } else {
-    // BASE DE DONNÉES PRODUCTION
-    // À CONFIGURER lors du déploiement
-    define('DB_HOST', 'localhost');  // ou IP du serveur MySQL
-    define('DB_NAME', 'nom_bdd_production');
-    define('DB_USER', 'utilisateur_bdd');
-    define('DB_PASS', 'mot_de_passe_securise');
+    // PRODUCTION DATABASE
+    // TO CONFIGURE during deployment
+    define('DB_HOST', 'localhost');  // or MySQL server IP
+    define('DB_NAME', 'production_db_name');
+    define('DB_USER', 'production_db_user');
+    define('DB_PASS', 'secure_password');
 }
