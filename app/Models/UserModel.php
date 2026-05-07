@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * UserModel handles database operations for users
+ * It provides methods to create, retrieve, and update users
+ * Table users in DB
+ */
 Class UserModel {
     private $db;
 
@@ -92,6 +96,11 @@ Class UserModel {
         ]);
     }
 
+    /**
+     * Find user by email
+     * @param string $email
+     * @return User|null
+     */
     public function findByEmail(string $email): ?User {
         $stmt = $this->db->prepare('SELECT * FROM users WHERE email = :email');
         $stmt->execute(['email' => $email]);

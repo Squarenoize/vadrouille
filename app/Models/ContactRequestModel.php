@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * ContactRequestModel handles database operations for contact requests
+ * It provides methods to save, retrieve, and update contact requests
+ * Table contact_requests in DB
+ */
 class ContactRequestModel {
     private PDO $db;
 
@@ -61,6 +65,11 @@ class ContactRequestModel {
         return $row ? ContactRequest::fromArray($row) : null;
     }
 
+    /**
+     * Retrieve contact requests by status
+     * @param string $status
+     * @return ContactRequest[]
+     */
     public function getRequestsByStatus(string $status): array {
         $sql = "SELECT * FROM contact_requests WHERE status = :status ORDER BY created_at DESC";
         $stmt = $this->db->prepare($sql);
@@ -69,13 +78,24 @@ class ContactRequestModel {
         
         return array_map(fn($row) => ContactRequest::fromArray($row), $results);
     }
-
+    
+    /**
+     * Update the status of a contact request
+     * @param int $id
+     * @param string $newStatus
+     * @return bool
+     */
     public function updateStatus(int $id, string $newStatus): bool {
         $sql = "UPDATE contact_requests SET status = :status WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute(['status' => $newStatus, 'id' => $id]);
     }
 
+    /**
+     * Count contact requests by status
+     * @param string $status
+     * @return int
+     */
     public function countByStatus(string $status): int {
         $sql = "SELECT COUNT(*) FROM contact_requests WHERE status = :status";
         $stmt = $this->db->prepare($sql);

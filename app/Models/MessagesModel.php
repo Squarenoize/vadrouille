@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * MessagesModel handles database operations for messages
+ * It provides methods to save, retrieve, and update messages
+ * Table messages in DB
+ */
 class MessagesModel {
     private PDO $db;
 
@@ -7,6 +11,11 @@ class MessagesModel {
         $this->db = Database::getInstance();
     }
 
+    /**
+     * Retrieve messages by trip ID
+     * @param int $tripId
+     * @return Message[]
+     */
     public function getMessagesByTripId(int $tripId): array {
         $stmt = $this->db->prepare("SELECT messages.*, users.first_name AS firstname, users.last_name AS lastname FROM messages LEFT JOIN users ON messages.sender_id = users.id WHERE messages.trip_id = :trip_id ORDER BY messages.created_at ASC");
         $stmt->execute(['trip_id' => $tripId]);
@@ -15,6 +24,11 @@ class MessagesModel {
         return array_map(fn($data) => Message::fromArray($data), $messagesData);
     }
 
+    /**
+     * Add a new message
+     * @param Message $message
+     * @return bool
+     */
     public function addMessage(Message $message): bool {
         $stmt = $this->db->prepare("INSERT INTO messages (trip_id, sender_id, body, created_at) VALUES (:trip_id, :sender_id, :body, :created_at)");
         return $stmt->execute([
@@ -25,6 +39,11 @@ class MessagesModel {
         ]);
     }
 
+    /**
+     * Count unread messages for an admin
+     * @param int $adminId The user ID of the admin
+     * @return int Number of unread messages
+     */
     public function countUnreadByAdminId(int $adminId): int {
         $sql = "SELECT COUNT(*) 
                 FROM messages m
@@ -80,6 +99,12 @@ class MessagesModel {
         ]);
     }
 
+    /**
+     * Count unread messages for a specific trip and user
+     * @param int $tripId The trip ID
+     * @param int $userId The user ID
+     * @return int Number of unread messages
+     */
     public function countUnreadByTripIdAndUserId(int $tripId, int $userId): int {
         $sql = "SELECT COUNT(*) 
                 FROM messages 
@@ -94,7 +119,12 @@ class MessagesModel {
         ]);
         return (int)$stmt->fetchColumn();
     }
-
+    
+    /**
+     * Retrieve all admin conversations
+     * @param int $adminId The user ID of the admin
+     * @return array List of conversations
+     */
     public function getAllAdminConversations(int $adminId): array {
         $sql = "SELECT 
                     t.id AS trip_id, 
