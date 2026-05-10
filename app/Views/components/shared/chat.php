@@ -9,7 +9,13 @@
         <div class="message <?= $isOwnMessage ? 'own-message' : 'received-message' ?>">
             <p class="sender"><?= htmlspecialchars($message->getSenderFirstname()) ?></p>
             <p><?= htmlspecialchars($message->getMessage()) ?></p>
-            <span class="timestamp"><?= htmlspecialchars($message->getCreatedAt()) ?></span>
+            <div class="message-footer">
+                <span class="timestamp"><?= htmlspecialchars($message->getCreatedAt()) ?></span>
+                <?php
+                if ($isOwnMessage) {?>
+                    <p class="status"><?= $message->isRead() ? '<span class="material-symbols-outlined read" data-icon="visibility">visibility</span>' : '<span class="material-symbols-outlined unread" data-icon="visibility">visibility</span>' ?></p>
+                <?php } ?>
+            </div>
         </div>
         <?php
     }
