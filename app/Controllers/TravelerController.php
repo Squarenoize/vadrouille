@@ -16,7 +16,7 @@ class TravelerController {
         $this->user = Auth::user();
         
         // Global traveler check
-        if (!$this->user || !$this->user->isTraveler()) {
+        if (!$this->user) {
             header('Location: ' . BASE_URL . '/connexion');
             exit;
         }
@@ -119,5 +119,45 @@ class TravelerController {
             header('Location: ' . BASE_URL . '/traveler/dashboard');
             exit;
         }
+    }
+
+    public function updateSettings() {
+        try {
+            $userModel = new UserModel();
+            $userId = $this->user->getId();
+
+            $email = $_POST['email'] ?? '';
+            $firstName = $_POST['first_name'] ?? '';
+            $lastName = $_POST['last_name'] ?? '';
+            $phone = $_POST['phone'] ?? '';
+            $emailNotif = isset($_POST['email_notif']) ? 1 : 0;
+
+            // Basic validation (can be expanded)
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("Email invalide.");
+            }
+            if (empty($firstName) || empty($lastName)) {
+                throw new Exception("Le prénom et le nom sont requis.");
+            }
+
+            // Update user settings
+            $success = $userModel->updateUserSettings($userId, $email, $firstName, $lastName, $phone, $emailNotif);
+            
+            if ($success) {
+                $_SESSION['successMessage'] = "Paramètres mis à jour avec succès.";
+            } else {
+                throw new Exception("Échec de la mise à jour des paramètres.");
+            }
+        } catch (Exception $e) {
+            error_log("Error updating traveler settings: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors de la mise à jour des paramètres : " . htmlspecialchars($e->getMessage());
+        }
+
+        if ($this->user->isAdmin()) {
+            header('Location: ' . BASE_URL . '/admin/settings');
+        } else {
+            header('Location: ' . BASE_URL . '/traveler/settings');
+        }
+        exit;
     }
 }
