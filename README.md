@@ -39,7 +39,7 @@ Client    →  Accepte le devis, gère ses réservations, communique avec l'admi
 ### Site vitrine (public)
 - Page d'accueil avec présentation du service
 - Section **Comment ça marche** (processus en 4 étapes)
-- **Blog** des voyages réalisés avec témoignages clients
+- Section **Voyages** des voyages réalisés avec témoignages clients
 - Formulaire de **premier contact** (demande de voyage)
 - Pages À propos, Mentions légales, Politique de confidentialité
 
@@ -51,13 +51,13 @@ Client    →  Accepte le devis, gère ses réservations, communique avec l'admi
   - Chaque item : dates de début/fin obligatoires, réservation requise ou non
 - Envoi et suivi des **devis** (lien sécurisé par token)
 - Gestion des **clients** et de leurs comptes
-- Gestion du **blog** et modération des témoignages
+- Gestion du **Voyages public** et modération des témoignages
 - Dépôt de **documents PDF** sur les voyages
 - **Messagerie** directe avec chaque client
 
 ### Espace Client
 - Vue **timeline** chronologique du voyage
-- Suivi des **réservations** par item (statuts, références de confirmation, notes)
+- Suivi des **réservations** par voyage (statuts, références de confirmation, notes)
 - Téléchargement des **documents** du voyage
 - **Messagerie** directe avec l'admin
 - Gestion du **profil** et du mot de passe
@@ -168,7 +168,7 @@ chmod -R 755 public/assets/
 
 | Champ | Valeur |
 |-------|--------|
-| URL | `http://travel-planner.local/login` |
+| URL | `http://localhost/login` |
 | Email | `admin@travel-planner.fr` |
 | Mot de passe | défini dans `.env` → `ADMIN_DEFAULT_PASSWORD` |
 
@@ -188,8 +188,7 @@ APP_ENV=development          # development | production
 APP_DEBUG=true               # false en production
 
 # Base de données
-DB_HOST=127.0.0.1
-DB_PORT=3306
+DB_HOST=localhost
 DB_NAME=travel_planner
 DB_USER=root
 DB_PASS=secret
@@ -222,46 +221,50 @@ ADMIN_DEFAULT_PASSWORD=ChangeMe!2025
 travel-planner/
 ├── app/
 │   ├── Controllers/
-│   │   ├── Admin/              # AdminDashboard, AdminRequest, AdminTrip…
-│   │   ├── Client/             # ClientDashboard, ClientTrip, Booking…
+│   │   ├── AdminController.php
+│   │   ├── TravelerController.php
 │   │   ├── HomeController.php
-│   │   ├── BlogController.php
+│   │   ├── MessageController.php
 │   │   ├── ContactController.php
 │   │   ├── AuthController.php
-│   │   └── ApiController.php
+│   │   └── TripsController.php
 │   ├── Models/
 │   │   ├── UsersModel.php
 │   │   ├── TrispModel.php
 │   │   ├── TripItemModel.php
 │   │   ├── BookingStatusModel.php
 │   │   ├── MessageModel.php
-│   │   ├── BlogPostModel.php
+│   │   ├── TripsPostModel.php
 │   │   ├── TestimonialModel.php
 │   │   ├── ContactRequestModel.php
 │   │   └── TripDocumentModel.php
+|   |── Entities/
+│   │   ├── ContactRequest.php
+│   │   ├── Message.php
+│   │   ├── Trip.php
+│   │   └── User.php
 │   ├── Views/
-│   │   ├── layouts/            # public.php, client.php, admin.php
-│   │   ├── partials/           # flash.php, pagination.php, csrf.php
-│   │   ├── emails/             # Templates emails transactionnels
-│   │   ├── home/
-│   │   ├── blog/
-│   │   ├── auth/
-│   │   ├── admin/
-│   │   └── client/
+|   |   ├── components/shared/chat.php
+│   │   ├── layouts/            # public.php, traveler.php, admin.php, auth
+│   │   ├── pages/
+|   |   |      ├── admin/      # chats.php, dashboard.php, newTrip.php...
+|   |   |      ├── auth/        # login.php, change_password.php
+|   |   |      ├── public/      # home.php, about.php, contact.php...
+|   |   |      └── traveler/    # dashboard.php, trips.php, trip_details.php...
+│   │   └── schemas/             # Templates emails transactionnels
 │   └── Core/
 │       ├── Database.php        # Singleton PDO
 │       ├── Router.php
-│       ├── Request.php
-│       ├── Session.php
-│       ├── BaseController.php
-│       ├── BaseModel.php
-│       ├── Validator.php
+│       ├── Auth.php
+│       ├── SeoHelper.php
+│       ├── DataVerification.php
+│       ├── View.php
 │       ├── Mailer.php
 │       ├── FileUploader.php
 │       └── Env.php
 ├── config/
 │   ├── config.php              # Constantes globales
-│   └── routes.php              # Définition de toutes les routes
+│   └── autoloader.php              
 ├── database/
 │   └── travel_planner_schema.sql
 ├── public/                     # Document root
@@ -326,8 +329,8 @@ to_verify        (item modifié par l'admin après réservation)
 - Seul à pouvoir créer/modifier/supprimer des voyages et leurs items
 - Gère les comptes clients, le blog, les documents
 
-### `user` (client)
-- Accès à son espace personnel uniquement (`/client/*`)
+### `traveler` (client)
+- Accès à son espace personnel uniquement (`/traveler/*`)
 - Consulte son voyage, met à jour ses statuts de réservation
 - Communique avec l'admin via la messagerie
 - Ne peut pas modifier le contenu du voyage
@@ -342,7 +345,6 @@ to_verify        (item modifié par l'admin après réservation)
 |---------|---------|
 | `docs/TravelPlanner_Documentation_Technique.docx` | Architecture complète, fonctionnalités, BDD, routes, workflow métier |
 | `docs/travel_planner_schema.sql` | Schéma MySQL commenté, prêt à importer |
-| `docs/travel_planner_classes.md` | Diagramme de classes Mermaid (28 classes) |
 
 ---
 

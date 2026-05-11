@@ -32,7 +32,6 @@ CREATE TABLE `users` (
     UNIQUE KEY `uq_users_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
 -- ------------------------------------------------------------
 --  2. contact_requests
 --  Demandes de voyage soumises par les visiteurs (site vitrine).
@@ -56,10 +55,7 @@ CREATE TABLE `contact_requests` (
     `created_at`         DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (`id`),
-    KEY `idx_contact_requests_status` (`status`),
-    CONSTRAINT `fk_contact_requests_trip`
-        FOREIGN KEY (`converted_to_trip`) REFERENCES `trips` (`id`)
-        ON DELETE SET NULL ON UPDATE CASCADE
+    KEY `idx_contact_requests_status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- NB : la FK vers trips est ajoutée après création de trips (voir ALTER plus bas).
@@ -309,7 +305,7 @@ INSERT INTO `users`
 VALUES
     (
         'admin@travel-planner.fr',
-        '$2y$12$examplehashchangethisbeforeproduction000000000000000000',
+        '$2y$10$76SPyHZFtS.NhZh14TGpxO.Tk97fnYbWUp6j2OTty2U25Zojgr0Ii',
         'Admin',
         'Travel',
         'admin',
