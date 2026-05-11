@@ -1,0 +1,1115 @@
+/**
+ * DASHBOARD ADMIN - Styles personnalisés
+ */
+
+/**
+ * Reset CSS de base
+ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Manrope', sans-serif;
+}
+
+/**
+ * Variables de couleurs - Palette Material Design
+ */
+:root {
+    --admin-dark-blue: #33454F;
+    --admin-dark-slate: #0f172a;
+    --admin-slate-400: #94a3b8;
+    --admin-slate-300: #cbd5e1;
+    --admin-bg-cream: #fbf9f4;
+    --admin-bg-dark: #1e293b;
+    --admin-primary: #374953;
+    --admin-secondary: #fbbf24;
+    --admin-secondary-dark: #f59e0b;
+    --admin-golden: #735c00;
+    --admin-outline: #73787b;
+    --admin-surface: #f0eee9;
+    --admin-surface-low: #f5f3ee;
+    --admin-border: #c3c7cb;
+    --admin-shadow: rgba(27, 28, 25, 0.06);
+    --admin-green: #22c55e;
+}
+
+/**
+ * Layout principal
+ */
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--admin-bg-cream);
+    font-family: 'Manrope', sans-serif;
+}
+
+/**
+ * SIDEBAR - Navigation latérale
+ */
+.admin-sidebar, .traveler-sidebar{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 256px;
+    height: 100vh;
+    background-color: var(--admin-dark-blue);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    z-index: 50;
+
+    .logo {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+        padding-right: 20px;
+
+        img {
+            height: 72px;
+            width: auto;
+        }
+    }
+}
+
+.sidebar-badge {
+    background-color: var(--admin-secondary);
+    color: #1e293b;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: auto;
+}
+
+.admin-sidebar.dark {
+    background-color: var(--admin-dark-slate);
+}
+
+.sidebar-brand {
+    font-family: 'Noto Serif', serif;
+    font-size: 18px;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.sidebar-subtitle {
+    color: var(--admin-slate-400);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 32px;
+}
+
+.sidebar-quotation {
+    text-align: center;
+    font-style: italic;
+    color: var(--admin-slate-300);
+
+    .quotation-author {
+        display: block;
+        font-style: normal;
+        margin-top: 8px;
+        font-size: 12px;
+    }
+}
+
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: var(--admin-slate-300);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    transform: scale(0.98);
+}
+
+.sidebar-link.active {
+    background-color: rgba(251, 249, 244, 0.1);
+    color: white;
+    border-left: 4px solid var(--admin-golden);
+}
+
+.sidebar-link .material-symbols-outlined {
+    font-size: 20px;
+}
+
+.sidebar-create-btn {
+    margin-top: auto;
+    background-color: var(--admin-secondary);
+    color: #1e293b;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.2s;
+}
+
+.sidebar-create-btn:hover {
+    opacity: 0.9;
+}
+
+/**
+ * MAIN CONTENT AREA
+ */
+.admin-main, .traveler-main {
+    margin-left: 256px;
+    min-height: 100vh;
+    max-width: none; /* Override styles.css global main max-width */
+    display: block; /* Override styles.css global main display: flex */
+    align-items: initial; /* Reset alignment */
+}
+
+/**
+ * TOP APP BAR - Barre supérieure
+ */
+.admin-topbar, .traveler-topbar {
+    position: sticky;
+    top: 0;
+    width: auto; /* Override styles.css global header width: 100% */
+    background-color: rgba(251, 249, 244, 0.8);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: var(--admin-dark-blue);
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+    height: 64px;
+    border-bottom: 1px solid rgba(195, 199, 203, 0.2);
+    box-shadow: 0 12px 32px var(--admin-shadow);
+    z-index: 40;
+}
+
+.admin-topbar.dark {
+    background-color: rgba(30, 41, 59, 0.8);
+    color: #f1f5f9;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.topbar-search {
+    position: relative;
+}
+
+.topbar-search .material-symbols-outlined {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--admin-outline);
+}
+
+.topbar-search input {
+    padding-left: 40px;
+    padding-right: 16px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    background-color: var(--admin-surface-low);
+    border: none;
+    border-radius: 9999px;
+    font-size: 12px;
+    width: 256px;
+    outline: none;
+}
+
+.topbar-search input:focus {
+    box-shadow: 0 0 0 1px var(--admin-secondary);
+}
+
+.topbar-btn {
+    padding: 8px;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    position: relative;
+}
+
+.topbar-btn:hover {
+    background-color: var(--admin-surface);
+}
+
+.topbar-notification-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--admin-secondary);
+    border-radius: 50%;
+    border: 2px solid var(--admin-bg-cream);
+}
+
+.topbar-divider {
+    height: 32px;
+    width: 1px;
+    background-color: rgba(195, 199, 203, 0.2);
+    margin: 0 8px;
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.topbar-user-info {
+    text-align: right;
+}
+
+.topbar-user-role {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+    color: var(--admin-outline);
+}
+
+.topbar-user-name {
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.topbar-avatar {
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(195, 199, 203, 0.3);
+}
+
+.topbar-user-initials {
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    background-color: var(--admin-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/**
+ * DASHBOARD CANVAS - Zone de contenu
+ */
+.dashboard-canvas {
+    padding: 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.dashboard-section {
+    margin-bottom: 48px;
+}
+
+/**
+ * BENTO GRID - Grille de cartes résumé
+ */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 32px;
+    margin-bottom: 48px;
+}
+
+@media (min-width: 768px) {
+    .bento-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.stat-card {
+    background-color: white;
+    padding: 32px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 192px;
+    border: 1px solid rgba(195, 199, 203, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card.primary {
+    background-color: var(--admin-primary);
+    color: white;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.stat-card-header {
+    z-index: 10;
+}
+
+.stat-card-label {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--admin-outline);
+    font-weight: 700;
+    font-size: 10px;
+}
+
+.stat-card.primary .stat-card-label {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.stat-card-value {
+    font-family: 'Noto Serif', serif;
+    font-size: 48px;
+    margin-top: 8px;
+    color: var(--admin-primary);
+}
+
+.stat-card.primary .stat-card-value {
+    color: white;
+}
+
+.stat-card-footer {
+    font-size: 14px;
+    color: var(--admin-outline);
+    z-index: 10;
+}
+
+.stat-card.primary .stat-card-footer {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.stat-card-icon {
+    position: absolute;
+    right: -16px;
+    bottom: -16px;
+    font-size: 144px;
+    color: var(--admin-surface);
+    opacity: 0.4;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.stat-card.primary .stat-card-icon {
+    color: rgba(255, 255, 255, 0.05);
+}
+
+.stat-card-badge {
+    background-color: var(--admin-secondary);
+    color: #1e293b;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.stat-card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 10;
+}
+
+/**
+ * PERFORMANCE SECTION
+ */
+.performance-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+}
+
+@media (min-width: 1024px) {
+    .performance-grid {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+.section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-family: 'Noto Serif', serif;
+    font-size: 24px;
+    color: var(--admin-primary);
+}
+
+.performance-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--admin-secondary-dark);
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.chart-container {
+    background-color: white;
+    padding: 32px;
+    border-radius: 12px;
+    border: 1px solid rgba(195, 199, 203, 0.1);
+    height: 320px;
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    overflow: hidden;
+}
+
+.chart-bar {
+    flex: 1;
+    background-color: var(--admin-surface);
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.chart-bar:hover .chart-tooltip {
+    opacity: 1;
+}
+
+.chart-bar.active {
+    background-color: var(--admin-secondary);
+}
+
+.chart-bar.primary {
+    background-color: var(--admin-primary);
+}
+
+.chart-tooltip {
+    position: absolute;
+    top: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 10px;
+    font-weight: 700;
+    background-color: var(--admin-primary);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.chart-bar.active .chart-tooltip {
+    opacity: 1;
+}
+
+/**
+ * TABLE - Tableau des demandes récentes
+ */
+.table-wrapper {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid rgba(195, 199, 203, 0.1);
+    overflow: hidden;
+    margin-top: 24px;
+}
+
+.admin-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.admin-table thead {
+    background-color: var(--admin-surface-low);
+    color: var(--admin-outline);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.admin-table th {
+    padding: 16px 24px;
+}
+
+.admin-table tbody {
+    font-size: 14px;
+}
+
+.admin-table tbody tr {
+    border-top: 1px solid var(--admin-border);
+    transition: background-color 0.2s;
+}
+
+.admin-table tbody tr:hover {
+    background-color: var(--admin-surface-low);
+}
+
+.admin-table td {
+    padding: 20px 24px; 
+}
+
+.trip-dates {
+        min-width: 150px;
+}
+
+.trip-status, .trip-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    min-width: 180px;
+}
+
+.trip-access {
+    text-align: center;
+}
+
+.admin-table select, .request-card select {
+    margin-right: 2px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(195, 199, 203, 0.3);
+    background-color: var(--admin-surface);
+    color: var(--admin-outline);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.admin-table option, .request-card option {
+    background-color: white;
+}
+
+.admin-table button, .request-card button {
+    margin-right: 2px;
+    background-color: var(--admin-secondary);
+    color: #1e293b;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.admin-table button:hover, .request-card button {
+    background-color: var(--admin-secondary-dark);
+}
+.table-name {
+    font-weight: 600;
+}
+
+.table-date {
+    font-size: 12px;
+    color: var(--admin-outline);
+}
+
+.access {
+    color: var(--admin-green);
+}
+
+.noAccess {
+    color: var(--admin-outline);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 4px;
+}
+
+.status-new {
+    background-color: #dbeafe;
+    color: #1e3a8a;
+}
+
+.status-reviewing {
+    background-color: #fed65b;
+    color: #745c00;
+}
+
+.status-pending {
+    background-color: var(--admin-surface);
+    color: var(--admin-outline);
+}
+
+/**
+ * TRIP PREPARATION - Liste des préparations de voyage
+ */
+.trip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.trip-card {
+    background-color: var(--admin-surface-low);
+    padding: 24px;
+    border-radius: 12px;
+    border-left: 4px solid;
+    transition: box-shadow 0.3s;
+}
+
+.trip-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.trip-card.status-high {
+    border-left-color: var(--admin-secondary);
+}
+
+.trip-card.status-medium {
+    border-left-color: var(--admin-primary);
+}
+
+.trip-card.status-low {
+    border-left-color: rgba(195, 199, 203, 0.3);
+}
+
+.trip-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.trip-card-title {
+    font-weight: 700;
+    color: var(--admin-primary);
+}
+
+.trip-card-date {
+    font-size: 12px;
+    color: var(--admin-outline);
+    font-style: italic;
+}
+
+.trip-card-icon {
+    color: var(--admin-secondary);
+}
+
+.trip-card-icon.faded {
+    color: rgba(55, 73, 83, 0.4);
+}
+
+.progress-section {
+    margin-bottom: 16px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+    margin-bottom: 8px;
+}
+
+.progress-value {
+    color: var(--admin-secondary);
+}
+
+.progress-value.primary {
+    color: var(--admin-primary);
+}
+
+.progress-value.outline {
+    color: var(--admin-outline);
+}
+
+.progress-bar-bg {
+    width: 100%;
+    background-color: var(--admin-surface);
+    height: 4px;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    background-color: var(--admin-secondary);
+}
+
+.progress-bar-fill.primary {
+    background-color: var(--admin-primary);
+}
+
+.progress-bar-fill.outline {
+    background-color: var(--admin-outline);
+}
+
+.travelers-row {
+    display: flex;
+    gap: -8px;
+    padding-top: 8px;
+}
+
+.traveler-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--admin-surface-low);
+    object-fit: cover;
+    margin-left: -8px;
+}
+
+.traveler-avatar:first-child {
+    margin-left: 0;
+}
+
+.traveler-count {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--admin-surface-low);
+    background-color: var(--admin-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    color: white;
+    margin-left: -8px;
+}
+
+/**
+ * ACTION CARD - Carte d'action rapide
+ */
+.action-card {
+    background-color: rgba(251, 191, 36, 0.1);
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.action-card-icon {
+    background-color: var(--admin-secondary);
+    padding: 12px;
+    border-radius: 50%;
+    color: white;
+    transition: transform 0.3s;
+}
+
+.action-card:hover .action-card-icon {
+    transform: scale(1.1);
+}
+
+.action-card-title {
+    font-weight: 700;
+    color: var(--admin-secondary-dark);
+}
+
+.action-card-subtitle {
+    font-size: 12px;
+    color: #92400e;
+}
+
+/**
+ * Utilities
+ */
+.z-10 {
+    z-index: 10;
+}
+
+.space-y-4 > * + * {
+    margin-top: 16px;
+}
+
+.space-y-6 > * + * {
+    margin-top: 24px;
+}
+
+.space-y-8 > * + * {
+    margin-top: 32px;
+}
+
+.gap-2 {
+    gap: 8px;
+}
+
+.gap-3 {
+    gap: 12px;
+}
+
+.gap-4 {
+    gap: 16px;
+}
+
+
+.new-trip-form {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 32px;
+    border-radius: 12px;
+    border: 1px solid rgba(195, 199, 203, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.traveler-trip-link {
+    background-color: var(--admin-secondary);
+    text-decoration: none;
+}
+
+.trip-detail-container {
+    display: flex;
+    width: 100%;
+    gap: 32px;
+
+    .trip-detail-section {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 66%;
+        padding: 24px;
+        background-color: var(--admin-slate-300);
+        flex: 1;
+    }
+
+    .trip-discussion-section {
+        display: flex;
+        width: 33%;
+    }
+
+}
+
+.travel-page-title, .chats-page-title, .admin-trips-title, .admin-requests-title {
+    font-family: 'Noto Serif', serif;
+    font-size: 32px;
+    color: var(--admin-primary);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--admin-slate-300);
+}
+
+.travel-trip-title {
+    font-family: 'Noto Serif', serif;
+    font-size: 24px;
+    color: var(--admin-primary);
+    margin-bottom: 16px;
+}
+
+.admin-requests-nav, .admin-trips-nav {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+
+    .admin-requests-link, .admin-trips-link {
+        color: var(--admin-outline);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding-bottom: 4px;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+    }
+
+    .admin-requests-link:hover, .admin-trips-link:hover {
+        color: var(--admin-primary);
+        border-bottom-color: var(--admin-primary);
+    }
+
+    .admin-requests-link.active, .admin-trips-link.active {
+        color: var(--admin-primary);
+        border-bottom-color: var(--admin-primary);
+    }
+
+    
+
+}
+
+.request-card {
+    display: flex;
+    flex-direction: column;
+    color: var(--admin-dark-blue);
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid rgba(29, 16, 16, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+
+    .row {
+        display: flex;
+        gap: 50px;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--admin-border);
+
+        p {
+            min-width: 250px;
+        } 
+    }
+
+    .row:last-child {
+        border-bottom: none;
+    }
+
+    .actions {
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    button {
+        background-color: var(--admin-secondary);
+        color: #1e293b;
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+
+    button:hover {
+        background-color: var(--admin-secondary-dark);
+    }
+}
+
+.new-trip-form {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 32px;
+    color: var(--admin-dark-blue);
+
+    .form-row {
+        display: flex;
+        gap: 32px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: 1;
+    }
+
+    input, select, textarea {
+        margin: 8px 0 16px 0;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(195, 199, 203, 0.3);
+        background-color: var(--admin-surface);
+        color: var(--admin-outline);
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    button {
+        background-color: var(--admin-secondary);
+        color: #1e293b;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        width: fit-content;
+    }
+
+    button:hover {
+        background-color: var(--admin-secondary-dark);
+    }
+}
+
+.chat-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border-bottom: 1px solid var(--admin-border);
+    text-decoration: none;
+    color: var(--admin-dark-blue);
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: var(--admin-surface-low);
+    }
+
+    .sidebar-badge {
+        position: absolute;
+        top: 10px;
+        left: -28px;
+    }
+
+    .chat-item-header, .chat-item-body {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .chat-item-title {
+            font-weight: 600;
+            color: var(--admin-primary);
+        }
+
+        .chat-item-sender {
+            font-size: 14px;
+            color: var(--admin-outline);
+        }
+    }
+
+    .chat-item-last-message {
+        font-size: 14px;
+        color: var(--admin-outline);
+        margin-top: 4px;
+    }
+
+    .chat-item-timestamp {
+        font-size: 12px;
+        color: var(--admin-outline);
+        margin-top: 4px;
+        align-self: flex-end;
+    }
+}
+
+.topbar-error-message {
+        padding: 10px;
+        color: #a70000;
+        border-radius: 5px;
+}
