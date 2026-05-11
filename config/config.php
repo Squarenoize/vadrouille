@@ -28,18 +28,8 @@ define('ROOT_DIR', __DIR__ . '/../');
  * DATABASE
  */
 
-if ($isLocal) {
-    // LOCAL DATABASE (WAMP)
-    define('DB_HOST', 'localhost');
-    define('DB_NAME', 'vadrouille');
-    define('DB_USER', 'root');
-    define('DB_PASS', 'sirius');
+    define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
+    define('DB_NAME', $_ENV['DB_NAME'] ?? 'vadrouille');
+    define('DB_USER', $_ENV['DB_USER'] ?? 'root');
+    define('DB_PASS', $_ENV['DB_PASSWORD'] ?? 'sirius');
     
-} else {
-    // PRODUCTION DATABASE
-    // TO CONFIGURE during deployment
-    define('DB_HOST', 'localhost');  // or MySQL server IP
-    define('DB_NAME', 'production_db_name');
-    define('DB_USER', 'production_db_user');
-    define('DB_PASS', 'secure_password');
-}
