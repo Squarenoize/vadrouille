@@ -1,0 +1,123 @@
+<?php
+/**
+ * Controller for traveler-related pages and actions
+ */
+class TravelerController {
+
+    private $user;
+    private $sharedData = [];
+    private TripsModel $tripsModel;
+    private MessagesModel $messagesModel;
+
+    /**
+     * Constructor - Initialize common data for all traveler pages
+     */
+    public function __construct() {
+        $this->user = Auth::user();
+        
+        // Global traveler check
+        if (!$this->user || !$this->user->isTraveler()) {
+            header('Location: ' . BASE_URL . '/connexion');
+            exit;
+        }
+
+        // Initialize models to fetch common data
+        $this->tripsModel = new TripsModel();
+        $this->messagesModel = new MessagesModel();
+
+        // Common data for the sidebar (available in all views)
+        $this->sharedData = [
+            'user' => $this->user
+        ];
+    }
+    
+    /**
+     * Helper to render a traveler view with shared data
+     * @param string $template Path to the template (e.g., 'traveler/dashboard')
+     * @param array $data Specific data for the view
+     */
+    private function renderTravelerView(string $template, array $data = []): void {
+        // Merge shared data + specific data
+        $viewData = array_merge($this->sharedData, $data);
+        
+        $view = new View($template, $viewData, 'traveler');
+        $view->render();
+    }
+
+    /**
+     * View the dashboard for the current traveler --TODO: add stats, etc.
+     */
+    public function dashboard() {
+        $this->renderTravelerView('traveler/dashboard', [
+            'currentPage' => 'dashboard'
+        ]);
+    }
+
+    /**
+     * View the list of trips for the current traveler
+     */
+    public function trips() {
+        try {
+            $user = $this->user;
+            $trips = $this->tripsModel->getTripsByTravelerId($user->getId());
+
+            // Get the number of unread messages for each trip
+            $unreadCounts = [];
+            foreach ($trips as $trip) {
+                $unreadCounts[$trip->getId()] = $this->messagesModel->countUnreadByTripIdAndUserId($trip->getId(), $user->getId());
+            }
+            
+            $this->renderTravelerView('traveler/trips', [
+                'trips' => $trips,
+                'unreadCounts' => $unreadCounts,
+                'currentPage' => 'trips'
+            ]);
+        } catch (Exception $e) {
+            // Handle any exceptions that occur during rendering
+            error_log("Error rendering traveler trips: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement de vos voyages.";
+            header('Location: ' . BASE_URL . '/traveler/dashboard');
+            exit;
+        }
+    }
+
+    /**
+     * View details of a specific trip
+     * @param int $tripId The ID of the trip
+     */
+    public function viewTrip($tripId) {
+        try {
+            $trip = $this->tripsModel->getTripById($tripId);
+            $messages = $this->messagesModel->getMessagesByTripId($tripId);
+            $this->messagesModel->markAsReadByTrip($tripId, $this->user->getId());
+            $this->renderTravelerView('traveler/trip_detail', [
+                'trip' => $trip,
+                'messages' => $messages,
+                'currentPage' => 'trips'
+            ]);
+        } catch (Exception $e) {
+            // Handle any exceptions that occur during rendering
+            error_log("Error rendering trip details: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement des détails du voyage.";
+            header('Location: ' . BASE_URL . '/traveler/trips');
+            exit;
+        }
+    }
+
+    /**
+     * View and update traveler settings -- TODO: implement actual settings functionality
+     */
+    public function settings() {
+        try {
+            $this->renderTravelerView('traveler/settings', [
+                'currentPage' => 'settings'
+            ]);
+        } catch (Exception $e) {
+            // Handle any exceptions that occur during rendering
+            error_log("Error rendering traveler settings: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement des paramètres.";
+            header('Location: ' . BASE_URL . '/traveler/dashboard');
+            exit;
+        }
+    }
+}

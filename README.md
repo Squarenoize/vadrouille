@@ -230,8 +230,8 @@ travel-planner/
 │   │   ├── AuthController.php
 │   │   └── ApiController.php
 │   ├── Models/
-│   │   ├── UserModel.php
-│   │   ├── TripModel.php
+│   │   ├── UsersModel.php
+│   │   ├── TrispModel.php
 │   │   ├── TripItemModel.php
 │   │   ├── BookingStatusModel.php
 │   │   ├── MessageModel.php

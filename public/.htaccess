@@ -17,29 +17,14 @@ RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
 # ===== Règles d'URL Rewriting =====
+# Rediriger TOUT vers index.php (sauf fichiers/dossiers existants)
+# Le Router PHP gère ensuite le routage
 
-# Page d'accueil
-RewriteRule ^$ index.php [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L,QSA]
 
-# Page Voyages
-RewriteRule ^voyages/?$ index.php?action=trips [L,QSA]
-
-# Page Contact
-RewriteRule ^contact/?$ index.php?action=contact [L,QSA]
-
-# Page À propos
-RewriteRule ^a-propos/?$ index.php?action=about [L,QSA]
-
-# Page Mentions légales
-RewriteRule ^mentions-legales/?$ index.php?action=terms [L,QSA]
-
-# Page Connexion (pour admin)
-RewriteRule ^connexion/?$ login.php [L]
-
-# Page Politique de confidentialité (existe déjà)
-RewriteRule ^confidentialite/?$ privacy.php [L]
-
-# Empêcher l'accès direct aux fichiers includes
+# Empêcher l'accès direct aux fichiers sensibles
 RewriteRule ^includes/ - [F,L]
 
 # ===== Cache et performances =====
