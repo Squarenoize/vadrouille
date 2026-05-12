@@ -454,4 +454,13 @@ class AdminController {
             exit;
         }
     }
+
+    public function tripItem($id) {
+        // Logic to add an item to a trip itinerary
+        // (Validate input, save the item, etc.)
+        $this->renderAdminView('admin/tripItem', [
+            'currentPage' => 'tripItem',
+            'tripId' => $id
+        ]);
+    }
 }
