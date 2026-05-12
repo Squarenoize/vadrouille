@@ -10,6 +10,7 @@ class AdminController {
     private ContactRequestModel $contactRequestModel;
     private TripsModel $tripModel;
     private MessagesModel $messagesModel;
+    private TripItemModel $tripItemModel;
 
     /**
      * Constructor - Initializing common data and checking admin access
@@ -27,6 +28,7 @@ class AdminController {
         $this->contactRequestModel = new ContactRequestModel();
         $this->tripModel = new TripsModel();
         $this->messagesModel = new MessagesModel();
+        $this->tripItemModel = new TripItemModel();
 
         // Common data for the sidebar (available in all views)
         $this->sharedData = [
@@ -49,6 +51,8 @@ class AdminController {
         $view = new View($template, $viewData, 'admin');
         $view->render();
     }
+
+
     
     /**
      * Display the admin dashboard --TODO
@@ -287,12 +291,20 @@ class AdminController {
                 header('Location: ' . BASE_URL . '/admin/trips');
                 exit;
             }
+            // Retrieve trip items for the itinerary
+            $tripItems = $this->tripItemModel->getItemsByTripId($id);
+            
+            // Group items by day for better display
+            $itemsByDay = TripHelper::groupItemsByDay($tripItems);
+            
             // Retrieve messages related to this trip
             $messages = $this->messagesModel->getMessagesByTripId($id);
             $this->messagesModel->markAsReadByTrip($id, $this->user->getId());
 
             $this->renderAdminView('admin/trip_detail', [
                 'trip' => $trip,
+                'tripItems' => $tripItems, // Keep original for compatibility
+                'itemsByDay' => $itemsByDay, // Grouped by day
                 'messages' => $messages,
                 'currentPage' => 'trips'
             ]);
@@ -463,4 +475,166 @@ class AdminController {
             'tripId' => $id
         ]);
     }
+
+    public function addTripItem($id) {
+        try {
+            $trip = $this->tripModel->getTripById($id);
+
+            if (!$trip) {
+                header('Location: ' . BASE_URL . '/admin/trips');
+                exit;
+            }
+
+            // Handle checkbox value (unchecked checkboxes are not sent in POST)
+            $_POST['requiresBooking'] = isset($_POST['requiresBooking']) ? 1 : 0;
+            
+            $newItem = TripItem::fromArray($_POST);
+
+            // TODO: Add validation in the entity and validate here before saving
+            /*$errors = $newItem->validate();
+
+            if (!empty($errors)) {
+                $this->renderAdminView('admin/tripItem', [
+                    'errors' => $errors,
+                    'formData' => $_POST,
+                    'tripId' => $id,
+                    'currentPage' => 'tripItem'
+                ]);
+                return;
+            }*/
+
+            $newItem->setTripId($id);
+            $this->tripItemModel->saveTripItem($newItem);
+            
+            // Reorder all items chronologically after adding new one
+            $this->tripItemModel->reorderItems($id);
+
+            header('Location: ' . BASE_URL . '/admin/trips/' . $id);
+            exit;
+        } catch (Exception $e) {
+            // Handle any exceptions that occur during trip item addition
+            error_log("Error adding trip item: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors de l'ajout de l'item au voyage.";
+            header('Location: ' . BASE_URL . '/admin/trips/' . $id);
+            exit;
+        }
+    }
+
+    /**
+     * Show edit form for a trip item
+     * GET /admin/trips/{tripId}/edit-item/{itemId}
+     */
+    public function showEditTripItem($tripId, $itemId) {
+        try {
+            $trip = $this->tripModel->getTripById($tripId);
+            $item = $this->tripItemModel->getItemById($itemId);
+
+            if (!$trip || !$item) {
+                header('Location: ' . BASE_URL . '/admin/trips');
+                exit;
+            }
+
+            // Verify item belongs to this trip
+            if ($item->getTripId() != $tripId) {
+                header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
+                exit;
+            }
+
+            // Reuse the same view as creation, but pass the item for editing
+            $this->renderAdminView('admin/tripItem', [
+                'currentPage' => 'trips',
+                'trip' => $trip,
+                'item' => $item,
+                'tripId' => $tripId,
+                'itemId' => $itemId
+            ]);
+        } catch (Exception $e) {
+            error_log("Error loading edit trip item form: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement du formulaire.";
+            header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
+            exit;
+        }
+    }
+
+    /**
+     * Update a trip item
+     * POST /admin/trips/{tripId}/edit-item/{itemId}
+     */
+    public function editTripItem($tripId, $itemId) {
+        try {
+            $trip = $this->tripModel->getTripById($tripId);
+            $existingItem = $this->tripItemModel->getItemById($itemId);
+
+            if (!$trip || !$existingItem) {
+                header('Location: ' . BASE_URL . '/admin/trips');
+                exit;
+            }
+
+            // Verify item belongs to this trip
+            if ($existingItem->getTripId() != $tripId) {
+                header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
+                exit;
+            }
+
+            // Handle checkbox value (unchecked checkboxes are not sent in POST)
+            $_POST['requiresBooking'] = isset($_POST['requiresBooking']) ? 1 : 0;
+            
+            // Keep ID, tripId and sortOrder from existing item
+            $_POST['id'] = $itemId;
+            $_POST['tripId'] = $tripId;
+            $_POST['sortOrder'] = $existingItem->getSortOrder();
+            
+            // Create item from POST data
+            $updatedItem = TripItem::fromArray($_POST);
+
+            // TODO: Add validation
+            /*$errors = $updatedItem->validate();
+            if (!empty($errors)) {
+                $this->renderAdminView('admin/editTripItem', [
+                    'errors' => $errors,
+                    'formData' => $_POST,
+                    'trip' => $trip,
+                    'item' => $existingItem,
+                    'tripId' => $tripId,
+                    'itemId' => $itemId,
+                    'currentPage' => 'trips'
+                ]);
+                return;
+            }*/
+
+            $this->tripItemModel->updateTripItem($updatedItem);
+            
+            // Reorder items if dates changed
+            $this->tripItemModel->reorderItems($tripId);
+
+            $_SESSION['successMessage'] = "L'item a été modifié avec succès.";
+            header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
+            exit;
+        } catch (Exception $e) {
+            error_log("Error updating trip item: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors de la modification de l'item.";
+            header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
+            exit;
+        }
+    }
+
+    /**
+     * Delete a trip item
+     * POST /admin/trips/{tripId}/delete-item/{itemId}
+     */
+    public function deleteTripItem($tripId, $itemId) {
+        try {
+            $this->tripItemModel->deleteItem($itemId);
+            $this->tripItemModel->reorderItems($tripId);
+            
+            $_SESSION['successMessage'] = "L'item a été supprimé avec succès.";
+        } catch (Exception $e) {
+            error_log("Error deleting trip item: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors de la suppression de l'item.";
+        }
+        
+        header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
+        exit;
+    }
+    
 }

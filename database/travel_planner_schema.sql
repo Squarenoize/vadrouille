@@ -119,7 +119,7 @@ CREATE TABLE `trip_items` (
     `start_datetime`   DATETIME        NOT NULL,
     `end_datetime`     DATETIME        NOT NULL,
     `description`      TEXT                NULL DEFAULT NULL,
-    `requires_booking` TINYINT(1)      NOT NULL DEFAULT 1,
+    `requires_booking` TINYINT(1)      NOT NULL DEFAULT 0,
     `external_link`    VARCHAR(512)        NULL DEFAULT NULL,
     `indicative_price` DECIMAL(8,2)        NULL DEFAULT NULL,
     `sort_order`       SMALLINT UNSIGNED NOT NULL DEFAULT 0,

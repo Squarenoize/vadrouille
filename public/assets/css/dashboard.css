@@ -336,7 +336,8 @@ body {
 .dashboard-canvas {
     padding: 40px;
     max-width: 1280px;
-    margin: 0 auto;
+    min-height: 80vh;
+    margin: 0 auto; 
 }
 
 .dashboard-section {
@@ -909,18 +910,22 @@ body {
         gap: 16px;
         width: 66%;
         padding: 24px;
-        background-color: var(--admin-slate-300);
         flex: 1;
     }
 
     .trip-discussion-section {
+        position: sticky;
+        top: 80px; /* 64px (topbar) + 16px margin */
         display: flex;
         width: 33%;
+        align-self: flex-start; /* Important pour sticky */
+        max-height: calc(100vh - 96px); /* Viewport height - top offset - bottom margin */
+        overflow-y: auto; /* Scroll si le chat est trop long */
     }
 
 }
 
-.travel-page-title, .chats-page-title, .admin-trips-title, .admin-requests-title {
+.travel-page-title, .chats-page-title, .admin-trips-title, .admin-requests-title, .admin-detail-title, .admin-item-title {
     font-family: 'Noto Serif', serif;
     font-size: 32px;
     color: var(--admin-primary);
@@ -1056,6 +1061,18 @@ body {
     button:hover {
         background-color: var(--admin-secondary-dark);
     }
+
+    a {
+        color: var(--admin-secondary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s;
+        margin-left: 16px;
+    }
+
+    a:hover {
+        color: var(--admin-secondary-dark);
+    }
 }
 
 .chat-item {
@@ -1112,4 +1129,137 @@ body {
         padding: 10px;
         color: #a70000;
         border-radius: 5px;
+}
+
+/**
+ * TRIP ITEMS - Itineraire groupé par jour
+ */
+ .trip-add-button {
+    background-color: var(--admin-secondary);
+    color: #1e293b;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    align-self: flex-end;
+    text-decoration: none;
+}
+.trip-add-button:hover {
+    background-color: var(--admin-secondary-dark);
+}
+
+.trip-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.trip-day-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.day-header {
+    font-family: 'Noto Serif', serif;
+    font-size: 20px;
+    color: var(--admin-primary);
+    padding: 12px 16px;
+    background: linear-gradient(90deg, var(--admin-bg-cream) 0%, rgba(251, 191, 36, 0.1) 100%);
+    border-left: 4px solid var(--admin-golden);
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.trip-item-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(195, 199, 203, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s;
+}
+
+.trip-item-card:hover {
+    transform: translateY(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.trip-item-card h4 {
+    color: var(--admin-primary);
+    font-size: 16px;
+    margin: 0;
+}
+
+.trip-item-card .item-category {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.item-title {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.item-description {
+    width: 70%;
+}
+
+.trip-item-card p {
+    font-size: 14px;
+    color: var(--admin-outline);
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.trip-item-card p strong {
+    color: var(--admin-primary);
+}
+
+.trip-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.trip-item-card a {
+    color: var(--admin-secondary-dark);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.trip-item-card a:hover {
+    color: var(--admin-golden);
+}
+
+.item-actions {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    a {
+        background-color: var(--admin-secondary);
+        color: #1e293b;
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+
+    .delete-button {
+        color: #808080;
+        border: none;
+        cursor: pointer;
+        background-color: transparent;
+    }
 }

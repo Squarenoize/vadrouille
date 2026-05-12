@@ -31,10 +31,10 @@ class TripItem {
         $instance->startDatetime = new DateTime($data['startDatetime'] ?? $data['start_datetime'] ?? 'now');
         $instance->endDatetime = new DateTime($data['endDatetime'] ?? $data['end_datetime'] ?? 'now');
         $instance->description = $data['description'] ?? null;
-        $instance->requiresBooking = isset($data['requiresBooking']) ? (bool)$data['requiresBooking'] : true;
-        $instance->externalLink = $data['externalLink'] ?? null;
-        $instance->indicativePrice = isset($data['indicativePrice']) ? (float)$data['indicativePrice'] : null;
-        $instance->sortOrder = $data['sortOrder'] ?? 0;
+        $instance->requiresBooking = isset($data['requiresBooking']) ? (bool)$data['requiresBooking'] : (isset($data['requires_booking']) ? (bool)$data['requires_booking'] : true);
+        $instance->externalLink = $data['externalLink'] ?? $data['external_link'] ?? null;
+        $instance->indicativePrice = isset($data['indicativePrice']) || isset($data['indicative_price']) ? (float)($data['indicativePrice'] ?? $data['indicative_price']) : null;
+        $instance->sortOrder = $data['sortOrder'] ?? $data['sort_order'] ?? 0;
         $instance->createdAt = new DateTime($data['createdAt'] ?? $data['created_at'] ?? 'now');
         if (isset($data['updatedAt']) || isset($data['updated_at'])) {
             $instance->updatedAt = new DateTime($data['updatedAt'] ?? $data['updated_at']);
