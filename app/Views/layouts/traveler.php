@@ -67,9 +67,13 @@ $prioritaryFunctionality = false;
                 <?php } ?>
             </div>
             <div class="topbar-center">
-                <?php if (isset($_SESSION['errorMessage'])) { ?>
+                <?php 
+                if (isset($_SESSION['errorMessage'])) { ?>
                 <p class="topbar-error-message"><?= htmlspecialchars($_SESSION['errorMessage']) ?></p>
-                <?php unset($_SESSION['errorMessage']); }?>
+                <?php unset($_SESSION['errorMessage']); }
+                if (isset($_SESSION['successMessage'])) { ?>
+                    <p class="topbar-success-message"><?= htmlspecialchars($_SESSION['successMessage']) ?></p>
+                <?php unset($_SESSION['successMessage']); }?>
             </div>
             <div class="topbar-right">
                 <?php if ($prioritaryFunctionality) { ?>

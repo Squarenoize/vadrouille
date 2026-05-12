@@ -454,4 +454,23 @@ class AdminController {
             exit;
         }
     }
+
+    public function settings() {
+        try {
+            //Get user info
+            $userId = $this->user->getId();
+            $userModel = new UserModel();
+            $userSettings = $userModel->getCommonUserSettings($userId);
+            $this->renderAdminView('admin/settings', [
+                'currentPage' => 'settings',
+                'userSettings' => $userSettings
+            ]);
+        } catch (Exception $e) {
+            // Handle any exceptions that occur during rendering
+            error_log("Error rendering admin settings: " . $e->getMessage());
+            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement des paramètres du compte.";
+            header('Location: ' . BASE_URL . '/admin/settings');
+            exit;
+        }
+    }
 }

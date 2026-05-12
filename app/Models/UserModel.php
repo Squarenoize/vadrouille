@@ -112,4 +112,35 @@ Class UserModel {
         
         return null;
     }
+
+    public function getCommonUserSettings(int $userId) {
+        $stmt = $this->db->prepare('SELECT email, first_name, last_name, phone, email_notif  FROM users WHERE id = :user_id');
+        $stmt->execute(['user_id' => $userId]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $data ?: null;
+    }
+
+    public function updateUserSettings(int $userId, string $email, string $firstName, string $lastName, ?string $phone, bool $emailNotif): bool {
+        $stmt = $this->db->prepare('
+            UPDATE users 
+            SET email = :email,
+                first_name = :first_name,
+                last_name = :last_name,
+                phone = :phone,
+                email_notif = :email_notif,
+                updated_at = NOW()
+            WHERE id = :id
+        ');
+        
+        return $stmt->execute([
+            'email' => $email,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'phone' => $phone,
+            'email_notif' => $emailNotif ? 1 : 0,
+            'id' => $userId
+        ]);
+    }
+
 }

@@ -83,9 +83,13 @@ $prioritaryFunctionality = false;
                 <?php } ?>
             </div>
             <div class="topbar-center">
-                <?php if (isset($_SESSION['errorMessage'])) { ?>
-                <p class="topbar-error-message"><?= htmlspecialchars($_SESSION['errorMessage']) ?></p>
-                <?php unset($_SESSION['errorMessage']); }?>
+                <?php
+                if (isset($_SESSION['errorMessage'])) { ?>
+                    <p class="topbar-error-message"><?= htmlspecialchars($_SESSION['errorMessage']) ?></p>
+                    <?php unset($_SESSION['errorMessage']); }
+                if (isset($_SESSION['successMessage'])) { ?>
+                    <p class="topbar-success-message"><?= htmlspecialchars($_SESSION['successMessage']) ?></p>
+                <?php unset($_SESSION['successMessage']); }?>
             </div>
             <div class="topbar-right">
                 <?php if ($prioritaryFunctionality) { ?>
@@ -94,7 +98,7 @@ $prioritaryFunctionality = false;
                     <span class="topbar-notification-badge"></span>
                 </button>
                 <?php } ?>
-                <button class="topbar-btn">
+                <button class="topbar-btn" onclick="window.location.href='<?= BASE_URL ?>/admin/settings'">
                     <span class="material-symbols-outlined" data-icon="settings">settings</span>
                 </button>
                 <div class="topbar-divider"></div>

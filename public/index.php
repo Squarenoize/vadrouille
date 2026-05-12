@@ -45,6 +45,7 @@ $router->get('/admin/trips/(\d+)', 'AdminController', 'viewTrip'); // Détail d'
 $router->get('/admin/trips/(\d+)/traveler-access', 'AdminController', 'travelerAccess'); // Donner accès voyageur pour un voyage accepté
 $router->get('/admin/trips/new/request/(\d+)', 'AdminController', 'newTripFromRequest'); // Créer un voyage à partir d'une demande
 $router->get('/admin/chats', 'AdminController', 'chats'); // Messagerie
+$router->get('/admin/settings', 'AdminController', 'settings'); // Paramètres du compte
 
 //Admin routes (POST)
 $router->post('/admin/requests/(\d+)/status', 'AdminController', 'updateRequestStatus'); // Mettre à jour le statut d'une demande
@@ -59,6 +60,8 @@ $router->get('/travelers/settings', 'TravelerController', 'settings'); // Param�
 
 // Messages route (shared between admin and traveler)
 $router->post('/messages/send', 'MessagesController', 'send'); // Send a new message
+// Common settings update route (shared between admin and traveler)
+$router->post('/traveler/settings/update', 'TravelerController', 'updateSettings'); //
 
 // 
 // DISPATCH
