@@ -1,19 +1,4 @@
 <?php
-/*
-private int $id;
-    private int $tripId;
-    private string $title;
-    private string $category;
-    private DateTime $startDatetime;
-    private DateTime $endDatetime;
-    private ?string $description;
-    private bool $requiresBooking;
-    private ?string $externalLink;
-    private ?float $indicativePrice;
-    private int $sortOrder;
-    private DateTime $createdAt;
-    private ?DateTime $updatedAt;
-    */
 ?>
 <div class="trip-item-container">
     <h1>Ajouter un item à l'itinéraire du voyage</h1>
