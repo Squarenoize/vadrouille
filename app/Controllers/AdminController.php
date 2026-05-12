@@ -136,7 +136,7 @@ class AdminController {
             }
             
             // Check if a trip already exist for this request
-            $tripId = $this->tripModel->getTripIdByRequestId($id);
+            $tripId = $this->tripModel->getTripIdByRequestId($id) ?? 0;
 
             $this->renderAdminView('admin/request_detail', [
                 'request' => $request,

@@ -164,7 +164,7 @@ class TripsModel {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$result) {
-            throw new RuntimeException("Aucun voyage trouvé pour la demande $requestId");
+            return 0;
         }
 
         return (int)$result['id'];
