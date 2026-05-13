@@ -82,7 +82,7 @@ $prioritaryFunctionality = false;
                     <span class="topbar-notification-badge"></span>
                 </button>
                 <?php } ?>
-                <button class="topbar-btn" onclick="window.location.href='<?= BASE_URL ?>/travelers/settings'">
+                <button class="topbar-btn" onclick="window.location.href='<?= BASE_URL ?>/traveler/settings'">
                     <span class="material-symbols-outlined" data-icon="settings">settings</span>
                 </button>
                 <div class="topbar-divider"></div>
