@@ -109,8 +109,13 @@ class TravelerController {
      */
     public function settings() {
         try {
+            //Get user info
+            $userId = $this->user->getId();
+            $userModel = new UserModel();
+            $userSettings = $userModel->getCommonUserSettings($userId);
             $this->renderTravelerView('traveler/settings', [
-                'currentPage' => 'settings'
+                'currentPage' => 'settings',
+                'userSettings' => $userSettings
             ]);
         } catch (Exception $e) {
             // Handle any exceptions that occur during rendering
@@ -154,9 +159,9 @@ class TravelerController {
         }
 
         if ($this->user->isAdmin()) {
-            header('Location: ' . BASE_URL . '/admin/settings');
+            header('Location: ' . BASE_URL . '/admin/trips');
         } else {
-            header('Location: ' . BASE_URL . '/traveler/settings');
+            header('Location: ' . BASE_URL . '/traveler/trips');
         }
         exit;
     }
