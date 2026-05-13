@@ -5,10 +5,10 @@
 spl_autoload_register(static function($className) {
     // Paths from root directory to look for class files
     $paths = [
-        __DIR__ . '/../app/controllers/' . $className . '.php',
-        __DIR__ . '/../app/models/' . $className . '.php',
-        __DIR__ . '/../app/core/' . $className . '.php',
-        __DIR__ . '/../app/entities/' . $className . '.php',
+        __DIR__ . '/../app/Controllers/' . $className . '.php',
+        __DIR__ . '/../app/Models/' . $className . '.php',
+        __DIR__ . '/../app/Core/' . $className . '.php',
+        __DIR__ . '/../app/Entities/' . $className . '.php',
     ];
     
     foreach ($paths as $path) {

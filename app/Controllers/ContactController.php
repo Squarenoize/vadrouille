@@ -8,6 +8,9 @@ class ContactController {
      * Show the contact page
      */
     public function index(): void {
+        // Store form display timestamp for time-based validation
+        FormSecurity::storeFormTimestamp('contact_form');
+        
         // Get SEO data
         $seo = SeoHelper::getPageSeo('contact');
         
@@ -25,7 +28,10 @@ class ContactController {
             'breadcrumbs' => SeoHelper::getBreadcrumbs('contact'),
             
             // Navigation
-            'currentAction' => 'contact'
+            'currentAction' => 'contact',
+            
+            // Security
+            'csrfToken' => FormSecurity::generateCsrfToken('contact_form')
         ], 'public');
         
         $view->render();
@@ -37,14 +43,26 @@ class ContactController {
      */
     public function send(): void {
         try {
-            // 1. Create the entity from POST data
+            // 1. Security validation (CSRF, honeypot, rate limiting, time-based)
+            $securityCheck = FormSecurity::validateFormSubmission('contact_form', $_POST);
+            
+            if (!$securityCheck['valid']) {
+                $_SESSION['form_errors'] = $securityCheck['errors'];
+                header('Location: ' . BASE_URL . '/contact');
+                exit;
+            }
+            
+            // 2. Create the entity from POST data
             $contactRequest = ContactRequest::fromArray($_POST);
             
-            // 2. Validate the entity (all logic is in the entity)
+            // 3. Validate the entity (all logic is in the entity)
             $errors = $contactRequest->validate();
             
-            // 3. If errors, re-display the form
+            // 4. If errors, re-display the form
             if (!empty($errors)) {
+                // Store form timestamp for new token
+                FormSecurity::storeFormTimestamp('contact_form');
+                
                 $seo = SeoHelper::getPageSeo('contact');
                 
                 $view = new View('public/contact', [
@@ -57,18 +75,22 @@ class ContactController {
                     'breadcrumbs' => SeoHelper::getBreadcrumbs('contact'),
                     'currentAction' => 'contact',
                     'errors' => $errors,
-                    'formData' => $_POST  // To pre-fill the form
+                    'formData' => $_POST,  // To pre-fill the form
+                    'csrfToken' => FormSecurity::generateCsrfToken('contact_form')
                 ], 'public');
                 
                 $view->render();
                 return;
             }
             
-            // 4. Validation OK : Save via the Model
+            // 5. Validation OK : Save via the Model
             $contactModel = new ContactRequestModel();
             $contactModel->save($contactRequest);
             
-            // 5. Redirect with success message
+            // 6. Clean old session data
+            FormSecurity::cleanOldSessionData();
+            
+            // 7. Redirect with success message
             $_SESSION['request_success'] = "Votre demande a bien été envoyée ! Nous vous recontacterons rapidement.";
             header('Location: ' . BASE_URL . '/contact');
             exit;

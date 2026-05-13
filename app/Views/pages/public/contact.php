@@ -19,7 +19,24 @@ $showForm = true;
                     <p class="success-message"><?= htmlspecialchars($_SESSION['request_success']) ?></p>
                     <?php unset($_SESSION['request_success']); ?>
                 <?php } else { ?>
+                    <?php 
+                    // Display security errors if any
+                    if (isset($_SESSION['form_errors']) && !empty($_SESSION['form_errors'])) { 
+                        foreach ($_SESSION['form_errors'] as $error) { ?>
+                            <p class="error-message" style="color: #d32f2f; margin-bottom: 1rem; padding: 0.75rem; background: #ffebee; border-radius: 4px;">
+                                <?= htmlspecialchars($error) ?>
+                            </p>
+                        <?php }
+                        unset($_SESSION['form_errors']);
+                    } 
+                    ?>
                     <form action="<?php echo BASE_URL; ?>/contact" method="post">
+                        <!-- CSRF Token Protection -->
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken ?? '') ?>">
+                        
+                        <!-- Honeypot Field (invisible to users, traps bots) -->
+                        <input type="text" name="website" value="" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="first_name">Prénom</label>
