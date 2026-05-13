@@ -69,6 +69,9 @@
     <?php } ?>
     </section>
     <section class="trip-discussion-section">
-        <?php include __DIR__ . '/../../../views/components/shared/chat.php'; ?>
+        <?php
+        if (!empty($messages)) {
+            include __DIR__ . '/../../../views/components/shared/chat.php'; 
+        }?>
     </section>
 </div>
