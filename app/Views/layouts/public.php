@@ -119,7 +119,7 @@
                 <p class="footer-description">Votre compagnon de voyage pour des aventures inoubliables à travers le monde.</p>
                 <div class="footer-links">
                     <a href="https://www.instagram.com/vadrouillebourlingue/" target="_blank"><img src="assets/img/instagram.png" alt="Instagram"></a>
-                    <a href="#"><span class="material-icons">share</span></a>
+                    <!-- <a href="#"><span class="material-icons">share</span></a> TO DO: Ajouter d'autres liens sociaux -->
                 </div>
             </div>
             <div class="footer-info">
