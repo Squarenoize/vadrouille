@@ -1,8 +1,10 @@
 <?php
-class TripItemModel {
+class TripItemModel
+{
     private PDO $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance();
     }
 
@@ -11,17 +13,18 @@ class TripItemModel {
      * @param TripItem $item
      * @return int The ID of the newly created item
      */
-    public function saveTripItem(TripItem $item): int {
+    public function saveTripItem(TripItem $item): int
+    {
         $data = $item->toArray();
-        
+
         // Auto-calculate sort_order based on chronological position if not set
         if (empty($data['sortOrder'])) {
             $data['sortOrder'] = $this->getNextSortOrderByDate($data['tripId'], $data['startDatetime']);
         }
-        
+
         $sql = "INSERT INTO trip_items (trip_id, title, category, start_datetime, end_datetime, description, requires_booking, external_link, indicative_price, sort_order, created_at) 
                 VALUES (:tripId, :title, :category, :startDatetime, :endDatetime, :description, :requiresBooking, :externalLink, :indicativePrice, :sortOrder, :createdAt)";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             'tripId' => $data['tripId'],
@@ -40,7 +43,8 @@ class TripItemModel {
         return (int)$this->db->lastInsertId();
     }
 
-    public function getItemsByTripId(int $tripId): array {
+    public function getItemsByTripId(int $tripId): array
+    {
         $sql = "SELECT * FROM trip_items 
                 WHERE trip_id = :tripId 
                 ORDER BY start_datetime ASC, sort_order ASC";
@@ -56,7 +60,8 @@ class TripItemModel {
      * @param int $itemId
      * @return TripItem|null
      */
-    public function getItemById(int $itemId): ?TripItem {
+    public function getItemById(int $itemId): ?TripItem
+    {
         $sql = "SELECT * FROM trip_items WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['id' => $itemId]);
@@ -70,9 +75,10 @@ class TripItemModel {
      * @param TripItem $item
      * @return bool
      */
-    public function updateTripItem(TripItem $item): bool {
+    public function updateTripItem(TripItem $item): bool
+    {
         $data = $item->toArray();
-        
+
         $sql = "UPDATE trip_items 
                 SET title = :title,
                     category = :category,
@@ -85,7 +91,7 @@ class TripItemModel {
                     sort_order = :sortOrder,
                     updated_at = CURRENT_TIMESTAMP
                 WHERE id = :id";
-        
+
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
             'id' => $data['id'],
@@ -106,7 +112,8 @@ class TripItemModel {
      * @param int $itemId
      * @return bool
      */
-    public function deleteItem(int $itemId): bool {
+    public function deleteItem(int $itemId): bool
+    {
         $sql = "DELETE FROM trip_items WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute(['id' => $itemId]);
@@ -118,12 +125,13 @@ class TripItemModel {
      * @param int $tripId
      * @return int
      */
-    public function getNextSortOrder(int $tripId): int {
+    public function getNextSortOrder(int $tripId): int
+    {
         $sql = "SELECT MAX(sort_order) as max_order FROM trip_items WHERE trip_id = :tripId";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['tripId' => $tripId]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         $maxOrder = $result['max_order'] ?? 0;
         return $maxOrder + 10;
     }
@@ -135,7 +143,8 @@ class TripItemModel {
      * @param string $startDatetime Format: 'Y-m-d H:i:s'
      * @return int
      */
-    public function getNextSortOrderByDate(int $tripId, string $startDatetime): int {
+    public function getNextSortOrderByDate(int $tripId, string $startDatetime): int
+    {
         // Count how many items start before or at the same time
         $sql = "SELECT COUNT(*) as count 
                 FROM trip_items 
@@ -147,7 +156,7 @@ class TripItemModel {
             'startDatetime' => $startDatetime
         ]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         $position = ($result['count'] ?? 0) + 1;
         return $position * 10;
     }
@@ -158,7 +167,8 @@ class TripItemModel {
      * @param int $newSortOrder
      * @return bool
      */
-    public function updateSortOrder(int $itemId, int $newSortOrder): bool {
+    public function updateSortOrder(int $itemId, int $newSortOrder): bool
+    {
         $sql = "UPDATE trip_items SET sort_order = :sortOrder WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
@@ -173,7 +183,8 @@ class TripItemModel {
      * @param int $tripId
      * @return bool
      */
-    public function reorderItems(int $tripId): bool {
+    public function reorderItems(int $tripId): bool
+    {
         $sql = "SELECT id FROM trip_items 
                 WHERE trip_id = :tripId 
                 ORDER BY start_datetime ASC, id ASC";

@@ -1,11 +1,13 @@
 <?php
+
 /**
  * This class represents a message in the context of a trip discussion
  * It encapsulates the data and provides validation
  * Table messages in DB
  */
 
-class Message {
+class Message
+{
     private ?int $id = null;
     private int $tripId;
     private int $senderId;
@@ -15,7 +17,8 @@ class Message {
     private ?string $senderFirstname = null;
     private ?string $senderLastname = null;
 
-    public function __construct(int $tripId, int $senderId, string $message, ?int $id = null, bool $isRead = false, ?string $createdAt = null, ?string $senderFirstname = null, ?string $senderLastname = null) {
+    public function __construct(int $tripId, int $senderId, string $message, ?int $id = null, bool $isRead = false, ?string $createdAt = null, ?string $senderFirstname = null, ?string $senderLastname = null)
+    {
         $this->tripId = $tripId;
         $this->senderId = $senderId;
         $this->message = $message;
@@ -28,7 +31,8 @@ class Message {
 
     // Getters and setters...
 
-    public static function fromArray(array $data): self {
+    public static function fromArray(array $data): self
+    {
         return new self(
             (int)$data['trip_id'],
             (int)$data['sender_id'],
@@ -41,7 +45,8 @@ class Message {
         );
     }
 
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'id' => $this->id,
             'trip_id' => $this->tripId,
@@ -52,9 +57,10 @@ class Message {
         ];
     }
 
-    public function validate(): array {
+    public function validate(): array
+    {
         $errors = [];
-        
+
         if (empty($this->message)) {
             $errors[] = 'Le message ne peut pas être vide.';
         } elseif (strlen($this->message) > 2000) {
@@ -64,47 +70,57 @@ class Message {
     }
 
     // Getters and setters
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
-    public function getTripId(): int {
+    public function getTripId(): int
+    {
         return $this->tripId;
     }
-    public function getSenderId(): int {
+    public function getSenderId(): int
+    {
         return $this->senderId;
     }
-    public function getMessage(): string {
+    public function getMessage(): string
+    {
         return $this->message;
     }
-    public function getCreatedAt(): ?string {
+    public function getCreatedAt(): ?string
+    {
         return $this->createdAt;
     }
 
-    public function isRead(): bool {
+    public function isRead(): bool
+    {
         return $this->isRead;
     }
 
-    public function setMessage(string $message): void {
+    public function setMessage(string $message): void
+    {
         $this->message = $message;
     }
 
-    public function setIsRead(bool $isRead): void {
+    public function setIsRead(bool $isRead): void
+    {
         $this->isRead = $isRead;
     }
 
-    public function getSenderFirstname(): ?string {
+    public function getSenderFirstname(): ?string
+    {
         return $this->senderFirstname;
     }
 
-    public function getSenderLastname(): ?string {
+    public function getSenderLastname(): ?string
+    {
         return $this->senderLastname;
     }
 
-    public function getSenderFullName(): string {
+    public function getSenderFullName(): string
+    {
         if ($this->senderFirstname && $this->senderLastname) {
             return $this->senderFirstname . ' ' . $this->senderLastname;
         }
         return $this->senderFirstname ?? $this->senderLastname ?? 'Utilisateur';
     }
-
 }

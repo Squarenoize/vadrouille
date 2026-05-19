@@ -1,10 +1,12 @@
 <?php
+
 /**
  * This class represents an item in a trip itinerary
  * It encapsulates the data (and provides validation)
  * Table trip_items in DB
  */
-class TripItem {
+class TripItem
+{
     private int $id;
     private int $tripId;
     private string $title;
@@ -22,7 +24,8 @@ class TripItem {
     /* Hydrate the entity from an array of data
      * Accepts both camelCase (form data) and snake_case (database) keys
      */
-    public static function fromArray(array $data): self {
+    public static function fromArray(array $data): self
+    {
         $instance = new self();
         $instance->id = $data['id'] ?? 0;
         $instance->tripId = $data['tripId'] ?? $data['trip_id'] ?? 0;
@@ -47,7 +50,8 @@ class TripItem {
     /* Convert the entity to an array for database insertion
     * Uses snake_case keys to match database columns
     */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'id' => $this->id,
             'tripId' => $this->tripId,
@@ -66,82 +70,106 @@ class TripItem {
     }
 
     // Getters
-    public function getId(): int {
+    public function getId(): int
+    {
         return $this->id;
     }
-    public function getTripId(): int {
+    public function getTripId(): int
+    {
         return $this->tripId;
     }
-    public function getTitle(): string {
+    public function getTitle(): string
+    {
         return $this->title;
     }
-    public function getCategory(): string {
+    public function getCategory(): string
+    {
         return $this->category;
     }
-    public function getStartDatetime(): DateTime {
+    public function getStartDatetime(): DateTime
+    {
         return $this->startDatetime;
     }
-    public function getEndDatetime(): DateTime {
+    public function getEndDatetime(): DateTime
+    {
         return $this->endDatetime;
     }
-    public function getDescription(): ?string {
+    public function getDescription(): ?string
+    {
         return $this->description;
     }
-    public function getRequiresBooking(): bool {
+    public function getRequiresBooking(): bool
+    {
         return $this->requiresBooking;
     }
-    public function getExternalLink(): ?string {
+    public function getExternalLink(): ?string
+    {
         return $this->externalLink;
     }
-    public function getIndicativePrice(): ?float {
+    public function getIndicativePrice(): ?float
+    {
         return $this->indicativePrice;
     }
-    public function getSortOrder(): int {
+    public function getSortOrder(): int
+    {
         return $this->sortOrder;
     }
-    public function getCreatedAt(): DateTime {
+    public function getCreatedAt(): DateTime
+    {
         return $this->createdAt;
     }
-    public function getUpdatedAt(): ?DateTime {
+    public function getUpdatedAt(): ?DateTime
+    {
         return $this->updatedAt;
     }
 
     // Setters
-    public function setTripId(int $tripId): void {
+    public function setTripId(int $tripId): void
+    {
         $this->tripId = $tripId;
     }
-    public function setTitle(string $title): void {
+    public function setTitle(string $title): void
+    {
         $this->title = $title;
     }
-    public function setCategory(string $category): void {
+    public function setCategory(string $category): void
+    {
         $this->category = $category;
     }
-    public function setStartDatetime(DateTime $startDatetime): void {
+    public function setStartDatetime(DateTime $startDatetime): void
+    {
         $this->startDatetime = $startDatetime;
     }
-    public function setEndDatetime(DateTime $endDatetime): void {
+    public function setEndDatetime(DateTime $endDatetime): void
+    {
         $this->endDatetime = $endDatetime;
     }
-    public function setDescription(?string $description): void {
+    public function setDescription(?string $description): void
+    {
         $this->description = $description;
     }
-    public function setRequiresBooking(bool $requiresBooking): void {
+    public function setRequiresBooking(bool $requiresBooking): void
+    {
         $this->requiresBooking = $requiresBooking;
     }
-    public function setExternalLink(?string $externalLink): void {
+    public function setExternalLink(?string $externalLink): void
+    {
         $this->externalLink = $externalLink;
     }
-    public function setIndicativePrice(?float $indicativePrice): void {
+    public function setIndicativePrice(?float $indicativePrice): void
+    {
         $this->indicativePrice = $indicativePrice;
     }
-    public function setSortOrder(int $sortOrder): void {
+    public function setSortOrder(int $sortOrder): void
+    {
         $this->sortOrder = $sortOrder;
     }
-    public function setCreatedAt(DateTime $createdAt): void {
+    public function setCreatedAt(DateTime $createdAt): void
+    {
         $this->createdAt = $createdAt;
     }
-    public function setUpdatedAt(?DateTime $updatedAt): void {
+    public function setUpdatedAt(?DateTime $updatedAt): void
+    {
         $this->updatedAt = $updatedAt;
     }
-
 }

@@ -1,26 +1,30 @@
 <?php
+
 /**
  * Controller for authentication (login/logout and password change)
  */
-class AuthController {
-    
+class AuthController
+{
+
     /**
      * Show the login page
      */
-    public function showLogin(): void {
+    public function showLogin(): void
+    {
         // Display the view with the auth layout (without header/footer)
         $view = new View('auth/login', [
             'pageTitle' => 'Connexion - Vadrouille & Bourlingue'
         ], 'auth');
-        
+
         $view->render();
     }
-    
+
     /**
      * Process the login form (POST)
      */
-    public function login(): void {
-        
+    public function login(): void
+    {
+
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
         // Validate input
@@ -54,19 +58,18 @@ class AuthController {
                 header('Location: ' . BASE_URL . '/connexion');
                 exit;
             }
-
         } else {
             $_SESSION['connect_error'] = 'Email ou mot de passe incorrect.';
             header('Location: ' . BASE_URL . '/connexion');
             exit;
         }
-
     }
-    
+
     /**
      * Logout
      */
-    public function logout(): void {
+    public function logout(): void
+    {
         Auth::logout();
         header('Location: ' . BASE_URL . '/');
         exit;
@@ -75,7 +78,8 @@ class AuthController {
     /**
      * Show the change password form (for users who must change their password)
      */
-    public function showChangePassword(): void {
+    public function showChangePassword(): void
+    {
         // Ensure user is logged in
         $user = Auth::user();
         if (!$user) {
@@ -87,14 +91,15 @@ class AuthController {
             'pageTitle' => 'Changement de mot de passe obligatoire - Vadrouille & Bourlingue',
             'user' => $user
         ], 'auth');
-        
+
         $view->render();
     }
 
     /**
      * Process the change password form (POST)
      */
-    public function changePassword(): void {
+    public function changePassword(): void
+    {
         // Ensure user is logged in
         $user = Auth::user();
         if (!$user) {
@@ -107,9 +112,11 @@ class AuthController {
         $confirmPassword = $_POST['confirm_password'] ?? '';
 
         // Validate inputs
-        if (!DataVerification::isNotEmpty($currentPassword) || 
-            !DataVerification::isNotEmpty($newPassword) || 
-            !DataVerification::isNotEmpty($confirmPassword)) {
+        if (
+            !DataVerification::isNotEmpty($currentPassword) ||
+            !DataVerification::isNotEmpty($newPassword) ||
+            !DataVerification::isNotEmpty($confirmPassword)
+        ) {
             $_SESSION['change_pwd_error'] = 'Tous les champs sont obligatoires.';
             header('Location: ' . BASE_URL . '/change-password');
             exit;
@@ -139,10 +146,10 @@ class AuthController {
 
         // Update password
         $success = $userModel->updatePassword($user->getId(), $newPassword);
-        
+
         if ($success) {
             $_SESSION['change_pwd_success'] = 'Votre mot de passe a été modifié avec succès.';
-            
+
             // Redirect based on user role
             if ($user->isAdmin()) {
                 header('Location: ' . BASE_URL . '/admin/requests');

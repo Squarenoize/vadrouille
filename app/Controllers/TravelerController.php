@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Controller for traveler-related pages and actions
  */
-class TravelerController {
+class TravelerController
+{
 
     private $user;
     private $sharedData = [];
@@ -13,9 +15,10 @@ class TravelerController {
     /**
      * Constructor - Initialize common data for all traveler pages
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->user = Auth::user();
-        
+
         // Global traveler check
         if (!$this->user) {
             header('Location: ' . BASE_URL . '/connexion');
@@ -32,16 +35,17 @@ class TravelerController {
             'user' => $this->user
         ];
     }
-    
+
     /**
      * Helper to render a traveler view with shared data
      * @param string $template Path to the template (e.g., 'traveler/dashboard')
      * @param array $data Specific data for the view
      */
-    private function renderTravelerView(string $template, array $data = []): void {
+    private function renderTravelerView(string $template, array $data = []): void
+    {
         // Merge shared data + specific data
         $viewData = array_merge($this->sharedData, $data);
-        
+
         $view = new View($template, $viewData, 'traveler');
         $view->render();
     }
@@ -51,7 +55,8 @@ class TravelerController {
     /**
      * View the dashboard for the current traveler --TODO: add stats, etc.
      */
-    public function dashboard() {
+    public function dashboard()
+    {
         $this->renderTravelerView('traveler/dashboard', [
             'currentPage' => 'dashboard'
         ]);
@@ -60,7 +65,8 @@ class TravelerController {
     /**
      * View the list of trips for the current traveler
      */
-    public function trips() {
+    public function trips()
+    {
         try {
             $user = $this->user;
             $trips = $this->tripsModel->getTripsByTravelerId($user->getId());
@@ -70,7 +76,7 @@ class TravelerController {
             foreach ($trips as $trip) {
                 $unreadCounts[$trip->getId()] = $this->messagesModel->countUnreadByTripIdAndUserId($trip->getId(), $user->getId());
             }
-            
+
             $this->renderTravelerView('traveler/trips', [
                 'trips' => $trips,
                 'unreadCounts' => $unreadCounts,
@@ -89,13 +95,14 @@ class TravelerController {
      * View details of a specific trip
      * @param int $tripId The ID of the trip
      */
-    public function viewTrip($tripId) {
+    public function viewTrip($tripId)
+    {
         try {
             $trip = $this->tripsModel->getTripById($tripId);
 
             // Retrieve trip items for the itinerary
             $tripItems = $this->tripItemModel->getItemsByTripId($tripId);
-            
+
             // Group items by day for better display
             $itemsByDay = TripHelper::groupItemsByDay($tripItems);
 
@@ -119,7 +126,8 @@ class TravelerController {
     /**
      * View and update traveler settings -- TODO: implement actual settings functionality
      */
-    public function settings() {
+    public function settings()
+    {
         try {
             //Get user info
             $userId = $this->user->getId();
@@ -138,7 +146,8 @@ class TravelerController {
         }
     }
 
-    public function updateSettings() {
+    public function updateSettings()
+    {
         try {
             $userModel = new UserModel();
             $userId = $this->user->getId();
@@ -159,7 +168,7 @@ class TravelerController {
 
             // Update user settings
             $success = $userModel->updateUserSettings($userId, $email, $firstName, $lastName, $phone, $emailNotif);
-            
+
             if ($success) {
                 $_SESSION['successMessage'] = "Paramètres mis à jour avec succès.";
             } else {

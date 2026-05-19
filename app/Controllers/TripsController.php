@@ -1,16 +1,19 @@
 <?php
+
 /**
  * Controller for trips-related pages and actions
  */
-class TripsController {
-    
+class TripsController
+{
+
     /**
      * Display the trips page
      */
-    public function index(): void {
+    public function index(): void
+    {
         // Get SEO data
         $seo = SeoHelper::getPageSeo('trips');
-        
+
         // Render the view
         $view = new View('public/trips', [
             // SEO Meta
@@ -18,16 +21,16 @@ class TripsController {
             'pageDescription' => $seo['pageDescription'],
             'pageFullUrl' => $seo['pageFullUrl'],
             'pageFullImage' => $seo['pageFullImage'],
-            
+
             // Schemas
             'schemaOrganization' => SeoHelper::getOrganizationSchema(),
             'schemaPage' => SeoHelper::getTripsSchema(),
             'breadcrumbs' => SeoHelper::getBreadcrumbs('trips'),
-            
+
             // Navigation
             'currentAction' => 'trips'
         ], 'public');
-        
+
         $view->render();
     }
 }

@@ -2,7 +2,7 @@
 ?>
 <h2 class="chats-page-title">Paramètres du compte</h2>
 <div class="settings-container">
-    <form action="<?= BASE_URL ?>/traveler/settings/update" method="POST" class="settings-form">  
+    <form action="<?= BASE_URL ?>/traveler/settings/update" method="POST" class="settings-form">
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" value="<?= htmlspecialchars($userSettings['email'] ?? '') ?>" required>
@@ -25,7 +25,7 @@
         </div>
         <div class="button-form-group">
             <a href="<?= BASE_URL ?>/change-password" class="change-password-link">Changer de mot de passe</a>
-            <button class ="submit-btn" type="submit">Enregistrer les modifications</button>
+            <button class="submit-btn" type="submit">Enregistrer les modifications</button>
         </div>
     </form>
 </div>
