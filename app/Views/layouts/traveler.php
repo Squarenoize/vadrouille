@@ -104,5 +104,6 @@ $prioritaryFunctionality = false;
     </main>
 
     <script src="<?= BASE_URL ?>/assets/js/menu.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/chat.js"></script>
 </body>
 </html>

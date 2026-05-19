@@ -71,7 +71,10 @@ class Trip {
         
         return $errors;
     }
-
+    
+    /* Convert the entity to an array for database insertion
+     * Uses snake_case keys to match database columns
+     */
     public function toArray(): array {
         return [
             'id' => $this->id,

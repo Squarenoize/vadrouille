@@ -8,6 +8,7 @@ class TravelerController {
     private $sharedData = [];
     private TripsModel $tripsModel;
     private MessagesModel $messagesModel;
+    private TripItemModel $tripItemModel;
 
     /**
      * Constructor - Initialize common data for all traveler pages
@@ -24,6 +25,7 @@ class TravelerController {
         // Initialize models to fetch common data
         $this->tripsModel = new TripsModel();
         $this->messagesModel = new MessagesModel();
+        $this->tripItemModel = new TripItemModel();
 
         // Common data for the sidebar (available in all views)
         $this->sharedData = [
@@ -43,6 +45,8 @@ class TravelerController {
         $view = new View($template, $viewData, 'traveler');
         $view->render();
     }
+
+
 
     /**
      * View the dashboard for the current traveler --TODO: add stats, etc.
@@ -88,10 +92,18 @@ class TravelerController {
     public function viewTrip($tripId) {
         try {
             $trip = $this->tripsModel->getTripById($tripId);
+
+            // Retrieve trip items for the itinerary
+            $tripItems = $this->tripItemModel->getItemsByTripId($tripId);
+            
+            // Group items by day for better display
+            $itemsByDay = TripHelper::groupItemsByDay($tripItems);
+
             $messages = $this->messagesModel->getMessagesByTripId($tripId);
             $this->messagesModel->markAsReadByTrip($tripId, $this->user->getId());
             $this->renderTravelerView('traveler/trip_detail', [
                 'trip' => $trip,
+                'itemsByDay' => $itemsByDay,
                 'messages' => $messages,
                 'currentPage' => 'trips'
             ]);
