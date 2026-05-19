@@ -1,5 +1,15 @@
 <?php
-// Traveler layout - Interface de voyageur
+
+/**
+ * Traveler layout - Interface de voyageur
+ * 
+ * Variables disponibles (extraites via View::render()) :
+ * @var string $contentView - Chemin vers la vue de contenu à inclure
+ * @var User|null $user - Utilisateur connecté (si disponible)
+ * @var string|null $currentPage - Page active pour le menu
+ * @var int|null $unreadMessagesCount - Nombre de messages non lus
+ */
+
 $prioritaryFunctionality = false; 
 ?>
 <!DOCTYPE html>

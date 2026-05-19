@@ -1,3 +1,14 @@
+<?php
+
+/**
+ * Auth layout - Pages d'authentification
+ * 
+ * Variables disponibles (extraites via View::render()) :
+ * @var string $contentView - Chemin vers la vue de contenu à inclure
+ * @var string|null $pageTitle - Titre de la page
+ */
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

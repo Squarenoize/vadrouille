@@ -1,5 +1,17 @@
 <?php
-// Admin layout - Interface d'administration
+
+/**
+ * Admin layout - Interface d'administration
+ * 
+ * Variables disponibles (extraites via View::render()) :
+ * @var string $contentView - Chemin vers la vue de contenu à inclure
+ * @var User|null $user - Utilisateur connecté (si disponible)
+ * @var string|null $currentPage - Page active pour le menu
+ * @var int|null $newRequestsCount - Nombre de nouvelles demandes
+ * @var int|null $draftTripsCount - Nombre de voyages en brouillon
+ * @var int|null $unreadMessagesCount - Nombre de messages non lus
+ */
+
 $prioritaryFunctionality = false;
 ?>
 <!DOCTYPE html>

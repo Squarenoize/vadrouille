@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Public layout - Interface publique
+ * 
+ * Variables disponibles (extraites via View::render()) :
+ * @var string $contentView - Chemin vers la vue de contenu à inclure
+ * @var string|null $pageTitle - Titre de la page pour SEO
+ * @var string|null $pageDescription - Description de la page pour SEO
+ * @var string|null $pageFullUrl - URL complète de la page
+ * @var array|null $schemaData - Données de schéma structuré (si disponibles)
+ */
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
