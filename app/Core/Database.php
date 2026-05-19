@@ -23,6 +23,11 @@ class Database {
                         PDO::ATTR_EMULATE_PREPARES => false,
                     ]
                 );
+                // Set MySQL timezone to match PHP timezone (Europe/Paris)
+                // Calculate offset dynamically to handle DST (Daylight Saving Time)
+                $now = new DateTime('now', new DateTimeZone('Europe/Paris'));
+                $offset = $now->format('P');
+                self::$instance->exec("SET time_zone = '$offset'");
             } catch (PDOException $e) {
                 error_log("Database connection failed: " . $e->getMessage());
                 throw new RuntimeException("Connexion à la base de données impossible", 0, $e);

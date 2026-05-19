@@ -36,6 +36,8 @@ class TripsModel {
         
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        //$row = $stmt->fetch(PDO::FETCH_CLASS, Trip::class);
+        //$row = $stmt->fetchObject(Trip::class);
         if (!$row) {
             throw new RuntimeException("Voyage $id introuvable");
         }

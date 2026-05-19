@@ -25,6 +25,11 @@ if ($isLocal) {
 define('ROOT_DIR', __DIR__ . '/../');
 
 /**
+ * TIMEZONE CONFIGURATION
+ */
+date_default_timezone_set('Europe/Paris');
+
+/**
  * LOAD ENVIRONMENT VARIABLES FROM .env
  */
 $envFile = ROOT_DIR . '.env';

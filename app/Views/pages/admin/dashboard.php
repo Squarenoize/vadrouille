@@ -45,22 +45,22 @@
                 
                 <div class="chart-container">
                     <!-- Simulated Bar Chart -->
-                    <div class="chart-bar" style="height: 40%;">
+                    <div class="chart-bar">
                         <div class="chart-tooltip">May</div>
                     </div>
-                    <div class="chart-bar" style="height: 55%;"></div>
-                    <div class="chart-bar" style="height: 45%;"></div>
-                    <div class="chart-bar active" style="height: 75%;">
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar">
                         <div class="chart-tooltip">Aug</div>
                     </div>
-                    <div class="chart-bar primary" style="height: 60%;"></div>
-                    <div class="chart-bar" style="height: 65%;"></div>
-                    <div class="chart-bar" style="height: 50%;"></div>
+                    <div class="chart-bar primary"></div>
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
                 </div>
 
                 <!-- Recent Requests Table -->
                 <div>
-                    <h3 class="section-title" style="margin-bottom: 24px;">Recent Requests</h3>
+                    <h3 class="section-title">Recent Requests</h3>
                     <div class="table-wrapper">
                         <table class="admin-table">
                             <thead>
@@ -119,7 +119,7 @@
                                 <span class="progress-value">85%</span>
                             </div>
                             <div class="progress-bar-bg">
-                                <div class="progress-bar-fill" style="width: 85%;"></div>
+                                <div class="progress-bar-fill"></div>
                             </div>
                         </div>
                         <div class="travelers-row">
@@ -144,7 +144,7 @@
                                 <span class="progress-value primary">42%</span>
                             </div>
                             <div class="progress-bar-bg">
-                                <div class="progress-bar-fill primary" style="width: 42%;"></div>
+                                <div class="progress-bar-fill primary"></div>
                             </div>
                         </div>
                         <div class="travelers-row">
@@ -168,7 +168,7 @@
                                 <span class="progress-value outline">15%</span>
                             </div>
                             <div class="progress-bar-bg">
-                                <div class="progress-bar-fill outline" style="width: 15%;"></div>
+                                <div class="progress-bar-fill outline"></div>
                             </div>
                         </div>
                     </div>

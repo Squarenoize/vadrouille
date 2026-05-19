@@ -57,7 +57,7 @@
                             <?php } ?>
                             <div class="item-actions">
                                 <a href="<?= BASE_URL ?>/admin/trips/<?= $trip->getId() ?>/edit-item/<?= $item->getId() ?>" class="button">Modifier</a>
-                                <form action="<?= BASE_URL ?>/admin/trips/<?= $trip->getId() ?>/delete-item/<?= $item->getId() ?>" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet item ?');" style="display: inline;">
+                                <form action="<?= BASE_URL ?>/admin/trips/<?= $trip->getId() ?>/delete-item/<?= $item->getId() ?>" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet item ?');">
                                     <button type="submit" class="delete-button"><span class="material-icons">delete</span></button>
                                 </form>
                             </div>

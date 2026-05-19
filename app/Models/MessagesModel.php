@@ -30,12 +30,11 @@ class MessagesModel {
      * @return bool
      */
     public function addMessage(Message $message): bool {
-        $stmt = $this->db->prepare("INSERT INTO messages (trip_id, sender_id, body, created_at) VALUES (:trip_id, :sender_id, :body, :created_at)");
+        $stmt = $this->db->prepare("INSERT INTO messages (trip_id, sender_id, body) VALUES (:trip_id, :sender_id, :body)");
         return $stmt->execute([
             'trip_id' => $message->getTripId(),
             'sender_id' => $message->getSenderId(),
-            'body' => $message->getMessage(),
-            'created_at' => date('Y-m-d H:i:s')
+            'body' => $message->getMessage()
         ]);
     }
 

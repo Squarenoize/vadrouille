@@ -1,11 +1,11 @@
 <?php
 /**
- * Controller for admin dashboard and management of contact requests, trips, and chats.
- */
+* Controller for admin dashboard and management of contact requests, trips, and chats.
+*/
 
 class AdminController {
-    
-    private $user;
+
+    private ?object $user;
     private $sharedData = [];
     private ContactRequestModel $contactRequestModel;
     private TripsModel $tripModel;
@@ -13,647 +13,670 @@ class AdminController {
     private TripItemModel $tripItemModel;
 
     /**
-     * Constructor - Initializing common data and checking admin access
-     */
+    * Constructor - Initializing common data and checking admin access
+    */
+
     public function __construct() {
         $this->user = Auth::user();
-        
+
         // Global admin check
-        if (!$this->user || !$this->user->isAdmin()) {
-            header('Location: ' . BASE_URL . '/connexion');
+        if ( !$this->user || !$this->user->isAdmin() ) {
+            header( 'Location: ' . BASE_URL . '/connexion' );
             exit;
         }
 
-        // Initializing Models (reusable in all methods)
+        // Initializing Models ( reusable in all methods )
         $this->contactRequestModel = new ContactRequestModel();
         $this->tripModel = new TripsModel();
         $this->messagesModel = new MessagesModel();
         $this->tripItemModel = new TripItemModel();
 
-        // Common data for the sidebar (available in all views)
+        // Common data for the sidebar ( available in all views )
         $this->sharedData = [
             'user' => $this->user,
-            'newRequestsCount' => $this->contactRequestModel->countByStatus('new'),
-            'draftTripsCount' => $this->tripModel->countByStatus('draft'),
-            'unreadMessagesCount' => $this->messagesModel->countUnreadByAdminId($this->user->getId()),
+            'newRequestsCount' => $this->contactRequestModel->countByStatus( 'new' ),
+            'draftTripsCount' => $this->tripModel->countByStatus( 'draft' ),
+            'unreadMessagesCount' => $this->messagesModel->countUnreadByAdminId( $this->user->getId() ),
         ];
     }
 
     /**
-     * Helper to render an admin view with shared data
-     * @param string $template Path to the template (e.g., 'admin/dashboard')
-     * @param array $data Specific data for the view
-     */
-    private function renderAdminView(string $template, array $data = []): void {
+    * Helper to render an admin view with shared data
+    * @param string $template Path to the template ( e.g., 'admin/dashboard' )
+    * @param array $data Specific data for the view
+    */
+
+    private function renderAdminView( string $template, array $data = [] ): void {
         // Merge shared data with specific data
-        $viewData = array_merge($this->sharedData, $data);
-        
-        $view = new View($template, $viewData, 'admin');
+        $viewData = array_merge( $this->sharedData, $data );
+
+        $view = new View( $template, $viewData, 'admin' );
         $view->render();
     }
 
-
-    
     /**
-     * Display the admin dashboard --TODO
-     */
+    * Display the admin dashboard --TODO
+    */
+
     public function dashboard() {
         try {
-            $this->renderAdminView('admin/dashboard', [
+            $this->renderAdminView( 'admin/dashboard', [
                 'currentPage' => 'dashboard'
-            ]);
-        } catch (Exception $e) {
+            ] );
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during rendering
-            error_log("Error rendering admin dashboard: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement du tableau de bord.";
-            header('Location: ' . BASE_URL . '/admin/dashboard');
+            error_log( 'Error rendering admin dashboard: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors du chargement du tableau de bord.';
+            header( 'Location: ' . BASE_URL . '/admin/dashboard' );
             exit;
         }
     }
 
     /**
-     * Display the list of contact requests with optional status filtering
-     */
+    * Display the list of contact requests with optional status filtering
+    */
+
     public function requests() {
         try {
-            $status = $_GET['status'] ?? null;
+            $status = $_GET[ 'status' ] ?? null;
 
-        if ($status) {
-            $requests = $this->contactRequestModel->getRequestsByStatus($status);
-        } else {
-            $requests = $this->contactRequestModel->getAllRequests();
-        }
+            if ( $status ) {
+                $requests = $this->contactRequestModel->getRequestsByStatus( $status );
+            } else {
+                $requests = $this->contactRequestModel->getAllRequests();
+            }
 
-        // Translation arrays for better display in the view
-        $tripTypeTranslations = [
-            'adventure' => 'Aventure',
-            'weekend' => 'Week-end',
-            'relaxation' => 'Détente',
-            'cultural' => 'Culturel',
-            'other' => 'Autre'
-        ];
+            // Translation arrays for better display in the view ---> CLASS
+            $tripTypeTranslations = [
+                'adventure' => 'Aventure',
+                'weekend' => 'Week-end',
+                'relaxation' => 'Détente',
+                'cultural' => 'Culturel',
+                'other' => 'Autre'
+            ];
 
-        $destinationTranslations = [
-            'france' => 'France',
-            'canada' => 'Canada',
-            'japan' => 'Japon',
-            'other' => 'Autre'
-        ];
+            $destinationTranslations = [
+                'france' => 'France',
+                'canada' => 'Canada',
+                'japan' => 'Japon',
+                'other' => 'Autre'
+            ];
 
-        $statusTranslations = [
-            'new' => 'Nouvelle',
-            'studying' => 'En étude',
-            'quoted' => 'Devis envoyé',
-            'accepted' => 'Devis accepté',
-            'refused' => 'Devis refusé',
-            'archived' => 'Archivée'
-        ];
+            $statusTranslations = [
+                'new' => 'Nouvelle',
+                'studying' => 'En étude',
+                'quoted' => 'Devis envoyé',
+                'accepted' => 'Devis accepté',
+                'refused' => 'Devis refusé',
+                'archived' => 'Archivée'
+            ];
 
-        $this->renderAdminView('admin/requests', [
-            'requests' => $requests,
-            'currentPage' => 'requests',
-            'currentStatusFilter' => $status,
-            'tripTypeTranslations' => $tripTypeTranslations,
-            'destinationTranslations' => $destinationTranslations,
-            'statusTranslations' => $statusTranslations
-        ]);
-        } catch (Exception $e) {
+            $this->renderAdminView( 'admin/requests', [
+                'requests' => $requests,
+                'currentPage' => 'requests',
+                'currentStatusFilter' => $status,
+                'tripTypeTranslations' => $tripTypeTranslations,
+                'destinationTranslations' => $destinationTranslations,
+                'statusTranslations' => $statusTranslations
+            ] );
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during rendering
-            error_log("Error rendering contact requests: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement des demandes de contact.";
-            header('Location: ' . BASE_URL . '/admin/requests');
+            error_log( 'Error rendering contact requests: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors du chargement des demandes de contact.';
+            header( 'Location: ' . BASE_URL . '/admin/requests' );
             exit;
         }
     }
 
     /**
-     * Display the details of a specific contact request
-     * @param int $id The ID of the contact request
-     */
-    public function viewRequest($id) {
-        try {
-            $request = $this->contactRequestModel->getRequestById($id);
+    * Display the details of a specific contact request
+    * @param int $id The ID of the contact request
+    */
 
-            if (!$request) {
-                header('Location: ' . BASE_URL . '/admin/requests');
+    public function viewRequest( $id ) {
+        try {
+            $request = $this->contactRequestModel->getRequestById( $id );
+
+            if ( !$request ) {
+                header( 'Location: ' . BASE_URL . '/admin/requests' );
                 exit;
             }
-            
-            // Check if a trip already exist for this request
-            $tripId = $this->tripModel->getTripIdByRequestId($id) ?? 0;
 
-            $this->renderAdminView('admin/request_detail', [
+            // Check if a trip already exist for this request
+            $tripId = $this->tripModel->getTripIdByRequestId( $id ) ?? 0;
+
+            $this->renderAdminView( 'admin/request_detail', [
                 'request' => $request,
                 'tripId' => $tripId,
                 'currentPage' => 'requests'
-            ]);
-        } catch (Exception $e) {
+            ] );
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during rendering
-            error_log("Error rendering contact request details: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement des détails de la demande de contact.";
-            header('Location: ' . BASE_URL . '/admin/requests');
+            error_log( 'Error rendering contact request details: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors du chargement des détails de la demande de contact.';
+            header( 'Location: ' . BASE_URL . '/admin/requests' );
             exit;
         }
     }
 
     /**
-     * Update the status of a contact request
-     * @param int $id The ID of the contact request
-     */
-    public function updateRequestStatus($id) {
+    * Update the status of a contact request
+    * @param int $id The ID of the contact request
+    */
+
+    public function updateRequestStatus( $id ) {
         try {
-            $newStatus = $_POST['status'] ?? null;
-            if (!in_array($newStatus, ['new', 'studying', 'quoted', 'accepted', 'refused', 'archived'])) {
-                header('Location: ' . BASE_URL . '/admin/requests/' . $id);
+            $newStatus = $_POST[ 'status' ] ?? null;
+            if ( !in_array( $newStatus, [ 'new', 'studying', 'quoted', 'accepted', 'refused', 'archived' ] ) ) {
+                header( 'Location: ' . BASE_URL . '/admin/requests/' . $id );
                 exit;
             }
 
-            $this->contactRequestModel->updateStatus($id, $newStatus);
+            $this->contactRequestModel->updateStatus( $id, $newStatus );
 
-            header('Location: ' . BASE_URL . '/admin/requests/' . $id);
+            header( 'Location: ' . BASE_URL . '/admin/requests/' . $id );
             exit;
-        } catch (Exception $e) {
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during status update
-            error_log("Error updating contact request status: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors de la mise à jour du statut de la demande de contact.";
-            header('Location: ' . BASE_URL . '/admin/requests/' . $id);
+            error_log( 'Error updating contact request status: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors de la mise à jour du statut de la demande de contact.';
+            header( 'Location: ' . BASE_URL . '/admin/requests/' . $id );
             exit;
         }
     }
 
     /**
-     * Display the list of trips with optional status filtering
-     */
+    * Display the list of trips with optional status filtering
+    */
+
     public function trips() {
         try {
-            $status = $_GET['status'] ?? null;
+            $status = $_GET[ 'status' ] ?? null;
 
-            if ($status) {
-                $trips = $this->tripModel->getTripsByStatus($status);
+            if ( $status ) {
+                $trips = $this->tripModel->getTripsByStatus( $status );
             } else {
                 $trips = $this->tripModel->getAllTrips();
             }
 
-            $this->renderAdminView('admin/trips', [
+            $this->renderAdminView( 'admin/trips', [
                 'trips' => $trips,
                 'currentPage' => 'trips',
                 'currentStatusFilter' => $status
-            ]);
-        } catch (Exception $e) {
+            ] );
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during rendering
-            error_log("Error rendering trips: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement des voyages.";
-            header('Location: ' . BASE_URL . '/admin/trips');
+            error_log( 'Error rendering trips: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors du chargement des voyages.';
+            header( 'Location: ' . BASE_URL . '/admin/trips' );
             exit;
         }
     }
 
     /**
-     * Display the form to create a new trip from a contact request
-     * @param int $requestId The ID of the contact request
-     */
-    public function newTripFromRequest($requestId) {
-        // Logic to create a trip from a contact request
-        // (Retrieve the request, pre-fill a trip creation form, etc.)
-        try {
-            $request = $this->contactRequestModel->getRequestById($requestId);
+    * Display the form to create a new trip from a contact request
+    * @param int $requestId The ID of the contact request
+    */
 
-            if (!$request) {
-                header('Location: ' . BASE_URL . '/admin/requests');
+    public function newTripFromRequest( $requestId ) {
+        // Logic to create a trip from a contact request
+        // ( Retrieve the request, pre-fill a trip creation form, etc. )
+        try {
+            $request = $this->contactRequestModel->getRequestById( $requestId );
+
+            if ( !$request ) {
+                header( 'Location: ' . BASE_URL . '/admin/requests' );
                 exit;
             }
 
-            $this->renderAdminView('admin/newTrip', [
+            $this->renderAdminView( 'admin/newTrip', [
                 'request' => $request,
                 'currentPage' => 'trips'
-            ]);
-        } catch (Exception $e) {
+            ] );
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during rendering
-            error_log("Error rendering new trip form: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement du formulaire de création de voyage.";
-            header('Location: ' . BASE_URL . '/admin/requests');
+            error_log( 'Error rendering new trip form: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors du chargement du formulaire de création de voyage.';
+            header( 'Location: ' . BASE_URL . '/admin/requests' );
             exit;
         }
     }
 
     /**
-     * Create a new trip
-     */
+    * Create a new trip
+    */
+
     public function createTrip() {
         try {
             // 1. Create the entity from POST data
-            $newTrip = Trip::fromArray($_POST);
-            // 2. Validate the entity (all logic is in the entity)
+            $newTrip = Trip::fromArray( $_POST );
+            // 2. Validate the entity ( all logic is in the entity )
             $errors = $newTrip->validate();
             // 3. If errors, re-display the form
-            if (!empty($errors)) {
+            if ( !empty( $errors ) ) {
                 // Grab the request to re-display the form
-                $requestId = $_POST['requestId'] ?? null;
+                $requestId = $_POST[ 'requestId' ] ?? null;
                 $request = null;
-                if ($requestId) {
-                    $request = $this->contactRequestModel->getRequestById($requestId);
+                if ( $requestId ) {
+                    $request = $this->contactRequestModel->getRequestById( $requestId );
                 }
-                
-                $this->renderAdminView('admin/newTrip', [
+
+                $this->renderAdminView( 'admin/newTrip', [
                     'errors' => $errors,
                     'formData' => $_POST,
                     'request' => $request,
                     'currentPage' => 'trips'
-                ]);
+                ] );
                 return;
             }
             // 4. Validation OK : Save via the Model
-            $this->tripModel->save($newTrip);
+            $this->tripModel->save( $newTrip );
 
-            header('Location: ' . BASE_URL . '/admin/trips');
+            header( 'Location: ' . BASE_URL . '/admin/trips' );
             exit;
-        } catch (Exception $e) {
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during trip creation
-            error_log("Error creating trip: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors de la création du voyage.";
-            header('Location: ' . BASE_URL . '/admin/trips');
+            error_log( 'Error creating trip: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors de la création du voyage.';
+            header( 'Location: ' . BASE_URL . '/admin/trips' );
             exit;
         }
     }
 
     /**
-     * Display the details of a specific trip
-     * @param int $id The ID of the trip
-     */
-    public function viewTrip($id) {
+    * Display the details of a specific trip
+    * @param int $id The ID of the trip
+    */
+
+    public function viewTrip( $id ) {
         try {
             // Logic to display the details of a trip
-            // (Retrieve the trip by ID, display the information, etc.)
-            
-            $trip = $this->tripModel->getTripById($id);
+            // ( Retrieve the trip by ID, display the information, etc. )
 
-            if (!$trip) {
-                header('Location: ' . BASE_URL . '/admin/trips');
+            $trip = $this->tripModel->getTripById( $id );
+
+            if ( !$trip ) {
+                header( 'Location: ' . BASE_URL . '/admin/trips' );
                 exit;
             }
             // Retrieve trip items for the itinerary
-            $tripItems = $this->tripItemModel->getItemsByTripId($id);
-            
-            // Group items by day for better display
-            $itemsByDay = TripHelper::groupItemsByDay($tripItems);
-            
-            // Retrieve messages related to this trip
-            $messages = $this->messagesModel->getMessagesByTripId($id);
-            $this->messagesModel->markAsReadByTrip($id, $this->user->getId());
+            $tripItems = $this->tripItemModel->getItemsByTripId( $id );
 
-            $this->renderAdminView('admin/trip_detail', [
+            // Group items by day for better display
+            $itemsByDay = TripHelper::groupItemsByDay( $tripItems );
+
+            // Retrieve messages related to this trip
+            $messages = $this->messagesModel->getMessagesByTripId( $id );
+            $this->messagesModel->markAsReadByTrip( $id, $this->user->getId() );
+
+            $this->renderAdminView( 'admin/trip_detail', [
                 'trip' => $trip,
                 'tripItems' => $tripItems, // Keep original for compatibility
                 'itemsByDay' => $itemsByDay, // Grouped by day
                 'messages' => $messages,
                 'currentPage' => 'trips'
-            ]);
-        } catch (Exception $e) {
+            ] );
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during rendering
-            error_log("Error rendering trip details: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement des détails du voyage.";
-            header('Location: ' . BASE_URL . '/admin/trips');
+            error_log( 'Error rendering trip details: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors du chargement des détails du voyage.';
+            header( 'Location: ' . BASE_URL . '/admin/trips' );
             exit;
         }
     }
 
-    public function updateTripStatus($id) {
+    public function updateTripStatus( $id ) {
         try {
-            $newStatus = $_POST['status'] ?? null;
-            if (!in_array($newStatus, ['draft', 'quoted', 'accepted', 'ongoing', 'finished', 'cancelled'])) {
-                header('Location: ' . BASE_URL . '/admin/trips/' . $id);
+            $newStatus = $_POST[ 'status' ] ?? null;
+            if ( !in_array( $newStatus, [ 'draft', 'quoted', 'accepted', 'ongoing', 'finished', 'cancelled' ] ) ) {
+                header( 'Location: ' . BASE_URL . '/admin/trips/' . $id );
                 exit;
             }
 
-            $this->tripModel->updateStatus($id, $newStatus);
+            $this->tripModel->updateStatus( $id, $newStatus );
 
             // Update the related contact request status
-            $trip = $this->tripModel->getTripById($id);
-            if ($trip && $trip->getRequestId()) {
+            $trip = $this->tripModel->getTripById( $id );
+            if ( $trip && $trip->getRequestId() ) {
                 $relatedRequestStatus = null;
-                switch ($newStatus) {
+                switch ( $newStatus ) {
                     case 'draft':
-                        $relatedRequestStatus = 'studying';
-                        break;
+                    $relatedRequestStatus = 'studying';
+                    break;
                     case 'quoted':
-                        $relatedRequestStatus = 'quoted';
-                        break;
+                    $relatedRequestStatus = 'quoted';
+                    break;
                     case 'accepted':
-                        $relatedRequestStatus = 'accepted';
-                        break;
+                    $relatedRequestStatus = 'accepted';
+                    break;
                     case 'cancelled':
-                        $relatedRequestStatus = 'refused';
-                        break;
+                    $relatedRequestStatus = 'refused';
+                    break;
                 }
-                if ($relatedRequestStatus) {
-                    $this->contactRequestModel->updateStatus($trip->getRequestId(), $relatedRequestStatus);
+                if ( $relatedRequestStatus ) {
+                    $this->contactRequestModel->updateStatus( $trip->getRequestId(), $relatedRequestStatus );
                 }
             }
 
-            header('Location: ' . BASE_URL . '/admin/trips');
+            header( 'Location: ' . BASE_URL . '/admin/trips' );
             exit;
-        } catch (Exception $e) {
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during status update
-            error_log("Error updating trip status: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors de la mise à jour du statut du voyage.";
-            header('Location: ' . BASE_URL . '/admin/trips/' . $id);
+            error_log( 'Error updating trip status: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors de la mise à jour du statut du voyage.';
+            header( 'Location: ' . BASE_URL . '/admin/trips/' . $id );
             exit;
         }
     }
 
     /**
-     * Give traveler access to an accepted trip
-     * @param int $id The ID of the trip
-     */
-    public function travelerAccess($id) {
-        // Logic to give traveler access to an accepted trip
-        // (Generate a token, send an email, etc.)
-        try {
-            $trip = $this->tripModel->getTripById($id);
+    * Give traveler access to an accepted trip
+    * @param int $id The ID of the trip
+    */
 
-            if (!$trip || $trip->getStatus() !== 'accepted') {
-                header('Location: ' . BASE_URL . '/admin/trips');
+    public function travelerAccess( $id ) {
+        // Logic to give traveler access to an accepted trip
+        // ( Generate a token, send an email, etc. )
+        try {
+            $trip = $this->tripModel->getTripById( $id );
+
+            if ( !$trip || $trip->getStatus() !== 'accepted' ) {
+                header( 'Location: ' . BASE_URL . '/admin/trips' );
                 exit;
             }
 
             $requestId = $trip->getRequestId();
-            if (!$requestId) {
-                header('Location: ' . BASE_URL . '/admin/trips');
+            if ( !$requestId ) {
+                header( 'Location: ' . BASE_URL . '/admin/trips' );
                 exit;
             }
             // Check if the email contact already have an account
-            $contactRequest = $this->contactRequestModel->getRequestById($requestId);
+            $contactRequest = $this->contactRequestModel->getRequestById( $requestId );
             $contactEmail = $contactRequest->getEmail();
 
-            if (!$contactEmail) {
-                header('Location: ' . BASE_URL . '/admin/trips');
+            if ( !$contactEmail ) {
+                header( 'Location: ' . BASE_URL . '/admin/trips' );
                 exit;
             }
 
             $userModel = new UserModel();
-            $existingUser = $userModel->findByEmail($contactEmail);
+            $existingUser = $userModel->findByEmail( $contactEmail );
 
-
-            if (!$existingUser) {
+            if ( !$existingUser ) {
                 // Create a new traveler account
-                $password = bin2hex(random_bytes(8)); // Generate a random password with at least 8 characters, including letters and numbers and special characters
+                $password = bin2hex( random_bytes( 8 ) );
+                // Generate a random password with at least 8 characters, including letters and numbers and special characters
                 $newUser = new User();
-                $newUser->setEmail($contactEmail);
-                $newUser->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
-                $newUser->setFirstName($contactRequest->getFirstName() ?? '');
-                $newUser->setLastName($contactRequest->getLastName() ?? '');
-                $newUser->setPhone($contactRequest->getPhone() ?? null );
-                $newUser->setMustChangePassword(true); // Force password change on first login
-                $newUser->setRole('traveler');
-                $newUserId = $userModel->create($newUser);
+                $newUser->setEmail( $contactEmail );
+                $newUser->setPasswordHash( password_hash( $password, PASSWORD_DEFAULT ) );
+                $newUser->setFirstName( $contactRequest->getFirstName() ?? '' );
+                $newUser->setLastName( $contactRequest->getLastName() ?? '' );
+                $newUser->setPhone( $contactRequest->getPhone() ?? null );
+                $newUser->setMustChangePassword( true );
+                // Force password change on first login
+                $newUser->setRole( 'traveler' );
+                $newUserId = $userModel->create( $newUser );
 
-                if ($newUserId === false) {
-                    $_SESSION['traveler_access_info'] = "Une erreur est survenue lors de la création du compte voyageur pour l'email $contactEmail. Veuillez vérifier manuellement.";
-                    header('Location: ' . BASE_URL . '/admin/trips');
+                if ( $newUserId === false ) {
+                    $_SESSION[ 'traveler_access_info' ] = "Une erreur est survenue lors de la création du compte voyageur pour l'email $contactEmail. Veuillez vérifier manuellement.";
+                    header( 'Location: ' . BASE_URL . '/admin/trips' );
                     exit;
                 } else {
                     // update trip with the new traveler user id
-                    $this->tripModel->updateUserId($id, $newUserId);
+                    $this->tripModel->updateUserId( $id, $newUserId );
 
-                    // Send email with access details (not implemented here)
-                    // For now we just pass the generated password to admin(in a real app, you would send this by email and not display it)
-                    $_SESSION['traveler_access_info'] = "Un compte voyageur a été créé pour l'email $contactEmail avec le mot de passe : $password. Veuillez transmettre ces informations au client.";
+                    // Send email with access details ( not implemented here )
+                    // For now we just pass the generated password to admin( in a real app, you would send this by email and not display it )
+                    $_SESSION[ 'traveler_access_info' ] = "Un compte voyageur a été créé pour l'email $contactEmail avec le mot de passe : $password. Veuillez transmettre ces informations au client.";
                 }
             } else {
                 // User already exists, link the trip to the existing user
-                $this->tripModel->updateUserId($id, $existingUser->getId());
-                $_SESSION['traveler_access_info'] = "Le voyage a été associé au compte existant de $contactEmail.";
-                // Send email to say that the travel is ready (not implemented here)
+                $this->tripModel->updateUserId( $id, $existingUser->getId() );
+                $_SESSION[ 'traveler_access_info' ] = "Le voyage a été associé au compte existant de $contactEmail.";
+                // Send email to say that the travel is ready ( not implemented here )
             }
 
             // Send a welcome message to the traveler on his trip chat
             $welcomeMessage = new Message(
                 $id,                          // tripId
-                $this->user->getId(),         // senderId (Admin)
-                "Bienvenue dans ce nouveau voyage ! Votre voyage est prêt."  // message
+                $this->user->getId(),         // senderId ( Admin )
+                'Bienvenue dans ce nouveau voyage ! Votre voyage est prêt.'  // message
             );
-            
-            $this->messagesModel->addMessage($welcomeMessage);
 
+            $this->messagesModel->addMessage( $welcomeMessage );
 
-            header('Location: ' . BASE_URL . '/admin/trips');
+            header( 'Location: ' . BASE_URL . '/admin/trips' );
             exit;
-        } catch (Exception $e) {
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during traveler access granting
-            error_log("Error granting traveler access: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors de l'octroi de l'accès au voyageur.";
-            header('Location: ' . BASE_URL . '/admin/trips');
+            error_log( 'Error granting traveler access: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = "Une erreur est survenue lors de l'octroi de l'accès au voyageur.";
+            header( 'Location: ' . BASE_URL . '/admin/trips' );
             exit;
         }
     }
 
     /**
-     * Display the list of chats (conversations) for the admin
-     */
+    * Display the list of chats ( conversations ) for the admin
+    */
+
     public function chats() {
         try {
-            $chats = $this->messagesModel->getAllAdminConversations($this->user->getId());
+            $chats = $this->messagesModel->getAllAdminConversations( $this->user->getId() );
 
-            $this->renderAdminView('admin/chats', [
+            $this->renderAdminView( 'admin/chats', [
                 'currentPage' => 'chats',
                 'chats' => $chats
-            ]);
-        } catch (Exception $e) {
+            ] );
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during rendering
-            error_log("Error rendering admin chats: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement des conversations.";
-            header('Location: ' . BASE_URL . '/admin/chats');
+            error_log( 'Error rendering admin chats: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors du chargement des conversations.';
+            header( 'Location: ' . BASE_URL . '/admin/chats' );
             exit;
         }
     }
 
-    public function tripItem($id) {
+    public function tripItem( $id ) {
         // Logic to add an item to a trip itinerary
-        // (Validate input, save the item, etc.)
-        $this->renderAdminView('admin/tripItem', [
+        // ( Validate input, save the item, etc. )
+        $this->renderAdminView( 'admin/tripItem', [
             'currentPage' => 'tripItem',
             'tripId' => $id
-        ]);
+        ] );
     }
 
-    public function addTripItem($id) {
+    public function addTripItem( $id ) {
         try {
-            $trip = $this->tripModel->getTripById($id);
+            $trip = $this->tripModel->getTripById( $id );
 
-            if (!$trip) {
-                header('Location: ' . BASE_URL . '/admin/trips');
+            if ( !$trip ) {
+                header( 'Location: ' . BASE_URL . '/admin/trips' );
                 exit;
             }
 
-            // Handle checkbox value (unchecked checkboxes are not sent in POST)
-            $_POST['requiresBooking'] = isset($_POST['requiresBooking']) ? 1 : 0;
-            
-            $newItem = TripItem::fromArray($_POST);
+            // Handle checkbox value ( unchecked checkboxes are not sent in POST )
+            $_POST[ 'requiresBooking' ] = isset( $_POST[ 'requiresBooking' ] ) ? 1 : 0;
+
+            $newItem = TripItem::fromArray( $_POST );
 
             // TODO: Add validation in the entity and validate here before saving
             /*$errors = $newItem->validate();
 
-            if (!empty($errors)) {
-                $this->renderAdminView('admin/tripItem', [
+            if ( !empty( $errors ) ) {
+                $this->renderAdminView( 'admin/tripItem', [
                     'errors' => $errors,
                     'formData' => $_POST,
                     'tripId' => $id,
                     'currentPage' => 'tripItem'
-                ]);
+                ] );
                 return;
-            }*/
+            }
+            */
 
-            $newItem->setTripId($id);
-            $this->tripItemModel->saveTripItem($newItem);
-            
+            $newItem->setTripId( $id );
+            $this->tripItemModel->saveTripItem( $newItem );
+
             // Reorder all items chronologically after adding new one
-            $this->tripItemModel->reorderItems($id);
+            $this->tripItemModel->reorderItems( $id );
 
-            header('Location: ' . BASE_URL . '/admin/trips/' . $id);
+            header( 'Location: ' . BASE_URL . '/admin/trips/' . $id );
             exit;
-        } catch (Exception $e) {
+        } catch ( Exception $e ) {
             // Handle any exceptions that occur during trip item addition
-            error_log("Error adding trip item: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors de l'ajout de l'item au voyage.";
-            header('Location: ' . BASE_URL . '/admin/trips/' . $id);
+            error_log( 'Error adding trip item: ' . $e->getMessage() );
+            $_SESSION[ 'errorMessage' ] = "Une erreur est survenue lors de l'ajout de l'item au voyage.";
+            header( 'Location: ' . BASE_URL . '/admin/trips/' . $id );
             exit;
         }
     }
 
     /**
-     * Show edit form for a trip item
-     * GET /admin/trips/{tripId}/edit-item/{itemId}
-     */
-    public function showEditTripItem($tripId, $itemId) {
-        try {
-            $trip = $this->tripModel->getTripById($tripId);
-            $item = $this->tripItemModel->getItemById($itemId);
+    * Show edit form for a trip item
+    * GET /admin/trips/ {
+        tripId}
+        /edit-item/ {
+        itemId}
+        */
 
-            if (!$trip || !$item) {
-                header('Location: ' . BASE_URL . '/admin/trips');
-                exit;
-            }
+        public function showEditTripItem( $tripId, $itemId ) {
+            try {
+                $trip = $this->tripModel->getTripById( $tripId );
+                $item = $this->tripItemModel->getItemById( $itemId );
 
-            // Verify item belongs to this trip
-            if ($item->getTripId() != $tripId) {
-                header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
-                exit;
-            }
+                if ( !$trip || !$item ) {
+                    header( 'Location: ' . BASE_URL . '/admin/trips' );
+                    exit;
+                }
 
-            // Reuse the same view as creation, but pass the item for editing
-            $this->renderAdminView('admin/tripItem', [
-                'currentPage' => 'trips',
-                'trip' => $trip,
-                'item' => $item,
-                'tripId' => $tripId,
-                'itemId' => $itemId
-            ]);
-        } catch (Exception $e) {
-            error_log("Error loading edit trip item form: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement du formulaire.";
-            header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
-            exit;
-        }
-    }
+                // Verify item belongs to this trip
+                if ( $item->getTripId() != $tripId ) {
+                    header( 'Location: ' . BASE_URL . '/admin/trips/' . $tripId );
+                    exit;
+                }
 
-    /**
-     * Update a trip item
-     * POST /admin/trips/{tripId}/edit-item/{itemId}
-     */
-    public function editTripItem($tripId, $itemId) {
-        try {
-            $trip = $this->tripModel->getTripById($tripId);
-            $existingItem = $this->tripItemModel->getItemById($itemId);
-
-            if (!$trip || !$existingItem) {
-                header('Location: ' . BASE_URL . '/admin/trips');
-                exit;
-            }
-
-            // Verify item belongs to this trip
-            if ($existingItem->getTripId() != $tripId) {
-                header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
-                exit;
-            }
-
-            // Handle checkbox value (unchecked checkboxes are not sent in POST)
-            $_POST['requiresBooking'] = isset($_POST['requiresBooking']) ? 1 : 0;
-            
-            // Keep ID, tripId and sortOrder from existing item
-            $_POST['id'] = $itemId;
-            $_POST['tripId'] = $tripId;
-            $_POST['sortOrder'] = $existingItem->getSortOrder();
-            
-            // Create item from POST data
-            $updatedItem = TripItem::fromArray($_POST);
-
-            // TODO: Add validation
-            /*$errors = $updatedItem->validate();
-            if (!empty($errors)) {
-                $this->renderAdminView('admin/editTripItem', [
-                    'errors' => $errors,
-                    'formData' => $_POST,
+                // Reuse the same view as creation, but pass the item for editing
+                $this->renderAdminView( 'admin/tripItem', [
+                    'currentPage' => 'trips',
                     'trip' => $trip,
-                    'item' => $existingItem,
+                    'item' => $item,
                     'tripId' => $tripId,
-                    'itemId' => $itemId,
-                    'currentPage' => 'trips'
-                ]);
-                return;
-            }*/
-
-            $this->tripItemModel->updateTripItem($updatedItem);
-            
-            // Reorder items if dates changed
-            $this->tripItemModel->reorderItems($tripId);
-
-            $_SESSION['successMessage'] = "L'item a été modifié avec succès.";
-            header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
-            exit;
-        } catch (Exception $e) {
-            error_log("Error updating trip item: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors de la modification de l'item.";
-            header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
-            exit;
+                    'itemId' => $itemId
+                ] );
+            } catch ( Exception $e ) {
+                error_log( 'Error loading edit trip item form: ' . $e->getMessage() );
+                $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors du chargement du formulaire.';
+                header( 'Location: ' . BASE_URL . '/admin/trips/' . $tripId );
+                exit;
+            }
         }
-    }
 
-    /**
-     * Delete a trip item
-     * POST /admin/trips/{tripId}/delete-item/{itemId}
-     */
-    public function deleteTripItem($tripId, $itemId) {
-        try {
-            $this->tripItemModel->deleteItem($itemId);
-            $this->tripItemModel->reorderItems($tripId);
-            
-            $_SESSION['successMessage'] = "L'item a été supprimé avec succès.";
-        } catch (Exception $e) {
-            error_log("Error deleting trip item: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors de la suppression de l'item.";
-        }
-        
-        header('Location: ' . BASE_URL . '/admin/trips/' . $tripId);
-        exit;
-    }
-    
+        /**
+        * Update a trip item
+        * POST /admin/trips/ {
+            tripId}
+            /edit-item/ {
+            itemId}
+            */
 
-    public function settings() {
-        try {
-            //Get user info
-            $userId = $this->user->getId();
-            $userModel = new UserModel();
-            $userSettings = $userModel->getCommonUserSettings($userId);
-            $this->renderAdminView('admin/settings', [
-                'currentPage' => 'settings',
-                'userSettings' => $userSettings
-            ]);
-        } catch (Exception $e) {
-            // Handle any exceptions that occur during rendering
-            error_log("Error rendering admin settings: " . $e->getMessage());
-            $_SESSION['errorMessage'] = "Une erreur est survenue lors du chargement des paramètres du compte.";
-            header('Location: ' . BASE_URL . '/admin/settings');
-            exit;
-        }
-    }
-}
+            public function editTripItem( $tripId, $itemId ) {
+                try {
+                    $trip = $this->tripModel->getTripById( $tripId );
+                    $existingItem = $this->tripItemModel->getItemById( $itemId );
+
+                    if ( !$trip || !$existingItem ) {
+                        header( 'Location: ' . BASE_URL . '/admin/trips' );
+                        exit;
+                    }
+
+                    // Verify item belongs to this trip
+                    if ( $existingItem->getTripId() != $tripId ) {
+                        header( 'Location: ' . BASE_URL . '/admin/trips/' . $tripId );
+                        exit;
+                    }
+
+                    // Handle checkbox value ( unchecked checkboxes are not sent in POST )
+                    $_POST[ 'requiresBooking' ] = isset( $_POST[ 'requiresBooking' ] ) ? 1 : 0;
+
+                    // Keep ID, tripId and sortOrder from existing item
+                    $_POST[ 'id' ] = $itemId;
+                    $_POST[ 'tripId' ] = $tripId;
+                    $_POST[ 'sortOrder' ] = $existingItem->getSortOrder();
+
+                    // Create item from POST data
+                    $updatedItem = TripItem::fromArray( $_POST );
+
+                    // TODO: Add validation
+                    /*$errors = $updatedItem->validate();
+                    if ( !empty( $errors ) ) {
+                        $this->renderAdminView( 'admin/editTripItem', [
+                            'errors' => $errors,
+                            'formData' => $_POST,
+                            'trip' => $trip,
+                            'item' => $existingItem,
+                            'tripId' => $tripId,
+                            'itemId' => $itemId,
+                            'currentPage' => 'trips'
+                        ] );
+                        return;
+                    }
+                    */
+
+                    $this->tripItemModel->updateTripItem( $updatedItem );
+
+                    // Reorder items if dates changed
+                    $this->tripItemModel->reorderItems( $tripId );
+
+                    $_SESSION[ 'successMessage' ] = "L'item a été modifié avec succès.";
+                    header( 'Location: ' . BASE_URL . '/admin/trips/' . $tripId );
+                    exit;
+                } catch ( Exception $e ) {
+                    error_log( 'Error updating trip item: ' . $e->getMessage() );
+                    $_SESSION[ 'errorMessage' ] = "Une erreur est survenue lors de la modification de l'item.";
+                    header( 'Location: ' . BASE_URL . '/admin/trips/' . $tripId );
+                    exit;
+                }
+            }
+
+            /**
+            * Delete a trip item
+            * POST /admin/trips/ {
+                tripId}
+                /delete-item/ {
+                itemId}
+                */
+
+                public function deleteTripItem( $tripId, $itemId ) {
+                    try {
+                        $this->tripItemModel->deleteItem( $itemId );
+                        $this->tripItemModel->reorderItems( $tripId );
+
+                        $_SESSION[ 'successMessage' ] = "L'item a été supprimé avec succès.";
+                    } catch ( Exception $e ) {
+                        error_log( 'Error deleting trip item: ' . $e->getMessage() );
+                        $_SESSION[ 'errorMessage' ] = "Une erreur est survenue lors de la suppression de l'item.";
+                    }
+
+                    header( 'Location: ' . BASE_URL . '/admin/trips/' . $tripId );
+                    exit;
+                }
+
+                public function settings() {
+                    try {
+                        //Get user info
+                        $userId = $this->user->getId();
+                        $userModel = new UserModel();
+                        $userSettings = $userModel->getCommonUserSettings( $userId );
+                        $this->renderAdminView( 'admin/settings', [
+                            'currentPage' => 'settings',
+                            'userSettings' => $userSettings
+                        ] );
+                    } catch ( Exception $e ) {
+                        // Handle any exceptions that occur during rendering
+                        error_log( 'Error rendering admin settings: ' . $e->getMessage() );
+                        $_SESSION[ 'errorMessage' ] = 'Une erreur est survenue lors du chargement des paramètres du compte.';
+                        header( 'Location: ' . BASE_URL . '/admin/settings' );
+                        exit;
+                    }
+                }
+            }
