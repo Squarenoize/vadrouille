@@ -1,7 +1,7 @@
 <?php
 // Détection automatique de l'environnement (local vs production)
 $isLocal = (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false || strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false);
-$baseUrl = $isLocal ? '/Vadrouille/public' : '';
+$baseUrl = $isLocal ? '/Vadrouille-Et-Bourlingue/public' : '';
 define('BASE_URL', $baseUrl);
 
 if (isset($_GET['action'])) {

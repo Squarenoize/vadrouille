@@ -1,13 +1,16 @@
 <?php
+
 /**
  * ContactRequestModel handles database operations for contact requests
  * It provides methods to save, retrieve, and update contact requests
  * Table contact_requests in DB
  */
-class ContactRequestModel {
+class ContactRequestModel
+{
     private PDO $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance();
     }
 
@@ -16,7 +19,8 @@ class ContactRequestModel {
      * @param ContactRequest $contactRequest The entity to persist
      * @return bool
      */
-    public function save(ContactRequest $contactRequest): bool {
+    public function save(ContactRequest $contactRequest): bool
+    {
         $sql = "INSERT INTO contact_requests (
                     first_name, last_name, email, phone, 
                     trip_type, destination, travelers_adult_count, travelers_child_count,
@@ -28,44 +32,46 @@ class ContactRequestModel {
                     :desired_start, :duration, :budget, :start_country, :message,
                     :conditions_accepted, :status, NOW()
                 )";
-        
+
         $stmt = $this->db->prepare($sql);
-        
+
         // Get the cleaned data from the entity
         $data = $contactRequest->toArray();
-        
+
         return $stmt->execute($data);
     }
-    
+
     /**
      * Retrieve all contact requests
      * @return ContactRequest[]
      */
-    public function getAllRequests(): array {
+    public function getAllRequests(): array
+    {
         $sql = "SELECT * FROM contact_requests ORDER BY created_at DESC";
         $stmt = $this->db->query($sql);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
         // Convert each row into an entity
         return array_map(fn($row) => ContactRequest::fromArray($row), $results);
     }
-    
+
     /**
      * Retrieve a contact request by ID
      * @param int $id
      * @return ContactRequest
      */
-    public function getRequestById(int $id): ContactRequest {
+    public function getRequestById(int $id): ContactRequest
+    {
         $sql = "SELECT * FROM contact_requests WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['id' => $id]);
-        
+
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$row) {
             throw new RuntimeException("Demande de contact $id introuvable");
         }
-        
+
         return ContactRequest::fromArray($row);
     }
 
@@ -74,22 +80,24 @@ class ContactRequestModel {
      * @param string $status
      * @return ContactRequest[]
      */
-    public function getRequestsByStatus(string $status): array {
+    public function getRequestsByStatus(string $status): array
+    {
         $sql = "SELECT * FROM contact_requests WHERE status = :status ORDER BY created_at DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['status' => $status]);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
         return array_map(fn($row) => ContactRequest::fromArray($row), $results);
     }
-    
+
     /**
      * Update the status of a contact request
      * @param int $id
      * @param string $newStatus
      * @return bool
      */
-    public function updateStatus(int $id, string $newStatus): bool {
+    public function updateStatus(int $id, string $newStatus): bool
+    {
         $sql = "UPDATE contact_requests SET status = :status WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute(['status' => $newStatus, 'id' => $id]);
@@ -100,7 +108,8 @@ class ContactRequestModel {
      * @param string $status
      * @return int
      */
-    public function countByStatus(string $status): int {
+    public function countByStatus(string $status): int
+    {
         $sql = "SELECT COUNT(*) FROM contact_requests WHERE status = :status";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['status' => $status]);

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * This class represents a trip created from a contact request
  * It encapsulates the data and provides validation
  * Table trips in DB
  */
-class Trip {
+class Trip
+{
     private ?int $id = null;
     private ?int $userId = null;
     private int $requestId; // ID de la demande associée (obligatoire)
@@ -15,7 +17,7 @@ class Trip {
     private string $endDate;
     private ?float $totalPrice = null;
     private ?string $adminNote = null;
-    private string $status = 'draft'; 
+    private string $status = 'draft';
     private ?string $quoteToken = null; // Token pour accéder au devis
     private ?string $quoteSentAt = null; // Date d'envoi du devis
     private ?string $acceptedAt = null; // Date d'acceptation du devis
@@ -26,7 +28,8 @@ class Trip {
      * Hydrate the entity from an array of data
      * Accepts both camelCase (form data) and snake_case (database) keys
      */
-    public static function fromArray(array $data): self {
+    public static function fromArray(array $data): self
+    {
         $instance = new self();
         $instance->id = $data['id'] ?? null;
         $instance->userId = $data['userId'] ?? $data['user_id'] ?? null;
@@ -47,9 +50,10 @@ class Trip {
         return $instance;
     }
 
-    public function validate(): array {
+    public function validate(): array
+    {
         $errors = [];
-        
+
         if (!$this->requestId) {
             $errors[] = 'La demande associée est requise.';
         }
@@ -68,11 +72,12 @@ class Trip {
         if ($this->startDate && $this->endDate && $this->startDate > $this->endDate) {
             $errors[] = 'La date de départ doit être antérieure à la date de retour.';
         }
-        
+
         return $errors;
     }
 
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'id' => $this->id,
             'userId' => $this->userId,
@@ -94,109 +99,152 @@ class Trip {
     }
 
     // Getters and setters
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
-    public function getUserId(): ?int {
+    public function getUserId(): ?int
+    {
         return $this->userId;
     }
-    public function getRequestId(): int {
+    public function getRequestId(): int
+    {
         return $this->requestId;
     }
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
     }
-    public function getDescription(): string {
+    public function getDescription(): string
+    {
         return $this->description;
     }
-    public function getDestination(): string {
+    public function getDestination(): string
+    {
         return $this->destination;
     }
-    public function getStartDate(): string {
+    public function getStartDate(): string
+    {
         return $this->startDate;
     }
-    public function getEndDate(): string {
+    public function getEndDate(): string
+    {
         return $this->endDate;
     }
-    public function getTotalPrice(): ?float {
+    public function getTotalPrice(): ?float
+    {
         return $this->totalPrice;
     }
-    public function getAdminNote(): ?string {
+    public function getAdminNote(): ?string
+    {
         return $this->adminNote;
     }
-    public function getStatus(): string {
+    public function getStatus(): string
+    {
         return $this->status;
     }
-    public function getQuoteToken(): ?string {
+    public function getQuoteToken(): ?string
+    {
         return $this->quoteToken;
     }
-    public function getQuoteSentAt(): ?string {
+    public function getQuoteSentAt(): ?string
+    {
         return $this->quoteSentAt;
     }
-    public function getAcceptedAt(): ?string {
+    public function getAcceptedAt(): ?string
+    {
         return $this->acceptedAt;
     }
-    public function getCreatedAt(): ?string {
+    public function getCreatedAt(): ?string
+    {
         return $this->createdAt;
     }
-    public function getUpdatedAt(): ?string {
+    public function getUpdatedAt(): ?string
+    {
         return $this->updatedAt;
     }
-    public function getDaysCount(): int {
+    public function getDaysCount(): int
+    {
         $start = new DateTime($this->startDate);
         $end = new DateTime($this->endDate);
         return $start->diff($end)->days + 1; // +1 pour inclure le jour de départ
     }
-    public function getDaysBeforeStart(): int {
+    public function getDaysBeforeStart(): int
+    {
         $today = new DateTime();
         $start = new DateTime($this->startDate);
         return max(0, $today->diff($start)->days); // Retourne 0 si la date de début est passée
     }
 
     // Setters
-    public function setName (string $name): void {
+    public function setName(string $name): self
+    {
         $this->name = $name;
+        return $this;
     }
-    public function setDescription (string $description): void {
+    public function setDescription(string $description): self
+    {
         $this->description = $description;
+        return $this;
     }
-    public function setDestination (string $destination): void {
+    public function setDestination(string $destination): self
+    {
         $this->destination = $destination;
+        return $this;
     }
-    public function setStartDate (string $startDate): void {
+    public function setStartDate(string $startDate): self
+    {
         $this->startDate = $startDate;
+        return $this;
     }
-    public function setEndDate (string $endDate): void {
+    public function setEndDate(string $endDate): self
+    {
         $this->endDate = $endDate;
+        return $this;
     }
-    public function setTotalPrice (?float $totalPrice): void {
+    public function setTotalPrice(?float $totalPrice): self
+    {
         $this->totalPrice = $totalPrice;
+        return $this;
     }
-    public function setUserId(?int $userId): void {
+    public function setUserId(?int $userId): self
+    {
         $this->userId = $userId;
+        return $this;
     }
-    public function setAdminNote(?string $adminNote): void {
+    public function setAdminNote(?string $adminNote): self
+    {
         $this->adminNote = $adminNote;
+        return $this;
     }
-    public function setStatus(string $status): void {
+    public function setStatus(string $status): self
+    {
         $this->status = $status;
+        return $this;
     }
-    public function setQuoteToken(?string $quoteToken): void {
+    public function setQuoteToken(?string $quoteToken): self
+    {
         $this->quoteToken = $quoteToken;
+        return $this;
     }
-    public function setQuoteSentAt(?string $quoteSentAt): void {
+    public function setQuoteSentAt(?string $quoteSentAt): self
+    {
         $this->quoteSentAt = $quoteSentAt;
+        return $this;
     }
-    public function setAcceptedAt(?string $acceptedAt): void {
+    public function setAcceptedAt(?string $acceptedAt): self
+    {
         $this->acceptedAt = $acceptedAt;
+        return $this;
     }
-    public function setCreatedAt(?string $createdAt): void {
+    public function setCreatedAt(?string $createdAt): self
+    {
         $this->createdAt = $createdAt;
+        return $this;
     }
-    public function setUpdatedAt(?string $updatedAt): void {
+    public function setUpdatedAt(?string $updatedAt): self
+    {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
-
-
-
 }

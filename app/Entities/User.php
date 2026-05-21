@@ -1,12 +1,14 @@
 <?php
+
 /**
  * User Entity
  * Represents a user (admin or regular user) in the system
  * Encapsulates user data and provides methods for validation and business logic
  * Table users in DB
  */
-class User {
-    
+class User
+{
+
     private ?int $id = null;
     private string $email;
     private string $passwordHash;
@@ -21,17 +23,18 @@ class User {
     private bool $emailNotifications = true;
     private ?string $createdAt = null;
     private ?string $updatedAt = null;
-    
+
     /**
      * Create a User instance from database array
      */
-    public static function fromArray(array $data): self {
+    public static function fromArray(array $data): self
+    {
         $instance = new self();
-        
+
         if (isset($data['id'])) {
             $instance->id = (int)$data['id'];
         }
-        
+
         $instance->email = $data['email'] ?? '';
         $instance->passwordHash = $data['password_hash'] ?? '';
         $instance->firstName = $data['first_name'] ?? '';
@@ -45,14 +48,15 @@ class User {
         $instance->emailNotifications = (bool)($data['email_notif'] ?? true);
         $instance->createdAt = $data['created_at'] ?? null;
         $instance->updatedAt = $data['updated_at'] ?? null;
-        
+
         return $instance;
     }
-    
+
     /**
      * Convert User to array (useful for sessions, serialization)
      */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'id' => $this->id,
             'email' => $this->email,
@@ -69,124 +73,162 @@ class User {
             'updated_at' => $this->updatedAt
         ];
     }
-    
+
     // === Getters ===
-    
-    public function getId(): ?int {
+
+    public function getId(): ?int
+    {
         return $this->id;
     }
-    
-    public function getEmail(): string {
+
+    public function getEmail(): string
+    {
         return $this->email;
     }
-    
-    public function getPasswordHash(): string {
+
+    public function getPasswordHash(): string
+    {
         return $this->passwordHash;
     }
-    
-    public function getFirstName(): string {
+
+    public function getFirstName(): string
+    {
         return $this->firstName;
     }
-    
-    public function getLastName(): string {
+
+    public function getLastName(): string
+    {
         return $this->lastName;
     }
-    
-    public function getPhone(): ?string {
+
+    public function getPhone(): ?string
+    {
         return $this->phone;
     }
-    
-    public function getRole(): string {
+
+    public function getRole(): string
+    {
         return $this->role;
     }
-    
-    public function isActive(): bool {
+
+    public function isActive(): bool
+    {
         return $this->isActive;
     }
-    
-    public function getFailedAttempts(): int {
+
+    public function getFailedAttempts(): int
+    {
         return $this->failedAttempts;
     }
-    
-    public function getLockedUntil(): ?string {
+
+    public function getLockedUntil(): ?string
+    {
         return $this->lockedUntil;
     }
-    
-    public function mustChangePassword(): bool {
+
+    public function mustChangePassword(): bool
+    {
         return $this->mustChangePassword;
     }
-    
-    public function hasEmailNotifications(): bool {
+
+    public function hasEmailNotifications(): bool
+    {
         return $this->emailNotifications;
     }
-    
-    public function getCreatedAt(): ?string {
+
+    public function getCreatedAt(): ?string
+    {
         return $this->createdAt;
     }
-    
-    public function getUpdatedAt(): ?string {
+
+    public function getUpdatedAt(): ?string
+    {
         return $this->updatedAt;
     }
-    
+
     // === Setters ===
-    
-    public function setEmail(string $email): void {
+
+    public function setEmail(string $email): self
+    {
         $this->email = $email;
+        return $this;
     }
-    
-    public function setPasswordHash(string $passwordHash): void {
+
+    public function setPasswordHash(string $passwordHash): self
+    {
         $this->passwordHash = $passwordHash;
+        return $this;
     }
-    
-    public function setFirstName(string $firstName): void {
+
+    public function setFirstName(string $firstName): self
+    {
         $this->firstName = $firstName;
+        return $this;
     }
-    
-    public function setLastName(string $lastName): void {
+
+    public function setLastName(string $lastName): self
+    {
         $this->lastName = $lastName;
+        return $this;
     }
-    
-    public function setPhone(?string $phone): void {
+
+    public function setPhone(?string $phone): self
+    {
         $this->phone = $phone;
+        return $this;
     }
-    
-    public function setRole(string $role): void {
+
+    public function setRole(string $role): self
+    {
         $this->role = $role;
+        return $this;
     }
-    
-    public function setIsActive(bool $isActive): void {
+
+    public function setIsActive(bool $isActive): self
+    {
         $this->isActive = $isActive;
+        return $this;
     }
-    
-    public function setFailedAttempts(int $failedAttempts): void {
+
+    public function setFailedAttempts(int $failedAttempts): self
+    {
         $this->failedAttempts = $failedAttempts;
+        return $this;
     }
-    
-    public function setLockedUntil(?string $lockedUntil): void {
+
+    public function setLockedUntil(?string $lockedUntil): self
+    {
         $this->lockedUntil = $lockedUntil;
+        return $this;
     }
-    
-    public function setMustChangePassword(bool $mustChangePassword): void {
+
+    public function setMustChangePassword(bool $mustChangePassword): self
+    {
         $this->mustChangePassword = $mustChangePassword;
+        return $this;
     }
-    
-    public function setEmailNotifications(bool $emailNotifications): void {
+
+    public function setEmailNotifications(bool $emailNotifications): self
+    {
         $this->emailNotifications = $emailNotifications;
+        return $this;
     }
     
     // === Business methods ===
-    
+
     /**
      * Get user's full name
      */
-    public function getFullName(): string {
+    public function getFullName(): string
+    {
         return trim($this->firstName . ' ' . $this->lastName);
     }
 
     /**
      * Get initials (for avatar)
      */
-    public function getInitials(): string {
+    public function getInitials(): string
+    {
         $initials = '';
         if (!empty($this->firstName)) {
             $initials .= strtoupper($this->firstName[0]);
@@ -200,33 +242,37 @@ class User {
     /**
      * Check if user is admin
      */
-    public function isAdmin(): bool {
+    public function isAdmin(): bool
+    {
         return $this->role === 'admin';
     }
-    
+
     /**
      * Check if user is traveler (regular user)
      */
-    public function isTraveler(): bool {
+    public function isTraveler(): bool
+    {
         return $this->role === 'traveler';
     }
-    
+
     /**
      * Check if account is locked
      */
-    public function isLocked(): bool {
+    public function isLocked(): bool
+    {
         if ($this->lockedUntil === null) {
             return false;
         }
-        
+
         $lockedUntilTime = strtotime($this->lockedUntil);
         return $lockedUntilTime > time();
     }
-    
+
     /**
      * Check if user can login
      */
-    public function canLogin(): bool {
+    public function canLogin(): bool
+    {
         return $this->isActive && !$this->isLocked();
     }
 }

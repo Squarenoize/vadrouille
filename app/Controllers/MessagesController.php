@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Controller for handling messages between users and trips
  */
-class MessagesController {
+class MessagesController
+{
 
     private $user;
     private MessagesModel $messagesModel;
@@ -11,9 +13,10 @@ class MessagesController {
     /**
      * Constructor - Check authentication and initialize models
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->user = Auth::user();
-        
+
         // Global authentication check
         if (!$this->user) {
             $_SESSION['flash_error'] = "Vous devez être connecté pour envoyer un message.";
@@ -29,7 +32,8 @@ class MessagesController {
     /**
      * Send a new message (form POST handler)
      */
-    public function send() {
+    public function send()
+    {
         // Validate POST request
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $_SESSION['flash_error'] = "Méthode non autorisée.";
@@ -90,12 +94,13 @@ class MessagesController {
      * @param Trip $trip
      * @return bool
      */
-    private function canAccessTrip($trip): bool {
+    private function canAccessTrip($trip): bool
+    {
         // Admin can access all trips
         if ($this->user->isAdmin()) {
             return true;
         }
-        
+
         // Travelers can only access their own trips
         return $trip->getUserId() === $this->user->getId();
     }

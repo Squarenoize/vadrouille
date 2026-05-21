@@ -1,13 +1,16 @@
 <?php
+
 /**
  * UserModel handles database operations for users
  * It provides methods to create, retrieve, and update users
  * Table users in DB
  */
-Class UserModel {
+class UserModel
+{
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance();
     }
 
@@ -15,15 +18,16 @@ Class UserModel {
      * Find user by ID
      * @return User|null
      */
-    public function findById(int $id): ?User {
+    public function findById(int $id): ?User
+    {
         $stmt = $this->db->prepare('SELECT * FROM users WHERE id = :id');
         $stmt->execute(['id' => $id]);
         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if ($userData) {
             return User::fromArray($userData);
         }
-        
+
         return null;
     }
 
@@ -31,22 +35,23 @@ Class UserModel {
      * Login method to authenticate user
      * @return User|null User entity if authentication successful, null otherwise
      */
-    public function login(string $email, string $password): ?User {
+    public function login(string $email, string $password): ?User
+    {
         $stmt = $this->db->prepare('SELECT * FROM users WHERE email = :email');
         $stmt->execute(['email' => $email]);
         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if ($userData && password_verify($password, $userData['password_hash'])) {
             $user = User::fromArray($userData);
-            
+
             // Check if user can login (active and not locked)
             if (!$user->canLogin()) {
                 return null;
             }
-            
+
             return $user;
         }
-        
+
         return null;
     }
 
@@ -55,11 +60,12 @@ Class UserModel {
      * @param User $user
      * @return int|false The new user ID on success, false on failure
      */
-    public function create(User $user): int|false {
+    public function create(User $user): int|false
+    {
         $sql = "INSERT INTO users (email, password_hash, first_name, last_name, phone, role, must_change_pwd) 
                 VALUES (:email, :password_hash, :first_name, :last_name, :phone, :role, :must_change_pwd)";
         $stmt = $this->db->prepare($sql);
-        
+
         $success = $stmt->execute([
             'email' => $user->getEmail(),
             'password_hash' => $user->getPasswordHash(),
@@ -69,7 +75,7 @@ Class UserModel {
             'role' => $user->getRole(),
             'must_change_pwd' => $user->mustChangePassword() ? 1 : 0
         ]);
-        
+
         return $success ? (int)$this->db->lastInsertId() : false;
     }
 
@@ -79,9 +85,10 @@ Class UserModel {
      * @param string $newPassword
      * @return bool Success status
      */
-    public function updatePassword(int $userId, string $newPassword): bool {
+    public function updatePassword(int $userId, string $newPassword): bool
+    {
         $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
-        
+
         $stmt = $this->db->prepare('
             UPDATE users 
             SET password_hash = :password_hash, 
@@ -89,7 +96,7 @@ Class UserModel {
                 updated_at = NOW()
             WHERE id = :id
         ');
-        
+
         return $stmt->execute([
             'password_hash' => $passwordHash,
             'id' => $userId
@@ -101,27 +108,30 @@ Class UserModel {
      * @param string $email
      * @return User|null
      */
-    public function findByEmail(string $email): ?User {
+    public function findByEmail(string $email): ?User
+    {
         $stmt = $this->db->prepare('SELECT * FROM users WHERE email = :email');
         $stmt->execute(['email' => $email]);
         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if ($userData) {
             return User::fromArray($userData);
         }
-        
+
         return null;
     }
 
-    public function getCommonUserSettings(int $userId) {
+    public function getCommonUserSettings(int $userId)
+    {
         $stmt = $this->db->prepare('SELECT email, first_name, last_name, phone, email_notif  FROM users WHERE id = :user_id');
         $stmt->execute(['user_id' => $userId]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         return $data ?: null;
     }
 
-    public function updateUserSettings(int $userId, string $email, string $firstName, string $lastName, ?string $phone, bool $emailNotif): bool {
+    public function updateUserSettings(int $userId, string $email, string $firstName, string $lastName, ?string $phone, bool $emailNotif): bool
+    {
         $stmt = $this->db->prepare('
             UPDATE users 
             SET email = :email,
@@ -132,7 +142,7 @@ Class UserModel {
                 updated_at = NOW()
             WHERE id = :id
         ');
-        
+
         return $stmt->execute([
             'email' => $email,
             'first_name' => $firstName,
@@ -142,5 +152,4 @@ Class UserModel {
             'id' => $userId
         ]);
     }
-
 }

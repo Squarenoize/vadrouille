@@ -1,14 +1,16 @@
 <?php
+
 /**
  * Helper SEO - SEO generation data and Schema.org
  */
-class SeoHelper {
-    
+class SeoHelper
+{
+
     private const SITE_URL = 'https://vadbou.fr';
     private const SITE_NAME = 'Vadrouille & Bourlingue';
     private const SITE_EMAIL = 'vadrouillebourlingue@gmail.com';
     private const INSTAGRAM_URL = 'https://www.instagram.com/vadrouillebourlingue/';
-    
+
     /**
      * SEO configuration per page
      */
@@ -50,7 +52,7 @@ class SeoHelper {
             'image' => 'assets/img/VB_logo_hori.png'
         ]
     ];
-    
+
     /**
      * Page names for breadcrumbs
      */
@@ -62,13 +64,14 @@ class SeoHelper {
         'terms' => 'Mentions légales',
         'privacy' => 'Politique de confidentialité'
     ];
-    
+
     /**
      * Get the basic SEO data for a page
      */
-    public static function getPageSeo(string $page): array {
+    public static function getPageSeo(string $page): array
+    {
         $config = self::SEO_CONFIG[$page] ?? self::SEO_CONFIG['home'];
-        
+
         return [
             'pageTitle' => $config['title'],
             'pageDescription' => $config['description'],
@@ -76,11 +79,12 @@ class SeoHelper {
             'pageFullImage' => self::SITE_URL . '/' . $config['image']
         ];
     }
-    
+
     /**
      * Generate the Schema.org for the organization (same for all pages)
      */
-    public static function getOrganizationSchema(): array {
+    public static function getOrganizationSchema(): array
+    {
         return [
             '@context' => 'https://schema.org',
             '@type' => 'TravelPlanner',
@@ -104,11 +108,12 @@ class SeoHelper {
             ]
         ];
     }
-    
+
     /**
      * Generate the breadcrumb (Breadcrumb)
      */
-    public static function getBreadcrumbs(string $page): array {
+    public static function getBreadcrumbs(string $page): array
+    {
         $breadcrumbs = [
             '@context' => 'https://schema.org',
             '@type' => 'BreadcrumbList',
@@ -121,7 +126,7 @@ class SeoHelper {
                 ]
             ]
         ];
-        
+
         // Add the current page if it's not the home page
         if ($page !== 'home') {
             $config = self::SEO_CONFIG[$page] ?? null;
@@ -132,14 +137,15 @@ class SeoHelper {
                 'item' => self::SITE_URL . '/' . ($config['url'] ?? '')
             ];
         }
-        
+
         return $breadcrumbs;
     }
-    
+
     /**
      * Generate the Schema Service for the home page
      */
-    public static function getHomeServiceSchema(): array {
+    public static function getHomeServiceSchema(): array
+    {
         return [
             '@context' => 'https://schema.org',
             '@type' => 'Service',
@@ -183,11 +189,12 @@ class SeoHelper {
             ]
         ];
     }
-    
+
     /**
      * Generate the Schema ItemList for the trips page
      */
-    public static function getTripsSchema(): array {
+    public static function getTripsSchema(): array
+    {
         return [
             '@context' => 'https://schema.org',
             '@type' => 'ItemList',
@@ -208,11 +215,12 @@ class SeoHelper {
             ]
         ];
     }
-    
+
     /**
      * Generate the Schema AboutPage
      */
-    public static function getAboutSchema(): array {
+    public static function getAboutSchema(): array
+    {
         return [
             '@context' => 'https://schema.org',
             '@type' => 'AboutPage',
@@ -231,11 +239,12 @@ class SeoHelper {
             ]
         ];
     }
-    
+
     /**
      * Generate the Schema ContactPage
      */
-    public static function getContactSchema(): array {
+    public static function getContactSchema(): array
+    {
         return [
             '@context' => 'https://schema.org',
             '@type' => 'ContactPage',
@@ -243,11 +252,12 @@ class SeoHelper {
             'description' => 'Demandez votre voyage sur mesure'
         ];
     }
-    
+
     /**
      * Load the FAQ Schema (specific to the home page)
      */
-    public static function getFaqSchema(): array {
-        return include __DIR__ . '/../views/schemas/faq-schema.php';
+    public static function getFaqSchema(): array
+    {
+        return include __DIR__ . '/../Views/schemas/faq-schema.php';
     }
 }

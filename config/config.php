@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ENVIRONMENT CONFIGURATION
  */
@@ -13,9 +14,8 @@ $isLocal = (
 
 // BASE_URL
 if ($isLocal) {
-    // LOCAL : Sub-directory /Vadrouille/public
-    define('BASE_URL', '/Vadrouille/public');
-    
+    // LOCAL : Sub-directory /Vadrouille-Et-Bourlingue/public
+    define('BASE_URL', '/Vadrouille-Et-Bourlingue/public');
 } else {
     // PRODUCTION : Root of the domain
     // (Document Root = public/ folder)
@@ -35,7 +35,7 @@ if (file_exists($envFile)) {
         if (strpos(trim($line), '#') === 0) {
             continue;
         }
-        
+
         // Parse KEY=VALUE or KEY = VALUE
         if (strpos($line, '=') !== false) {
             list($key, $value) = array_map('trim', explode('=', $line, 2));
@@ -51,8 +51,7 @@ if (file_exists($envFile)) {
  * DATABASE
  */
 
-    define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
-    define('DB_NAME', $_ENV['DB_NAME'] ?? 'travel_planner');
-    define('DB_USER', $_ENV['DB_USER'] ?? 'root');
-    define('DB_PASS', $_ENV['DB_PASSWORD'] ?? '');
-    
+define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
+define('DB_NAME', $_ENV['DB_NAME'] ?? 'travel_planner');
+define('DB_USER', $_ENV['DB_USER'] ?? 'root');
+define('DB_PASS', $_ENV['DB_PASSWORD'] ?? '');

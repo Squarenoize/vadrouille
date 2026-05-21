@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Controller for admin dashboard and management of contact requests, trips, and chats.
  */
 
-class AdminController {
-    
+class AdminController
+{
+
     private $user;
     private $sharedData = [];
     private ContactRequestModel $contactRequestModel;
@@ -14,9 +16,10 @@ class AdminController {
     /**
      * Constructor - Initializing common data and checking admin access
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->user = Auth::user();
-        
+
         // Global admin check
         if (!$this->user || !$this->user->isAdmin()) {
             header('Location: ' . BASE_URL . '/connexion');
@@ -42,18 +45,20 @@ class AdminController {
      * @param string $template Path to the template (e.g., 'admin/dashboard')
      * @param array $data Specific data for the view
      */
-    private function renderAdminView(string $template, array $data = []): void {
+    private function renderAdminView(string $template, array $data = []): void
+    {
         // Merge shared data with specific data
         $viewData = array_merge($this->sharedData, $data);
-        
+
         $view = new View($template, $viewData, 'admin');
         $view->render();
     }
-    
+
     /**
      * Display the admin dashboard --TODO
      */
-    public function dashboard() {
+    public function dashboard()
+    {
         try {
             $this->renderAdminView('admin/dashboard', [
                 'currentPage' => 'dashboard'
@@ -70,49 +75,50 @@ class AdminController {
     /**
      * Display the list of contact requests with optional status filtering
      */
-    public function requests() {
+    public function requests()
+    {
         try {
             $status = $_GET['status'] ?? null;
 
-        if ($status) {
-            $requests = $this->contactRequestModel->getRequestsByStatus($status);
-        } else {
-            $requests = $this->contactRequestModel->getAllRequests();
-        }
+            if ($status) {
+                $requests = $this->contactRequestModel->getRequestsByStatus($status);
+            } else {
+                $requests = $this->contactRequestModel->getAllRequests();
+            }
 
-        // Translation arrays for better display in the view
-        $tripTypeTranslations = [
-            'adventure' => 'Aventure',
-            'weekend' => 'Week-end',
-            'relaxation' => 'Détente',
-            'cultural' => 'Culturel',
-            'other' => 'Autre'
-        ];
+            // Translation arrays for better display in the view
+            $tripTypeTranslations = [
+                'adventure' => 'Aventure',
+                'weekend' => 'Week-end',
+                'relaxation' => 'Détente',
+                'cultural' => 'Culturel',
+                'other' => 'Autre'
+            ];
 
-        $destinationTranslations = [
-            'france' => 'France',
-            'canada' => 'Canada',
-            'japan' => 'Japon',
-            'other' => 'Autre'
-        ];
+            $destinationTranslations = [
+                'france' => 'France',
+                'canada' => 'Canada',
+                'japan' => 'Japon',
+                'other' => 'Autre'
+            ];
 
-        $statusTranslations = [
-            'new' => 'Nouvelle',
-            'studying' => 'En étude',
-            'quoted' => 'Devis envoyé',
-            'accepted' => 'Devis accepté',
-            'refused' => 'Devis refusé',
-            'archived' => 'Archivée'
-        ];
+            $statusTranslations = [
+                'new' => 'Nouvelle',
+                'studying' => 'En étude',
+                'quoted' => 'Devis envoyé',
+                'accepted' => 'Devis accepté',
+                'refused' => 'Devis refusé',
+                'archived' => 'Archivée'
+            ];
 
-        $this->renderAdminView('admin/requests', [
-            'requests' => $requests,
-            'currentPage' => 'requests',
-            'currentStatusFilter' => $status,
-            'tripTypeTranslations' => $tripTypeTranslations,
-            'destinationTranslations' => $destinationTranslations,
-            'statusTranslations' => $statusTranslations
-        ]);
+            $this->renderAdminView('admin/requests', [
+                'requests' => $requests,
+                'currentPage' => 'requests',
+                'currentStatusFilter' => $status,
+                'tripTypeTranslations' => $tripTypeTranslations,
+                'destinationTranslations' => $destinationTranslations,
+                'statusTranslations' => $statusTranslations
+            ]);
         } catch (Exception $e) {
             // Handle any exceptions that occur during rendering
             error_log("Error rendering contact requests: " . $e->getMessage());
@@ -126,7 +132,8 @@ class AdminController {
      * Display the details of a specific contact request
      * @param int $id The ID of the contact request
      */
-    public function viewRequest($id) {
+    public function viewRequest($id)
+    {
         try {
             $request = $this->contactRequestModel->getRequestById($id);
 
@@ -134,7 +141,7 @@ class AdminController {
                 header('Location: ' . BASE_URL . '/admin/requests');
                 exit;
             }
-            
+
             // Check if a trip already exist for this request
             $tripId = $this->tripModel->getTripIdByRequestId($id) ?? 0;
 
@@ -156,7 +163,8 @@ class AdminController {
      * Update the status of a contact request
      * @param int $id The ID of the contact request
      */
-    public function updateRequestStatus($id) {
+    public function updateRequestStatus($id)
+    {
         try {
             $newStatus = $_POST['status'] ?? null;
             if (!in_array($newStatus, ['new', 'studying', 'quoted', 'accepted', 'refused', 'archived'])) {
@@ -180,7 +188,8 @@ class AdminController {
     /**
      * Display the list of trips with optional status filtering
      */
-    public function trips() {
+    public function trips()
+    {
         try {
             $status = $_GET['status'] ?? null;
 
@@ -208,7 +217,8 @@ class AdminController {
      * Display the form to create a new trip from a contact request
      * @param int $requestId The ID of the contact request
      */
-    public function newTripFromRequest($requestId) {
+    public function newTripFromRequest($requestId)
+    {
         // Logic to create a trip from a contact request
         // (Retrieve the request, pre-fill a trip creation form, etc.)
         try {
@@ -235,7 +245,8 @@ class AdminController {
     /**
      * Create a new trip
      */
-    public function createTrip() {
+    public function createTrip()
+    {
         try {
             // 1. Create the entity from POST data
             $newTrip = Trip::fromArray($_POST);
@@ -249,7 +260,7 @@ class AdminController {
                 if ($requestId) {
                     $request = $this->contactRequestModel->getRequestById($requestId);
                 }
-                
+
                 $this->renderAdminView('admin/newTrip', [
                     'errors' => $errors,
                     'formData' => $_POST,
@@ -276,11 +287,12 @@ class AdminController {
      * Display the details of a specific trip
      * @param int $id The ID of the trip
      */
-    public function viewTrip($id) {
+    public function viewTrip($id)
+    {
         try {
             // Logic to display the details of a trip
             // (Retrieve the trip by ID, display the information, etc.)
-            
+
             $trip = $this->tripModel->getTripById($id);
 
             if (!$trip) {
@@ -305,7 +317,8 @@ class AdminController {
         }
     }
 
-    public function updateTripStatus($id) {
+    public function updateTripStatus($id)
+    {
         try {
             $newStatus = $_POST['status'] ?? null;
             if (!in_array($newStatus, ['draft', 'quoted', 'accepted', 'ongoing', 'finished', 'cancelled'])) {
@@ -353,7 +366,8 @@ class AdminController {
      * Give traveler access to an accepted trip
      * @param int $id The ID of the trip
      */
-    public function travelerAccess($id) {
+    public function travelerAccess($id)
+    {
         // Logic to give traveler access to an accepted trip
         // (Generate a token, send an email, etc.)
         try {
@@ -390,7 +404,7 @@ class AdminController {
                 $newUser->setPasswordHash(password_hash($password, PASSWORD_DEFAULT));
                 $newUser->setFirstName($contactRequest->getFirstName() ?? '');
                 $newUser->setLastName($contactRequest->getLastName() ?? '');
-                $newUser->setPhone($contactRequest->getPhone() ?? null );
+                $newUser->setPhone($contactRequest->getPhone() ?? null);
                 $newUser->setMustChangePassword(true); // Force password change on first login
                 $newUser->setRole('traveler');
                 $newUserId = $userModel->create($newUser);
@@ -420,7 +434,7 @@ class AdminController {
                 $this->user->getId(),         // senderId (Admin)
                 "Bienvenue dans ce nouveau voyage ! Votre voyage est prêt."  // message
             );
-            
+
             $this->messagesModel->addMessage($welcomeMessage);
 
 
@@ -438,7 +452,8 @@ class AdminController {
     /**
      * Display the list of chats (conversations) for the admin
      */
-    public function chats() {
+    public function chats()
+    {
         try {
             $chats = $this->messagesModel->getAllAdminConversations($this->user->getId());
 
@@ -455,7 +470,8 @@ class AdminController {
         }
     }
 
-    public function settings() {
+    public function settings()
+    {
         try {
             //Get user info
             $userId = $this->user->getId();
