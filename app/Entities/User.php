@@ -148,59 +148,70 @@ class User
 
     // === Setters ===
 
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+        return $this;
     }
 
-    public function setPasswordHash(string $passwordHash): void
+    public function setPasswordHash(string $passwordHash): self
     {
         $this->passwordHash = $passwordHash;
+        return $this;
     }
 
-    public function setFirstName(string $firstName): void
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
+        return $this;
     }
 
-    public function setLastName(string $lastName): void
+    public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+        return $this;
     }
 
-    public function setPhone(?string $phone): void
+    public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+        return $this;
     }
 
-    public function setRole(string $role): void
+    public function setRole(string $role): self
     {
         $this->role = $role;
+        return $this;
     }
 
-    public function setIsActive(bool $isActive): void
+    public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+        return $this;
     }
 
-    public function setFailedAttempts(int $failedAttempts): void
+    public function setFailedAttempts(int $failedAttempts): self
     {
         $this->failedAttempts = $failedAttempts;
+        return $this;
     }
 
-    public function setLockedUntil(?string $lockedUntil): void
+    public function setLockedUntil(?string $lockedUntil): self
     {
         $this->lockedUntil = $lockedUntil;
+        return $this;
     }
 
-    public function setMustChangePassword(bool $mustChangePassword): void
+    public function setMustChangePassword(bool $mustChangePassword): self
     {
         $this->mustChangePassword = $mustChangePassword;
+        return $this;
     }
 
-    public function setEmailNotifications(bool $emailNotifications): void
+    public function setEmailNotifications(bool $emailNotifications): self
     {
         $this->emailNotifications = $emailNotifications;
+        return $this;
     }
     
     // === Business methods ===

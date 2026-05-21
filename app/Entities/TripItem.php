@@ -124,52 +124,64 @@ class TripItem
     }
 
     // Setters
-    public function setTripId(int $tripId): void
+    public function setTripId(int $tripId): self
     {
         $this->tripId = $tripId;
+        return $this;
     }
-    public function setTitle(string $title): void
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+        return $this;
     }
-    public function setCategory(string $category): void
+    public function setCategory(string $category): self
     {
         $this->category = $category;
+        return $this;
     }
-    public function setStartDatetime(DateTime $startDatetime): void
+    public function setStartDatetime(DateTime $startDatetime): self
     {
         $this->startDatetime = $startDatetime;
+        return $this;
     }
-    public function setEndDatetime(DateTime $endDatetime): void
+    public function setEndDatetime(DateTime $endDatetime): self
     {
         $this->endDatetime = $endDatetime;
+        return $this;
     }
-    public function setDescription(?string $description): void
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+        return $this;
     }
-    public function setRequiresBooking(bool $requiresBooking): void
+    public function setRequiresBooking(bool $requiresBooking): self
     {
         $this->requiresBooking = $requiresBooking;
+        return $this;
     }
-    public function setExternalLink(?string $externalLink): void
+    public function setExternalLink(?string $externalLink): self
     {
         $this->externalLink = $externalLink;
+        return $this;
     }
-    public function setIndicativePrice(?float $indicativePrice): void
+    public function setIndicativePrice(?float $indicativePrice): self
     {
         $this->indicativePrice = $indicativePrice;
+        return $this;
     }
-    public function setSortOrder(int $sortOrder): void
+    public function setSortOrder(int $sortOrder): self
     {
         $this->sortOrder = $sortOrder;
+        return $this;
     }
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
-    public function setUpdatedAt(?DateTime $updatedAt): void
+    public function setUpdatedAt(?DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
 }

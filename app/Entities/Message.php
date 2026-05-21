@@ -96,16 +96,6 @@ class Message
         return $this->isRead;
     }
 
-    public function setMessage(string $message): void
-    {
-        $this->message = $message;
-    }
-
-    public function setIsRead(bool $isRead): void
-    {
-        $this->isRead = $isRead;
-    }
-
     public function getSenderFirstname(): ?string
     {
         return $this->senderFirstname;
@@ -122,5 +112,17 @@ class Message
             return $this->senderFirstname . ' ' . $this->senderLastname;
         }
         return $this->senderFirstname ?? $this->senderLastname ?? 'Utilisateur';
+    }
+
+     public function setMessage(string $message): self
+    {
+        $this->message = $message;
+        return $this;
+    }
+
+    public function setIsRead(bool $isRead): self
+    {
+        $this->isRead = $isRead;
+        return $this;
     }
 }

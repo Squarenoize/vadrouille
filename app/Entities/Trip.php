@@ -181,62 +181,74 @@ class Trip
     }
 
     // Setters
-    public function setName(string $name): void
+    public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
     }
-    public function setDescription(string $description): void
+    public function setDescription(string $description): self
     {
         $this->description = $description;
+        return $this;
     }
     public function setDestination(string $destination): self
     {
         $this->destination = $destination;
-
         return $this;
     }
-    public function setStartDate(string $startDate): void
+    public function setStartDate(string $startDate): self
     {
         $this->startDate = $startDate;
+        return $this;
     }
-    public function setEndDate(string $endDate): void
+    public function setEndDate(string $endDate): self
     {
         $this->endDate = $endDate;
+        return $this;
     }
-    public function setTotalPrice(?float $totalPrice): void
+    public function setTotalPrice(?float $totalPrice): self
     {
         $this->totalPrice = $totalPrice;
+        return $this;
     }
-    public function setUserId(?int $userId): void
+    public function setUserId(?int $userId): self
     {
         $this->userId = $userId;
+        return $this;
     }
-    public function setAdminNote(?string $adminNote): void
+    public function setAdminNote(?string $adminNote): self
     {
         $this->adminNote = $adminNote;
+        return $this;
     }
-    public function setStatus(string $status): void
+    public function setStatus(string $status): self
     {
         $this->status = $status;
+        return $this;
     }
-    public function setQuoteToken(?string $quoteToken): void
+    public function setQuoteToken(?string $quoteToken): self
     {
         $this->quoteToken = $quoteToken;
+        return $this;
     }
-    public function setQuoteSentAt(?string $quoteSentAt): void
+    public function setQuoteSentAt(?string $quoteSentAt): self
     {
         $this->quoteSentAt = $quoteSentAt;
+        return $this;
     }
-    public function setAcceptedAt(?string $acceptedAt): void
+    public function setAcceptedAt(?string $acceptedAt): self
     {
         $this->acceptedAt = $acceptedAt;
+        return $this;
     }
-    public function setCreatedAt(?string $createdAt): void
+    public function setCreatedAt(?string $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
-    public function setUpdatedAt(?string $updatedAt): void
+    public function setUpdatedAt(?string $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
 }
